@@ -112,6 +112,7 @@ params:
       url: favicon.ico
     title: Elmo's Blog # 页面title
     favicon: favicon.ico
+    favicon-png: favicon-32x32.png
     board: <h2><span>Love & Peace</span><br>❤️🧡💛💚💙💜</h2> # 公告牌
 
   # Share
