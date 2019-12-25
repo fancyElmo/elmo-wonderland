@@ -1,9 +1,2 @@
-archetypes/
-content/
-data/
-layouts/
-resources/
-static/
+docs/
 themes/
-config.yml
-sets.md
