@@ -460,14 +460,14 @@
       </div>
     </div>
     <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
-      <p><strong>一、安装思路</strong></p>
+      <h3 id="heading">一、安装思路</h3>
 <ol>
 <li>安装erlang</li>
 <li>安装socat</li>
 <li>安装rabbitmq</li>
 <li>相关配置</li>
 </ol>
-<p><strong>二、具体步骤</strong></p>
+<h3 id="heading-1">二、具体步骤</h3>
 <p>1.安装erlang
 下载:wget <a href="http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm">http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm</a>
 安装: rpm -ivh socat-1.7.3.2-5.el7.lux.x86_64.rpm</p>
@@ -478,19 +478,19 @@
 下载：wget <a href="http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-3.6.5-1.noarch.rpm">http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-3.6.5-1.noarch.rpm</a>
 安装：rpm -ivh rabbitmq-server-3.6.5-1.noarch.rpm</p>
 <p>三个都安装成功后，如下图所示
-<img src="https://img-blog.csdnimg.cn/2019112421093452.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTc5MDQwMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
-<strong>三：启动rabbitmq服务</strong>
-安装完成后, 还没启动服务, 先查看rabbitmq服务状态, 命令: service rabbitmq-server status, 提示：Error: unable to connect to node rabbit@wangzaiplus: nodedown
+<img src="https://img-blog.csdnimg.cn/2019112421093452.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTc5MDQwMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="rabbitmq">三、启动rabbitmq服务</h3>
+<p>安装完成后, 还没启动服务, 先查看rabbitmq服务状态, 命令: service rabbitmq-server status, 提示：Error: unable to connect to node rabbit@wangzaiplus: nodedown
 OK, 启动rabbitmq服务, 命令: service rabbitmq-server start, 检查是否启动成功: ps -ef | grep rabbitmq</p>
-<p><strong>四：启动后台管理插件</strong>
-此时, 服务已经启动, 但通过浏览器访问http://localhost:15672或ip:15672还是不能访问管理界面, 因为还没启用插件, 启用命令: rabbitmq-plugins enable rabbitmq_management, 提示Applying plugin configuration to rabbit@wangzaiplus&hellip; started 6 plugins.即表示启用成功</p>
+<h3 id="heading-2">四、启动后台管理插件</h3>
+<p>此时, 服务已经启动, 但通过浏览器访问http://localhost:15672或ip:15672还是不能访问管理界面, 因为还没启用插件, 启用命令: rabbitmq-plugins enable rabbitmq_management, 提示Applying plugin configuration to rabbit@wangzaiplus&hellip; started 6 plugins.即表示启用成功</p>
 <p>浏览器远程访问http://服务器IP:15672, 出现登录界面</p>
 <p>注意:
 如果服务器开启了防火墙, 则访问不了, 可以先关闭防火墙或者暴露端口
 centos7查看防火墙状态: firewall-cmd &ndash;state, 关闭后显示not running，开启后显示running
 关闭防火墙: systemctl stop firewalld.service</p>
-<p><strong>五、开启用户远程访问</strong>
-rabbitmq从3.3.0开始, 默认用户guest只允许本机访问, 即: http://服务器IP:15672, 如果通过ip:port访问, 会发现Login failed, 为了让guest用户能够远程访问, 只需新建配置文件配置loopback_users即可(rabbitmq.config配置文件需手动创建), 步骤如下:
+<h3 id="heading-3">五、开启用户远程访问</h3>
+<p>rabbitmq从3.3.0开始, 默认用户guest只允许本机访问, 即: http://服务器IP:15672, 如果通过ip:port访问, 会发现Login failed, 为了让guest用户能够远程访问, 只需新建配置文件配置loopback_users即可(rabbitmq.config配置文件需手动创建), 步骤如下:
 cd /etc/rabbitmq
 新建配置文件: touch rabbitmq.config
 vim rabbitmq.config
@@ -498,8 +498,8 @@ vim rabbitmq.config
 重启服务: service rabbitmq-server restart
 重新以guest登录, 
 OK，目前为止, rabbitmq服务已安装完毕</p>
-<p><strong>六：常见错误</strong>
-无法远程访问管理界面, rabbitmq服务安装成功并启动后, 浏览器访问http://192.168.1.123:15672发现访问不了, 有以下几个原因:
+<h3 id="heading-4">六、常见错误</h3>
+<p>无法远程访问管理界面, rabbitmq服务安装成功并启动后, 浏览器访问http://192.168.1.123:15672发现访问不了, 有以下几个原因:
 没有启用管理插件, 解决办法: rabbitmq-plugins enable rabbitmq_management</p>
 <p>服务器开启了防火墙且未开放5672、15672端口, 解决办法: 关闭防火墙或暴露端口, 关闭防火墙命令: systemctl stop firewalld.service</p>
 <p>很重要: 如果服务器使用的是第三方云服务(如腾讯云服务器), 设置了安全组策略, 入站规则没有开放5672、15672端口, 那么也会出现这个问题, 解决办法: 登录云服务器管控台, 配置安全组策略并关联实例即可, 具体配置自行百度</p>

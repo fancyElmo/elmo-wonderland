@@ -5618,7 +5618,7 @@ pre,
 
 code {
   text-shadow: 0 1px #fff;
-  padding: 0.1em 0.4em;
+  padding: 0em 0.4em;
   margin: 0 0.3em;
   color: #dd0055;
   background: #f6f6f6;
@@ -5631,6 +5631,7 @@ pre code {
   background: none;
   text-shadow: none;
   padding: 0;
+  border: #272822;
 }
 
 pre code:after {
