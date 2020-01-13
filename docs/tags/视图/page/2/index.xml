@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>视图 on 菜鸡乐园</title>
+    <link>https://fancyelmo.github.io/elmo-wonderland/tags/%E8%A7%86%E5%9B%BE/</link>
+    <description>Recent content in 视图 on 菜鸡乐园</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 05 Apr 2019 19:35:00 +0800</lastBuildDate>
+    
+        <atom:link href="https://fancyelmo.github.io/elmo-wonderland/tags/%E8%A7%86%E5%9B%BE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Redis初体验</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/07/redis%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Fri, 12 Jul 2019 21:40:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/07/redis%E5%9F%BA%E7%A1%80/</guid>
+      <description>&lt;p&gt;Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Hash), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title> CentOS 7 安装 python3</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/07/centos-7-%E5%AE%89%E8%A3%85-python3/</link>
+      <pubDate>Mon, 08 Jul 2019 21:29:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/07/centos-7-%E5%AE%89%E8%A3%85-python3/</guid>
+      <description>CentOS 7 安装 python3 CentOS 7 自带的python为python2.7版本，yum等包依赖于python2，不可以直接卸载。需要下载python3的源码后自行</description>
+    </item>
+    
+    <item>
+      <title>axios简记</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/07/axios/</link>
+      <pubDate>Tue, 02 Jul 2019 19:09:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/07/axios/</guid>
+      <description>axios axios 的配置 // 安装 npm install --save axios // 将axios改写为Vue的原型属性 --- main.js --- import axios from &amp;#39;axios&amp;#39; Vue.prototype.axios = axios // 跨域代理配置 --- config/index.js --- proxyTable: { &amp;#34;/api&amp;#34;: { target: &amp;#34;http://127.0.0.1:8000/&amp;#34;, changeOrigin: true, pathRewrite: { &amp;#34;^/api&amp;#34;: &amp;#34;&amp;#34; } } } axios 使用 // get</description>
+    </item>
+    
+    <item>
+      <title> sha256加密</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/06/sha256%E5%8A%A0%E5%AF%86%E5%8A%A0%E7%9B%90/</link>
+      <pubDate>Thu, 20 Jun 2019 19:51:13 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/06/sha256%E5%8A%A0%E5%AF%86%E5%8A%A0%E7%9B%90/</guid>
+      <description>sha256加密，加盐 import random import hashlib def randow_salt(lenth=5): base_str = &amp;#39;1234567890qwertyuioplkjhgfdsazxcvbnm&amp;#39; return &amp;#39;&amp;#39;.join([i for i in random.sample(base_str, lenth)]) def encryption_sha256(plaintext, salt): pre_enc = plaintext + salt return hashlib.sha256(pre_enc.encode()).hexdigest()</description>
+    </item>
+    
+    <item>
+      <title>Django分页器</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/06/django-%E5%88%86%E9%A1%B5%E5%99%A8/</link>
+      <pubDate>Mon, 03 Jun 2019 10:29:33 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/06/django-%E5%88%86%E9%A1%B5%E5%99%A8/</guid>
+      <description>Django 分页器 初始化操作 class Paginator(object): &amp;#34;&amp;#34;&amp;#34;object_list:可以是列表，元组，查询集或其他含有 count() 或 len()方法的可切片对 象</description>
+    </item>
+    
+    <item>
+      <title>DRF简单入门</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/05/serializer-%E5%92%8C-modelserializer/</link>
+      <pubDate>Sun, 19 May 2019 14:21:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/05/serializer-%E5%92%8C-modelserializer/</guid>
+      <description>Serializer 和 ModelSerializer 一、概述 Serializer 类是比较底层的类，可定制程度高。当需要高度定制DRF的序列化器时再选择它。 更高一级的封装，更少的代码，但也更低的可定制性 ModelSerializer 类</description>
+    </item>
+    
+    <item>
+      <title>UUID</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/05/uuid%E7%A0%81/</link>
+      <pubDate>Wed, 08 May 2019 16:49:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/05/uuid%E7%A0%81/</guid>
+      <description>UUID码 UUID 是 通用唯一识别码（Universally Unique Identifier）的缩写，是一种软件建构的标准，亦为开放软件基金会组织在分布式计算</description>
+    </item>
+    
+    <item>
+      <title>MongoDB入门</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/mongodb%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Mon, 22 Apr 2019 10:19:23 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/mongodb%E5%85%A5%E9%97%A8/</guid>
+      <description>&lt;p&gt;MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>git命令(部分)</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/git%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 12 Apr 2019 15:39:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/git%E5%91%BD%E4%BB%A4/</guid>
+      <description>由本地仓库开始创建 git init 将当前目录变成Git可以管理的仓库 git add 添加文件至暂存区，注意，文件本身要存在于 init 过的目录下 git commit -m &#39;描述信息&#39; 提交所有暂</description>
+    </item>
+    
+    <item>
+      <title>MySQL存储引擎</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/</link>
+      <pubDate>Mon, 08 Apr 2019 14:45:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/</guid>
+      <description>引擎简介 数据库使用数据存储引擎实现存储、处理和保护数据的核心服务。利用数据库引擎可控制访问权限并快速处理事务，从而满足企业内大多数需要处理大</description>
+    </item>
+    
+    <item>
+      <title>MySQL数据操作</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Sun, 07 Apr 2019 17:35:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/</guid>
+      <description>添加数据 单组添加 -- 全列插入，按顺序在values中填入字段对应数据 -- 注意数据类型要正确 insert into 表名 values(); -- 如果存在自增数据，或者默认值数据，可在对应</description>
+    </item>
+    
+    <item>
+      <title>MySQL与python的连接</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/python%E4%B8%8Emysql%E7%9A%84%E4%BA%A4%E4%BA%92/</link>
+      <pubDate>Fri, 05 Apr 2019 20:33:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/python%E4%B8%8Emysql%E7%9A%84%E4%BA%A4%E4%BA%92/</guid>
+      <description>首先，根据上一篇安装 pymysql 安装了pymysql后就可以在python中导入这个包来实现对接数据库的操作了。 在py文件中引入该模块 import pymysql 连接数据库 conn</description>
+    </item>
+    
+    <item>
+      <title>MySQL查询进阶</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E6%9F%A5%E8%AF%A2%E8%BF%9B%E9%98%B6/</link>
+      <pubDate>Fri, 05 Apr 2019 19:55:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E6%9F%A5%E8%AF%A2%E8%BF%9B%E9%98%B6/</guid>
+      <description>消除重复字段 distinct select distinct 字段名 from 表名; 比较运算符，例如&amp;gt; 、&amp;lt; 、&amp;gt;= 、&amp;lt;= 、= 、!= or &amp;lt;&amp;gt; ，逻辑运算符，例如and、or、no</description>
+    </item>
+    
+    <item>
+      <title>MySQL视图、索引</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%BF%9B%E9%98%B6/</link>
+      <pubDate>Fri, 05 Apr 2019 19:35:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%BF%9B%E9%98%B6/</guid>
+      <description>视图 之前学习了子查询，可以将一组查询的结果当作当前查询的条件来使用。但当查询语句变得更加复杂，继续使用嵌套查询就会让语句臃肿不堪；再或者联表</description>
+    </item>
+    
+    <item>
+      <title>MySQL表操作</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%A1%A8%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Fri, 05 Apr 2019 16:05:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%A1%A8%E6%93%8D%E4%BD%9C/</guid>
+      <description>数据表 查看当前数据库中所有表 show tables; 2. 查看表内字段 desc 表名; 建表示例 提示：多个字段的创建间，用逗号分隔 create table classes( id int unsigned auto_increment primary key not null, name varchar(30) ); create table students( id int unsigned primary key</description>
+    </item>
+    
+    <item>
+      <title>MySQL安装</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E5%AE%89%E8%A3%85%E5%BA%93%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Fri, 05 Apr 2019 13:35:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E5%AE%89%E8%A3%85%E5%BA%93%E6%93%8D%E4%BD%9C/</guid>
+      <description>数据库安装 在Linux终端输入如下指令 sudo apt-get install mysql-server sudo apt-get install mysql-client sudo apt-get install libmysqlclient-dev 启动服务： sudo service myssql start 查看进程中的MySQL服务: ps ajx|grep mysql 停止服务： sudo service mysql stop 重启服务</description>
+    </item>
+    
+    <item>
+      <title> 生成随机字符串</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/03/%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Fri, 15 Mar 2019 11:14:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/03/%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>生成随机字符串 import os import base64 import random import time import hashlib # 方法一 tmp = os.urandom(44) secret_key = base64.b64encode(tmp) print(secret_key) # 方法二 def get_random_secret_key(length=12, allowed_chars=None, secret_key=None): &amp;#34;&amp;#34;&amp;#34;生成随机字符串 :param length: 随机字符串长度 :param allowed_chars: 随</description>
+    </item>
+    
+    <item>
+      <title>OAuth 2.0 授权原理</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/03/oauth-2.0-%E6%8E%88%E6%9D%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98/</link>
+      <pubDate>Sat, 02 Mar 2019 22:36:23 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/03/oauth-2.0-%E6%8E%88%E6%9D%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98/</guid>
+      <description>一、课程介绍 1. 内容简介 OAuth 2.0 是时下最流行的授权认证方式，其典型的应用有第三方账号登录，获取认证开发第三方应用等。本课程的前半段主要讲解 OAuth 2.0 授权</description>
+    </item>
+    
+    <item>
+      <title>Django模型中字段属性choice使用</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/01/django%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%97%E6%AE%B5%E5%B1%9E%E6%80%A7choice%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 15 Jan 2019 19:21:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/01/django%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%97%E6%AE%B5%E5%B1%9E%E6%80%A7choice%E4%BD%BF%E7%94%A8/</guid>
+      <description>Django模型中字段属性choice使用 choice接收一个元组（保证值不可变），同理每一个选项也是由一个元组（value,display</description>
+    </item>
+    
+    <item>
+      <title>Django ORM</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/01/django-orm/</link>
+      <pubDate>Sat, 05 Jan 2019 18:29:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/01/django-orm/</guid>
+      <description>字段 AutoField(Field) - int自增列，必须填入参数 primary_key=True BigAutoField(AutoField) - bigint自增列，必须填入参数 primary_key=True 注：当model中如果没有自增列，则自动会创建一个列名为id的列 from</description>
+    </item>
+    
+  </channel>
+</rss>

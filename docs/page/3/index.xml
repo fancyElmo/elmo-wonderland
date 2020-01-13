@@ -5,7 +5,7 @@
     <link>https://fancyelmo.github.io/elmo-wonderland/</link>
     <description>Recent content on 菜鸡乐园</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 12 Jan 2020 18:49:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Dec 2019 17:07:17 +0800</lastBuildDate>
     
         <atom:link href="https://fancyelmo.github.io/elmo-wonderland/index.xml" rel="self" type="application/rss+xml" />
     
@@ -16,7 +16,7 @@
       <pubDate>Tue, 20 Nov 2018 10:33:18 +0800</pubDate>
       
       <guid>https://fancyelmo.github.io/elmo-wonderland/2018/11/django-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid>
-      <description>Django 文件上传 添加上传路径 ----settings.py----- UPLOAD_ROOT = os.path.join(BASE_DIR, &amp;#39;upload&amp;#39;).replace(&amp;#39;\\&amp;#39;, &amp;#39;/&amp;#39;) UPLOAD_URL = &amp;#39;/upload/&amp;#39; 将文件夹注册到路由 ----urls.py---- from django.conf import settings from django.conf.urls.static import static urlpatterns=[...] urlpatterns += static(settings.UPLOAD_URL, document_root=settings.UPLOAD_ROOT)</description>
+      <description></description>
     </item>
     
   </channel>

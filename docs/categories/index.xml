@@ -5,19 +5,10 @@
     <link>https://fancyelmo.github.io/elmo-wonderland/categories/</link>
     <description>Recent content in Categories on 菜鸡乐园</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 12 Jan 2020 18:49:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Dec 2019 17:07:17 +0800</lastBuildDate>
     
         <atom:link href="https://fancyelmo.github.io/elmo-wonderland/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Django-redis配置</title>
-      <link>https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/</link>
-      <pubDate>Sun, 12 Jan 2020 18:49:03 +0800</pubDate>
-      
-      <guid>https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/</guid>
-      <description>Django-redis 安装 pip install django-redis 在settings.py 下配置 CACHES = { &amp;#34;default&amp;#34;: { &amp;#34;BACKEND&amp;#34;: &amp;#34;django_redis.cache.RedisCache&amp;#34;, &amp;#34;LOCATION&amp;#34;: &amp;#34;redis://127.0.0.1:6379&amp;#34;, &amp;#34;OPTIONS&amp;#34;: { &amp;#34;CLIENT_CLASS&amp;#34;: &amp;#34;django_redis.client.DefaultClient&amp;#34;, &amp;#34;CONNECTION_POOL_KWARGS&amp;#34;: {&amp;#34;max_connections&amp;#34;: 100} # &amp;#34;PASSWORD&amp;#34;: &amp;#34;密码&amp;#34;, } } } demo ---views.py--- from django.core.cache import cache def get(request): cache.set(&amp;#39;key&amp;#39;, &amp;#39;value&amp;#39;, timeout) def post(request): tmp =</description>
-    </item>
     
     <item>
       <title>About Myself</title>
@@ -89,6 +80,15 @@
       
       <guid>https://fancyelmo.github.io/elmo-wonderland/2019/10/pip%E6%9B%B4%E6%8D%A2%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90/</guid>
       <description>linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url至tuna，内容如下： [global] index-url = https://pypi.tuna.tsinghua.edu.cn/simple windows下，直接在user目录中创建一个p</description>
+    </item>
+    
+    <item>
+      <title>Django-redis配置</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/09/django-redis/</link>
+      <pubDate>Mon, 30 Sep 2019 16:11:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/09/django-redis/</guid>
+      <description></description>
     </item>
     
     <item>
