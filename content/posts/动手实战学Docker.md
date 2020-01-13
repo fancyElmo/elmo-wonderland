@@ -4,7 +4,7 @@ date: 2019-12-24T17:07:17+08:00
 draft: false
 toc: true
 images:
-tags: ["tutorial"]
+tags: ["tutorial", 'docker']
 categories: ["实验楼"]
 ---
 

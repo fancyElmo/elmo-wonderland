@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        贪吃蛇 - 菜鸡乐园
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="Pygame基础讲解 一、实验介绍 1.1 实验内容 在本节课中，我们将讲解Pygame的常用对象及其操作，包括图形、动画、文字、音频等，确保同学们对P" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  
+  <link rel="icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <title>贪吃蛇 - 菜鸡乐园</title>
+  
+
+  <link rel="stylesheet" href="https://fancyelmo.github.io/elmo-wonderland/css/style.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/monokai.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="贪吃蛇" />
+<meta property="og:description" content="Pygame基础讲解 一、实验介绍 1.1 实验内容 在本节课中，我们将讲解Pygame的常用对象及其操作，包括图形、动画、文字、音频等，确保同学们对P" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" />
+<meta property="article:published_time" content="2019-12-08T19:09:00+08:00" />
+<meta property="article:modified_time" content="2019-12-08T19:09:00+08:00" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/django%E5%90%8E%E5%8F%B0%E8%B7%A8%E5%9F%9F%E8%A7%A3%E5%86%B3/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E9%99%86%E4%B9%8B%E5%BE%AE%E5%8D%9A/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/pip%E6%9B%B4%E6%8D%A2%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90/" />
+
+<meta itemprop="name" content="贪吃蛇">
+<meta itemprop="description" content="Pygame基础讲解 一、实验介绍 1.1 实验内容 在本节课中，我们将讲解Pygame的常用对象及其操作，包括图形、动画、文字、音频等，确保同学们对P">
+<meta itemprop="datePublished" content="2019-12-08T19:09:00&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-08T19:09:00&#43;08:00" />
+<meta itemprop="wordCount" content="12172">
+
+
+
+<meta itemprop="keywords" content="tutorial,pygame," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="贪吃蛇"/>
+<meta name="twitter:description" content="Pygame基础讲解 一、实验介绍 1.1 实验内容 在本节课中，我们将讲解Pygame的常用对象及其操作，包括图形、动画、文字、音频等，确保同学们对P"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/fancyElmo" target="_blank">
+            <img class="img-circle img-rotate" src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">Elmo</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">一只小菜鸡</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Beijing, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/elmo-wonderland/">
+                    <i class="icon icon-jiaju"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/elmo-wonderland/posts">
+                    <i class="icon icon-book-shelf"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/elmo-wonderland/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/elmo-wonderland/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/elmo-wonderland/about">
+                    <i class="icon icon-profile"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><h2><span>Love & Peace</span><br>❤️🧡💛💚💙💜</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/tutorial/" class="category-list-link">tutorial</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" class="category-list-link">入门知识</a><span class="category-list-count">15</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%AE%9E%E9%AA%8C%E6%A5%BC/" class="category-list-link">实验楼</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%BF%AB%E7%85%A7/" class="category-list-link">快照</a><span class="category-list-count">6</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%96%99/" class="category-list-link">查询资料</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E9%98%85%E8%B5%84%E6%96%99/" class="category-list-link">查阅资料</a><span class="category-list-count">15</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/pygame/" class="tag-list-link">pygame</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/tutorial/" class="tag-list-link">tutorial</a><span
+                    class="tag-list-count">3</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled no-thumbnail">
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" class="title">Django-redis配置</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2020-01-12 18:49:03 &#43;0800 CST" itemprop="datePublished">2020-01-12</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E4%BD%BF%E7%94%A8-python-%E5%AE%9A%E5%88%B6%E8%AF%8D%E4%BA%91/" class="title">使用python定制词云</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%8A%A8%E6%89%8B%E5%AE%9E%E6%88%98%E5%AD%A6docker/" class="title">动手实战学Docker</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" class="title">贪吃蛇</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-08 19:09:00 &#43;0800 CST" itemprop="datePublished">2019-12-08</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" class="title">hugo创建主题</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-11-21 18:49:03 &#43;0800 CST" itemprop="datePublished">2019-11-21</time>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/"
+    >贪吃蛇</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" class="article-date">
+  <time datetime="2019-12-08 19:09:00 &#43;0800 CST" itemprop="datePublished">2019-12-08</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/elmo-wonderland/categories/%E5%AE%9E%E9%AA%8C%E6%A5%BC/"> 实验楼 </a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/elmo-wonderland/tags/tutorial/"> tutorial </a>
+    <a class="article-tag-link" href="/elmo-wonderland/tags/pygame/"> pygame </a>
+  </span>
+
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/#comments"
+            class="article-comment-link">评论</a></span>
+		
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">
+			<i class="icon icon-number"></i>
+			字数统计:12172字
+		</span>
+		
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">
+		<i class="icon icon-hourglass"></i>
+		阅读时长:25分 
+		</span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <h1 id="pygame">Pygame基础讲解</h1>
+<h2 id="heading">一、实验介绍</h2>
+<h4 id="11-">1.1 实验内容</h4>
+<p>在本节课中，我们将讲解Pygame的常用对象及其操作，包括图形、动画、文字、音频等，确保同学们对Pygame有一个基础的了解，同时为后续课程做好准备。</p>
+<h4 id="12-">1.2 实验知识点</h4>
+<ul>
+<li>Pygame图形</li>
+<li>Pygame动画</li>
+<li>Pygame文字</li>
+<li>Pygame音频</li>
+<li>Pygame事件</li>
+</ul>
+<h4 id="13-">1.3 实验环境</h4>
+<ul>
+<li>Python 3.5.1</li>
+<li>Xfce终端</li>
+</ul>
+<h4 id="14-">1.4 适合人群</h4>
+<p>本课程难度为一般，属于初级级别课程，适合具有Python基础的用户，熟悉Python基础知识加深巩固。</p>
+<h4 id="15-">1.5 代码获取</h4>
+<p>本节实验所用到的代码和相关资源文件可以通过下面命令下载到实验楼环境中，作为参照对比进行学习。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ wget http://labfile.oss.aliyuncs.com/courses/940/foundation.zip
+</code></pre></div><p>解压缩至<code>/home/shiyanlou/foundation</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ unzip foundation.zip
+</code></pre></div><h2 id="heading-1">二、开发准备</h2>
+<p>本次课程主要利用Pygame模块来进行开发，首先我们需要打开Xfce终端，并使用<code>pip</code>命令来安装Pygame</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo pip3 install pygame
+</code></pre></div><p>安装完成之后进入Python的交互界面，输入以下命令查看是否成功安装。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pygame
+</code></pre></div><p>若无异常，则说明安装成功。</p>
+<h2 id="heading-2">三、实验步骤</h2>
+<h3 id="31-helloworld">3.1 HelloWorld</h3>
+<p>首先开始我们第一个HelloWorld程序：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># helloworld.py</span>
+
+<span style="color:#75715e"># 导入所需的模块</span>
+<span style="color:#f92672">import</span> pygame<span style="color:#f92672">,</span> sys
+<span style="color:#75715e"># 导入所有pygame.locals里的变量（比如下面大写的QUIT变量）</span>
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+
+<span style="color:#75715e"># 初始化pygame</span>
+pygame<span style="color:#f92672">.</span>init()
+
+<span style="color:#75715e"># 设置窗口的大小，单位为像素</span>
+screen <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">400</span>))
+
+<span style="color:#75715e"># 设置窗口标题</span>
+pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Hello World</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 程序主循环</span>
+<span style="color:#66d9ef">while</span> True:
+
+    <span style="color:#75715e"># 获取事件</span>
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+        <span style="color:#75715e"># 判断事件是否为退出事件</span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> QUIT:
+            <span style="color:#75715e"># 退出pygame</span>
+            pygame<span style="color:#f92672">.</span>quit()
+            <span style="color:#75715e"># 退出系统</span>
+            sys<span style="color:#f92672">.</span>exit()
+
+    <span style="color:#75715e"># 绘制屏幕内容</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+</code></pre></div><p>效果图如下： <img src="http://labfile.oss.aliyuncs.com/courses/940/helloworld.PNG" alt="1-3.1-1helloworld"> 这里解释一下上面程序的运行方式 一个游戏循环（也可以称为主循环）就做下面这三件事：</p>
+<ul>
+<li>处理事件</li>
+<li>更新游戏状态</li>
+<li>绘制游戏状态到屏幕上</li>
+</ul>
+<p><img src="http://labfile.oss.aliyuncs.com/courses/940/PygameMainLoop.png" alt="1-3.1-2PygameMainLoop"></p>
+<h3 id="32-">3.2 绘制图形</h3>
+<p>Pygame的坐标原点（0，0）点位于左上角，X轴自左向右，Y轴自上向下，单位为像素。 这里介绍一下常用的方法：</p>
+<ul>
+<li>pygame.draw.line(Surface, color, start_pos, end_pos, width) 此方法用于绘制一条线段</li>
+<li>pygame.draw.aaline(Surface, color, start_pos, end_pos, blend) 此方法用于绘制一条抗锯齿的线</li>
+<li>pygame.draw.lines(Surface, color, closed, pointlist, width) 此方法用于绘制一条折线</li>
+<li>pygame.draw.rect(Surface, color, Rect) 此方法用于绘制一个矩形</li>
+<li>pygame.draw.rect(Surface, color, Rect, width) 此方法用于绘制一个矩形框</li>
+<li>pygame.draw.ellipse(Surface, color, Rect) 此方法用于绘制一个椭圆</li>
+<li>pygame.draw.ellipse(Surface, color, Rect, width) 此方法用于绘制一个椭圆框</li>
+<li>pygame.draw.polygon(Surface, color, pointlist, width) 此方法用于绘制一个多边形</li>
+<li>pygame.draw.arc(Surface, color, Rect, start_angle, stop_angle, width) 此方法用于绘制一条弧线</li>
+<li>pygame.draw.circle(Surface, color, Rect, radius) 此方法用于绘制一个圆</li>
+</ul>
+<p>以下为示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># drawing.py</span>
+
+<span style="color:#75715e"># 导入需要的模块</span>
+<span style="color:#f92672">import</span> pygame<span style="color:#f92672">,</span> sys
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+<span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> pi
+
+
+<span style="color:#75715e"># 初始化pygame</span>
+pygame<span style="color:#f92672">.</span>init()
+
+<span style="color:#75715e"># 设置窗口的大小，单位为像素</span>
+screen <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((<span style="color:#ae81ff">400</span>,<span style="color:#ae81ff">300</span>))
+
+<span style="color:#75715e"># 设置窗口标题</span>
+pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Drawing</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 定义颜色</span>
+BLACK <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)
+WHITE <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>)
+RED <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)
+GREEN <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>)
+BLUE <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>)
+
+<span style="color:#75715e"># 设置背景颜色</span>
+screen<span style="color:#f92672">.</span>fill(WHITE)
+
+<span style="color:#75715e"># 绘制一条线</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>line(screen, GREEN, [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>], [<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">30</span>], <span style="color:#ae81ff">5</span>)
+
+<span style="color:#75715e"># 绘制一条抗锯齿的线</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>aaline(screen, GREEN, [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">50</span>],[<span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">80</span>],True)
+
+<span style="color:#75715e"># 绘制一条折线</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>lines(screen, BLACK, False, 
+                  [[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">80</span>], [<span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">90</span>], [<span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">80</span>], [<span style="color:#ae81ff">220</span>, <span style="color:#ae81ff">30</span>]], <span style="color:#ae81ff">5</span>)
+
+<span style="color:#75715e"># 绘制一个空心矩形</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(screen, BLACK, [<span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">20</span>], <span style="color:#ae81ff">2</span>)
+
+<span style="color:#75715e"># 绘制一个矩形</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(screen, BLACK, [<span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">20</span>])
+
+<span style="color:#75715e"># 绘制一个空心椭圆</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>ellipse(screen, RED, [<span style="color:#ae81ff">225</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">20</span>], <span style="color:#ae81ff">2</span>)
+
+<span style="color:#75715e"># 绘制一个椭圆</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>ellipse(screen, RED, [<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">20</span>])
+
+<span style="color:#75715e"># 绘制多边形</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>polygon(screen, BLACK, [[<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">100</span>], [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">200</span>], [<span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">200</span>]], <span style="color:#ae81ff">5</span>)
+
+<span style="color:#75715e"># 绘制多条弧线</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>arc(screen, BLACK,[<span style="color:#ae81ff">210</span>, <span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">125</span>], <span style="color:#ae81ff">0</span>, pi<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>)
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>arc(screen, GREEN,[<span style="color:#ae81ff">210</span>, <span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">125</span>], pi<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, pi, <span style="color:#ae81ff">2</span>)
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>arc(screen, BLUE, [<span style="color:#ae81ff">210</span>, <span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">125</span>], pi,<span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>pi<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>)
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>arc(screen, RED, [<span style="color:#ae81ff">210</span>, <span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">125</span>], <span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>pi<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi, <span style="color:#ae81ff">2</span>)
+
+<span style="color:#75715e"># 绘制一个圆</span>
+pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>circle(screen, BLUE, [<span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">250</span>], <span style="color:#ae81ff">40</span>)
+
+<span style="color:#75715e"># 程序主循环</span>
+<span style="color:#66d9ef">while</span> True:
+
+    <span style="color:#75715e"># 获取事件</span>
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+        <span style="color:#75715e"># 判断事件是否为退出事件</span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> QUIT:
+            <span style="color:#75715e"># 退出pygame</span>
+            pygame<span style="color:#f92672">.</span>quit()
+            <span style="color:#75715e"># 退出系统</span>
+            sys<span style="color:#f92672">.</span>exit()
+
+    <span style="color:#75715e"># 绘制屏幕内容</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+</code></pre></div><p>效果图如下：</p>
+<p><img src="http://labfile.oss.aliyuncs.com/courses/940/drawing.PNG" alt="1-3.2-1drawing"></p>
+<h3 id="33-">3.3 实现动画</h3>
+<p>由于人类眼睛的特殊生理结构，当所看画面的帧率高于24的时候，就会认为是连贯的，此现象称之为<strong>视觉暂留</strong>。 帧率（Frame rate）是用于测量显示帧数的量度，所谓的测量单位为每秒显示帧数(Frames per Second，简称：FPS） 一般来说30fps是可以接受的，但是将性能提升至60fps则可以明显提升交互感和逼真感，但是一般来说超过75fps一般就不容易察觉到有明显的流畅度提升了。 在我们原有坐标系的基础上添加偏移量，再重新绘制，依次一张一张的循环绘制下去，就会得到我们想要的物体移动的效果。 Pygame实现动画主要用到的方法：</p>
+<ul>
+<li>pygame.image.load(filename) 加载一张图片</li>
+<li>pygame.Surface.blit(source, dest, area=None, special_flags = 0) 将图片绘制到屏幕相应坐标上（后面两个参数默认，可以不传）</li>
+<li>pygame.time.Clock() 获得pygame的时钟</li>
+<li>pygame.time.Clock.tick(FPS) 设置pygame时钟的间隔时间</li>
+</ul>
+<p>以下为示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># animation.py</span>
+
+<span style="color:#75715e"># 导入需要的模块</span>
+<span style="color:#f92672">import</span> pygame<span style="color:#f92672">,</span> sys
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+<span style="color:#75715e"># 初始化pygame</span>
+pygame<span style="color:#f92672">.</span>init()
+
+<span style="color:#75715e"># 设置帧率（屏幕每秒刷新的次数）</span>
+FPS <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+
+<span style="color:#75715e"># 获得pygame的时钟</span>
+fpsClock <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>time<span style="color:#f92672">.</span>Clock()
+
+<span style="color:#75715e"># 设置窗口大小</span>
+screen <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">400</span>), <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">32</span>)
+
+<span style="color:#75715e"># 设置标题</span>
+pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Animation</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 定义颜色</span>
+WHITE <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>)
+
+<span style="color:#75715e"># 加载一张图片（所用到的的图片请参考1.5代码获取）</span>
+img <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>load(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/shiyanlou.PNG</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 初始化图片的位置</span>
+imgx <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+imgy <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+
+<span style="color:#75715e"># 初始化图片的移动方向</span>
+direction <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right</span><span style="color:#e6db74">&#39;</span>
+
+<span style="color:#75715e"># 程序主循环</span>
+<span style="color:#66d9ef">while</span> True:
+
+    <span style="color:#75715e"># 每次都要重新绘制背景白色</span>
+    screen<span style="color:#f92672">.</span>fill(WHITE)
+
+    <span style="color:#75715e"># 判断移动的方向，并对相应的坐标做加减</span>
+    <span style="color:#66d9ef">if</span> direction <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right</span><span style="color:#e6db74">&#39;</span>:
+        imgx <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+        <span style="color:#66d9ef">if</span> imgx <span style="color:#f92672">==</span> <span style="color:#ae81ff">380</span>:
+            direction <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">down</span><span style="color:#e6db74">&#39;</span>
+    <span style="color:#66d9ef">elif</span> direction <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">down</span><span style="color:#e6db74">&#39;</span>:
+        imgy <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+        <span style="color:#66d9ef">if</span> imgy <span style="color:#f92672">==</span> <span style="color:#ae81ff">300</span>:
+            direction <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">left</span><span style="color:#e6db74">&#39;</span>
+    <span style="color:#66d9ef">elif</span> direction <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">left</span><span style="color:#e6db74">&#39;</span>:
+        imgx <span style="color:#f92672">-</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+        <span style="color:#66d9ef">if</span> imgx <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>:
+            direction <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">up</span><span style="color:#e6db74">&#39;</span>
+    <span style="color:#66d9ef">elif</span> direction <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">up</span><span style="color:#e6db74">&#39;</span>:
+        imgy <span style="color:#f92672">-</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+        <span style="color:#66d9ef">if</span> imgy <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>:
+            direction <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right</span><span style="color:#e6db74">&#39;</span>
+
+    <span style="color:#75715e"># 该方法将用于图片绘制到相应的坐标中</span>
+    screen<span style="color:#f92672">.</span>blit(img, (imgx, imgy))
+
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> QUIT:
+            pygame<span style="color:#f92672">.</span>quit()
+            sys<span style="color:#f92672">.</span>exit()
+
+    <span style="color:#75715e"># 刷新屏幕</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+
+    <span style="color:#75715e"># 设置pygame时钟的间隔时间</span>
+    fpsClock<span style="color:#f92672">.</span>tick(FPS)
+</code></pre></div><p>效果图如下：</p>
+<p><img src="http://labfile.oss.aliyuncs.com/courses/940/animation.PNG" alt="1-3.3-1animation"></p>
+<h3 id="34-">3.4 绘制文字</h3>
+<p>如果你想绘制文字到屏幕上，Pygame提供了很方便的方法使用.ttf字体文件，这样我们就能很轻易的将文字绘制在屏幕上了。 这里我使用了ARBERKLEY.ttf作为字体，字体文件的获取请参考1.5代码获取。 主要用到的方法：</p>
+<ul>
+<li>pygame.font.Font(filename, size) filename：字体文件的文件名； size：字体的高height，单位为像素；</li>
+<li>pygame.font.Font.render(text, antialias, color, background=None) text：要显示的文字； antialias： 是否抗锯齿； color：字体颜色； background：背景颜色（可选参数）；</li>
+<li>.get_rect() 获得一个对象的rect，以便于设置其坐标位置</li>
+</ul>
+<p>以下为示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># font.py</span>
+
+<span style="color:#75715e"># 导入需要的模块</span>
+<span style="color:#f92672">import</span> pygame<span style="color:#f92672">,</span> sys
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+<span style="color:#75715e"># 初始化pygame</span>
+pygame<span style="color:#f92672">.</span>init()
+
+<span style="color:#75715e"># 设置窗口的大小，单位为像素</span>
+screen <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((<span style="color:#ae81ff">500</span>,<span style="color:#ae81ff">400</span>))
+
+<span style="color:#75715e"># 设置窗口的标题</span>
+pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Font</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 定义颜色</span>
+WHITE <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>)
+GREEN <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>)
+BLUE <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">128</span>)
+
+<span style="color:#75715e"># 通过字体文件获得字体对象</span>
+fontObj <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>font<span style="color:#f92672">.</span>Font(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/ARBERKLEY.ttf</span><span style="color:#e6db74">&#39;</span>, <span style="color:#ae81ff">50</span>)
+
+<span style="color:#75715e"># 配置要显示的文字</span>
+textSurfaceObj <span style="color:#f92672">=</span> fontObj<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Pygame</span><span style="color:#e6db74">&#39;</span>, True, BLUE, GREEN)
+
+<span style="color:#75715e"># 获得要显示的对象的rect</span>
+textRectObj <span style="color:#f92672">=</span> textSurfaceObj<span style="color:#f92672">.</span>get_rect()
+
+<span style="color:#75715e"># 设置显示对象的坐标</span>
+textRectObj<span style="color:#f92672">.</span>center <span style="color:#f92672">=</span> (<span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">200</span>)
+
+<span style="color:#75715e"># 设置背景</span>
+screen<span style="color:#f92672">.</span>fill(WHITE)
+
+<span style="color:#75715e"># 绘制字体</span>
+screen<span style="color:#f92672">.</span>blit(textSurfaceObj, textRectObj)
+
+<span style="color:#75715e"># 程序主循环</span>
+<span style="color:#66d9ef">while</span> True:
+
+    <span style="color:#75715e"># 获取事件</span>
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+        <span style="color:#75715e"># 判断事件是否为退出事件</span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> QUIT:
+            <span style="color:#75715e"># 退出pygame</span>
+            pygame<span style="color:#f92672">.</span>quit()
+            <span style="color:#75715e"># 退出系统</span>
+            sys<span style="color:#f92672">.</span>exit()
+
+    <span style="color:#75715e"># 绘制屏幕内容</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+</code></pre></div><p>效果图如下：</p>
+<p><img src="http://labfile.oss.aliyuncs.com/courses/940/font.PNG" alt="1-3.4-1font"></p>
+<h3 id="35-">3.5 播放音频</h3>
+<p>在Pygame里播放音频有两个方法，一个用来播放特效声音，一个用来播放背景音乐：</p>
+<ul>
+<li>pygame.mixer.Sound(filename) 该方法返回一个Sound对象，调用它的.play( )方法，即可播放较短的音频文件（比如玩家受到伤害、收集到金币等）；</li>
+<li>pygame.mixer.music.load(filename) 该方法用来加载背景音乐，之后调用pygame.mixer.music.play( )方法就可以播放背景音乐（Pygame只允许加载一个背景音乐在同一个时刻）</li>
+</ul>
+<p>以下为示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># audio.py</span>
+
+<span style="color:#75715e"># 导入需要的模块</span>
+<span style="color:#f92672">import</span> pygame<span style="color:#f92672">,</span> sys
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+<span style="color:#75715e"># 初始化pygame</span>
+pygame<span style="color:#f92672">.</span>init()
+
+<span style="color:#75715e"># 设置窗口的大小，单位为像素</span>
+screen <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((<span style="color:#ae81ff">500</span>,<span style="color:#ae81ff">400</span>))
+
+<span style="color:#75715e"># 设置窗口的标题</span>
+pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Audio</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 定义颜色</span>
+WHITE <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>)
+
+<span style="color:#75715e"># 设置背景</span>
+screen<span style="color:#f92672">.</span>fill(WHITE)
+
+<span style="color:#75715e"># 加载并播放一个特效音频文件（所用到的音频文件请参考1.5代码获取）</span>
+sound <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>mixer<span style="color:#f92672">.</span>Sound(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/bounce.ogg</span><span style="color:#e6db74">&#39;</span>)
+sound<span style="color:#f92672">.</span>play()
+
+<span style="color:#75715e"># 加载背景音乐文件</span>
+pygame<span style="color:#f92672">.</span>mixer<span style="color:#f92672">.</span>music<span style="color:#f92672">.</span>load(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/bgmusic.mp3</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 播放背景音乐，第一个参数为播放的次数（-1表示无限循环），第二个参数是设置播放的起点（单位为秒）</span>
+pygame<span style="color:#f92672">.</span>mixer<span style="color:#f92672">.</span>music<span style="color:#f92672">.</span>play(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0.0</span>)
+
+<span style="color:#75715e"># 程序主循环</span>
+<span style="color:#66d9ef">while</span> True:
+
+    <span style="color:#75715e"># 获取事件</span>
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+        <span style="color:#75715e"># 判断事件是否为退出事件</span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> QUIT:
+            <span style="color:#75715e"># 停止播放背景音乐</span>
+            pygame<span style="color:#f92672">.</span>mixer<span style="color:#f92672">.</span>music<span style="color:#f92672">.</span>stop()
+            <span style="color:#75715e"># 退出pygame</span>
+            pygame<span style="color:#f92672">.</span>quit()
+            <span style="color:#75715e"># 退出系统</span>
+            sys<span style="color:#f92672">.</span>exit()
+
+    <span style="color:#75715e"># 绘制屏幕内容</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+</code></pre></div><p><strong>注意</strong>：因实验楼里暂时不能播放音频，上述代码在实验楼环境中可能无法正常运行，同学们可以在自己的电脑上尝试运行。</p>
+<h3 id="36-">3.6 事件</h3>
+<p>Pygame里常用的事件如下表：</p>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>产生途径</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QUIT</td>
+<td>用户按下关闭按钮</td>
+<td>none</td>
+</tr>
+<tr>
+<td>ACTIVEEVENT</td>
+<td>Pygame被激活或者隐藏</td>
+<td>gain, state</td>
+</tr>
+<tr>
+<td>KEYDOWN</td>
+<td>键盘被按下</td>
+<td>unicode, key, mod</td>
+</tr>
+<tr>
+<td>KEYUP</td>
+<td>键盘被放开</td>
+<td>key, mod</td>
+</tr>
+<tr>
+<td>MOUSEMOTION</td>
+<td>鼠标移动</td>
+<td>pos, rel, buttons</td>
+</tr>
+<tr>
+<td>MOUSEBUTTONDOWN</td>
+<td>鼠标按下</td>
+<td>pos, button</td>
+</tr>
+<tr>
+<td>MOUSEBUTTONUP</td>
+<td>鼠标放开</td>
+<td>pos, button</td>
+</tr>
+<tr>
+<td>VIDEORESIZE</td>
+<td>Pygame窗口缩放</td>
+<td>size, w, h</td>
+</tr>
+</tbody>
+</table>
+<p>以下为示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># event.py</span>
+
+<span style="color:#75715e"># 导入需要的模块</span>
+<span style="color:#f92672">import</span> pygame<span style="color:#f92672">,</span> sys
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+<span style="color:#75715e"># 定义颜色</span>
+WHITE <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>)
+
+<span style="color:#75715e"># 初始化pygame</span>
+pygame<span style="color:#f92672">.</span>init()
+
+<span style="color:#75715e"># 设置窗口的大小，单位为像素</span>
+screen <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((<span style="color:#ae81ff">500</span>,<span style="color:#ae81ff">400</span>), <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">32</span>)
+
+<span style="color:#75715e"># 设置窗口的标题</span>
+pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Event</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 设置背景</span>
+screen<span style="color:#f92672">.</span>fill(WHITE)
+
+<span style="color:#75715e"># 程序主循环</span>
+<span style="color:#66d9ef">while</span> True:
+
+    <span style="color:#75715e"># 获取事件</span>
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+        <span style="color:#75715e"># 判断事件是否为退出事件</span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> QUIT:
+            <span style="color:#75715e"># 退出pygame</span>
+            pygame<span style="color:#f92672">.</span>quit()
+            <span style="color:#75715e"># 退出系统</span>
+            sys<span style="color:#f92672">.</span>exit()
+
+        <span style="color:#75715e"># 获得鼠标当前的位置   </span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span>MOUSEMOTION:
+            <span style="color:#66d9ef">print</span>(event<span style="color:#f92672">.</span>pos)
+
+        <span style="color:#75715e"># 获得鼠标按下的位置</span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span>MOUSEBUTTONDOWN:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">鼠标按下：</span><span style="color:#e6db74">&#34;</span>,event<span style="color:#f92672">.</span>pos)
+
+        <span style="color:#75715e"># 获得鼠标抬起的位置</span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span>MOUSEBUTTONUP:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">鼠标抬起：</span><span style="color:#e6db74">&#34;</span>,event<span style="color:#f92672">.</span>pos) 
+
+        <span style="color:#75715e"># 获得键盘按下的事件    </span>
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> KEYDOWN:
+            <span style="color:#66d9ef">if</span>(event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_UP <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_w):
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">上</span><span style="color:#e6db74">&#34;</span>)
+            <span style="color:#66d9ef">if</span>(event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_DOWN <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_s):
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">下</span><span style="color:#e6db74">&#34;</span>)
+            <span style="color:#66d9ef">if</span>(event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_LEFT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_a):
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">左</span><span style="color:#e6db74">&#34;</span>)
+            <span style="color:#66d9ef">if</span>(event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_RIGHT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_d):
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">右</span><span style="color:#e6db74">&#34;</span>)
+            <span style="color:#75715e"># 按下键盘的Esc键退出</span>
+            <span style="color:#66d9ef">if</span>(event<span style="color:#f92672">.</span>key<span style="color:#f92672">==</span>K_ESCAPE):
+                <span style="color:#75715e"># 退出pygame</span>
+                pygame<span style="color:#f92672">.</span>quit()
+                <span style="color:#75715e"># 退出系统</span>
+                sys<span style="color:#f92672">.</span>exit()
+
+    <span style="color:#75715e"># 绘制屏幕内容</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+</code></pre></div><p>效果图如下：</p>
+<p><img src="http://labfile.oss.aliyuncs.com/courses/940/event.PNG" alt="1-3.6-1event"></p>
+<h1 id="pygame-1">Pygame实现贪吃蛇</h1>
+<h2 id="heading-3">一、实验介绍</h2>
+<h4 id="11--1">1.1 实验内容</h4>
+<p>本节实验将通过Pygame来实现贪吃蛇，最终效果图如下： <img src="http://labfile.oss.aliyuncs.com/courses/940/snake3.PNG" alt="2-1.1-1"></p>
+<h4 id="12--1">1.2 实验知识点</h4>
+<ul>
+<li>实现贪吃蛇</li>
+</ul>
+<h4 id="13--1">1.3 实验环境</h4>
+<ul>
+<li>Python 3.5.1</li>
+<li>Xfce终端</li>
+</ul>
+<h4 id="14--1">1.4 适合人群</h4>
+<p>本课程难度为一般，属于初级级别课程，适合具有Python基础的用户，熟悉Python基础知识加深巩固。</p>
+<h4 id="15--1">1.5 代码获取</h4>
+<p>本节实验所用到的代码和相关资源文件可以通过下面命令下载到实验楼环境中，作为参照对比进行学习。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ wget http://labfile.oss.aliyuncs.com/courses/940/snake.zip
+</code></pre></div><p>解压缩至<code>/home/shiyanlou/snake</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ unzip snake.zip
+</code></pre></div><h2 id="heading-4">二、实验步骤</h2>
+<h3 id="31-">3.1 主要思路</h3>
+<p>我们的贪吃蛇游戏将主要包括三个核心模块，分别是<strong>游戏开始模块</strong>、<strong>游戏运行模块</strong>、<strong>游戏结束模块</strong>。这三个模块是这样配合工作的：先是显示游戏开始模块，然后一个循环一直在游戏运行模块和显示游戏结束模块之间运行。 游戏主要思路</p>
+<ol>
+<li>绘制一个640*480的窗口</li>
+<li>定义小方格的大小（必须要能被640和480整除）</li>
+<li>绘制游戏开始的画面，等待按键事件输入</li>
+<li>程序主循环里面包含两个模块，一个是游戏运行模块，另一个是显示游戏结束画面的模块</li>
+<li>游戏运行模块：
+<ul>
+<li>随机初始化设置一个点作为贪吃蛇的起点</li>
+<li>以这个点为起点，建立一个长度为3格的贪吃蛇（列表）</li>
+<li>初始化一个运动的方向</li>
+<li>随机一个苹果的位置</li>
+<li>在游戏循环里处理事件</li>
+<li>根据按键改变蛇的运动方向</li>
+<li>检查游戏是否结束（撞到边界或者撞到自己）</li>
+<li>检查贪吃蛇是否吃到苹果</li>
+<li>绘制背景，方格，贪吃蛇，苹果，分数等游戏的元素</li>
+</ul>
+</li>
+<li>显示游戏结束画面的模块
+<ul>
+<li>绘制Game Over</li>
+<li>等待用户按键重新开始游戏</li>
+</ul>
+</li>
+</ol>
+<h3 id="32--1">3.2 核心框架</h3>
+<p>在编写核心模块之前，我们先将这个程序的核心框架和一些必要的方法实现出来，之后再去逐步完善。 我们把蛇身看成是一个个小方格组成的，用常量CELLSIZE表示方格的大小，我们把游戏屏幕也看成是由同样的小方格组成的，我们可以通过方格来与屏幕具体像素联系起来，简化编程，所以有了CELLWIDTH和CELLHEIGHT两个变量。 在main()方法中，我们初始化pygame，并进行一些基本设置，然后显示游戏开始画面，之后进入游戏主循环。 我们定义drawGrid()方法用于绘制所有方格，getRandomLocation()方法用于随机生成苹果的位置，生成的坐标用字典保存，drawApple(coord)方法用于根据生成的坐标字典绘制苹果，同样，drawWorm(wormCoords)方法用于根据贪吃蛇的坐标字典列表绘制贪吃蛇，drawScore(score)方法用于显示分数，terminate()方法用于退出游戏，在我们的游戏开始画面和游戏结束画面中，使用drawPressKeyMsg()方法用于提示按键消息，checkForKeyPress()方法用于检测按键事件以决定是否退出循环进入游戏运行画面。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># snake.py</span>
+
+<span style="color:#f92672">import</span> random<span style="color:#f92672">,</span> sys<span style="color:#f92672">,</span> time<span style="color:#f92672">,</span> pygame
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+<span style="color:#75715e"># 屏幕刷新率（在这里相当于贪吃蛇的速度）</span>
+FPS <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+<span style="color:#75715e"># 屏幕宽度</span>
+WINDOWWIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">640</span>
+<span style="color:#75715e"># 屏幕高度</span>
+WINDOWHEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">480</span>
+<span style="color:#75715e"># 小方格的大小</span>
+CELLSIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+
+<span style="color:#75715e"># 断言，屏幕的宽和高必须能被方块大小整除</span>
+<span style="color:#66d9ef">assert</span> WINDOWWIDTH <span style="color:#f92672">%</span> CELLSIZE <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Window width must be a multiple of cell size.</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#66d9ef">assert</span> WINDOWHEIGHT <span style="color:#f92672">%</span> CELLSIZE <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Window height must be a multiple of cell size.</span><span style="color:#e6db74">&#34;</span>
+
+<span style="color:#75715e"># 横向和纵向的方格数</span>
+CELLWIDTH <span style="color:#f92672">=</span> int(WINDOWWIDTH <span style="color:#f92672">/</span> CELLSIZE)
+CELLHEIGHT <span style="color:#f92672">=</span> int(WINDOWHEIGHT <span style="color:#f92672">/</span> CELLSIZE)
+
+<span style="color:#75715e"># 定义常用颜色</span>
+WHITE <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>)
+BLACK <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)
+RED <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)
+GREEN <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>)
+DARKGREEN <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">155</span>, <span style="color:#ae81ff">0</span>)
+DARKGRAY <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">40</span>)
+BGCOLOR <span style="color:#f92672">=</span> BLACK
+
+<span style="color:#75715e"># 定义贪吃蛇的动作</span>
+UP <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">up</span><span style="color:#e6db74">&#39;</span>
+DOWN <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">down</span><span style="color:#e6db74">&#39;</span>
+LEFT <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">left</span><span style="color:#e6db74">&#39;</span>
+RIGHT <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right</span><span style="color:#e6db74">&#39;</span>
+
+<span style="color:#75715e"># 贪吃蛇的头（后面会经常用到）</span>
+HEAD <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+
+    <span style="color:#75715e"># 定义全局变量</span>
+    <span style="color:#66d9ef">global</span> FPSCLOCK, DISPLAYSURF, BASICFONT
+
+    <span style="color:#75715e"># 初始化pygame</span>
+    pygame<span style="color:#f92672">.</span>init()
+    <span style="color:#75715e"># 获得pygame时钟</span>
+    FPSCLOCK <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>time<span style="color:#f92672">.</span>Clock()
+    <span style="color:#75715e"># 设置屏幕宽高</span>
+    DISPLAYSURF <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+    <span style="color:#75715e"># 设置基本字体</span>
+    BASICFONT <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>font<span style="color:#f92672">.</span>Font(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/ARBERKLEY.ttf</span><span style="color:#e6db74">&#39;</span>, <span style="color:#ae81ff">18</span>)
+    <span style="color:#75715e"># 设置窗口的标题</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Snake</span><span style="color:#e6db74">&#39;</span>)
+
+    <span style="color:#75715e"># 显示游戏开始画面</span>
+    showStartScreen()
+
+    <span style="color:#66d9ef">while</span> True: 
+
+        <span style="color:#75715e"># 这里一直循环于游戏运行时和显示游戏结束画面之间，运行游戏里有一个循环，显示游戏结束画面也有一个循环，两个循环都有相应的return，这样就可以达到切换这两个模块的效果</span>
+
+        <span style="color:#75715e"># 运行游戏</span>
+        runGame()
+
+        <span style="color:#75715e"># 显示游戏结束画面</span>
+        showGameOverScreen()
+
+<span style="color:#75715e"># 绘制所有的方格 </span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawGrid</span>():
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, WINDOWWIDTH, CELLSIZE):
+        <span style="color:#75715e"># 绘制垂直线</span>
+        pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>line(DISPLAYSURF, DARKGRAY, (x, <span style="color:#ae81ff">0</span>), (x, WINDOWHEIGHT))
+    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, WINDOWHEIGHT, CELLSIZE):
+        <span style="color:#75715e"># 绘制水平线</span>
+        pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>line(DISPLAYSURF, DARKGRAY, (<span style="color:#ae81ff">0</span>, y), (WINDOWWIDTH, y))
+
+<span style="color:#75715e"># 随机生成一个苹果的坐标位置    </span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getRandomLocation</span>():
+    <span style="color:#66d9ef">return</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, CELLWIDTH <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>), <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, CELLHEIGHT <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)}
+
+<span style="color:#75715e"># 根据coord绘制苹果</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawApple</span>(coord):
+    x <span style="color:#f92672">=</span> coord[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">*</span> CELLSIZE
+    y <span style="color:#f92672">=</span> coord[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">*</span> CELLSIZE
+    appleRect <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>Rect(x, y, CELLSIZE, CELLSIZE)
+    pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(DISPLAYSURF, RED, appleRect)
+
+<span style="color:#75715e"># 根据wormCoords列表绘制贪吃蛇</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawWorm</span>(wormCoords):
+    <span style="color:#66d9ef">for</span> coord <span style="color:#f92672">in</span> wormCoords:
+        x <span style="color:#f92672">=</span> coord[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">*</span> CELLSIZE
+        y <span style="color:#f92672">=</span> coord[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">*</span> CELLSIZE
+        wormSegmentRect <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>Rect(x, y, CELLSIZE, CELLSIZE)
+        pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(DISPLAYSURF, DARKGREEN, wormSegmentRect)
+        wormInnerSegmentRect <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>Rect(x <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>, CELLSIZE <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span>, CELLSIZE <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span>)
+        pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(DISPLAYSURF, GREEN, wormInnerSegmentRect)
+
+<span style="color:#75715e"># 显示分数        </span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawScore</span>(score):
+    scoreSurf <span style="color:#f92672">=</span> BASICFONT<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Score: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (score), True, WHITE)
+    scoreRect <span style="color:#f92672">=</span> scoreSurf<span style="color:#f92672">.</span>get_rect()
+    scoreRect<span style="color:#f92672">.</span>topleft <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">-</span> <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">10</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(scoreSurf, scoreRect)
+
+<span style="color:#75715e"># 退出游戏</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">terminate</span>():
+    pygame<span style="color:#f92672">.</span>quit()
+    sys<span style="color:#f92672">.</span>exit()
+
+<span style="color:#75715e"># 提示按键消息        </span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawPressKeyMsg</span>():
+    pressKeySurf <span style="color:#f92672">=</span> BASICFONT<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Press a key to play.</span><span style="color:#e6db74">&#39;</span>, True, DARKGRAY)
+    pressKeyRect <span style="color:#f92672">=</span> pressKeySurf<span style="color:#f92672">.</span>get_rect()
+    pressKeyRect<span style="color:#f92672">.</span>topleft <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">-</span> <span style="color:#ae81ff">200</span>, WINDOWHEIGHT <span style="color:#f92672">-</span> <span style="color:#ae81ff">30</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(pressKeySurf, pressKeyRect)
+
+<span style="color:#75715e"># 检测按键事件</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">checkForKeyPress</span>():
+    <span style="color:#66d9ef">if</span> len(pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get(QUIT)) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+        terminate()
+
+    keyUpEvents <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get(KEYUP)
+    <span style="color:#66d9ef">if</span> len(keyUpEvents) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+        <span style="color:#66d9ef">return</span> None
+    <span style="color:#66d9ef">if</span> keyUpEvents[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_ESCAPE:
+        terminate()
+    <span style="color:#66d9ef">return</span> keyUpEvents[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>key
+
+<span style="color:#75715e"># 显示游戏开始画面</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">showStartScreen</span>():
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#75715e"># 游戏运行时</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">runGame</span>():
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#75715e"># 显示游戏结束画面</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">showGameOverScreen</span>():
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">__main__</span><span style="color:#e6db74">&#39;</span>:  
+    main()
+</code></pre></div><h3 id="33--1">3.3 游戏开始模块</h3>
+<p>游戏开始画面主要显示游戏名称和提示按键信息，同时调用检测按键事件以确定是否有按键事件产生，若有，则退出开始画面，进入游戏运行画面，或是直接退出游戏。 showStartScreen()的具体实现如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 显示游戏开始画面</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">showStartScreen</span>():
+
+    DISPLAYSURF<span style="color:#f92672">.</span>fill(BGCOLOR)
+    titleFont <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>font<span style="color:#f92672">.</span>Font(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/ARBERKLEY.ttf</span><span style="color:#e6db74">&#39;</span>, <span style="color:#ae81ff">100</span>)
+    titleSurf <span style="color:#f92672">=</span> titleFont<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Snake!</span><span style="color:#e6db74">&#39;</span>, True, GREEN)
+    titleRect <span style="color:#f92672">=</span> titleSurf<span style="color:#f92672">.</span>get_rect()
+    titleRect<span style="color:#f92672">.</span>center <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, WINDOWHEIGHT <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(titleSurf, titleRect)
+
+    drawPressKeyMsg()
+
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#66d9ef">if</span> checkForKeyPress():
+            pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get()
+            <span style="color:#66d9ef">return</span>
+</code></pre></div><h3 id="34--1">3.4 游戏运行模块</h3>
+<p>为了防止蛇身一出来就离墙太近，导致游戏失败，所以我们的蛇身会离墙有一段距离。产生的随机数范围为（5,CELLWIDTH-6）。我们用字典这种数据结构将坐标存放起来，用列表把这些字典元素包容在一起。wormCoords为蛇身的坐标表示，则wormCoords[0]为蛇头的表示，也就是wormCoords[HEAD]。蛇身的移动实际上就是不断删除尾端，添加头端的过程。 runGame()的具体实现如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 游戏运行画面</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">runGame</span>():
+    <span style="color:#75715e"># 随机初始化设置一个点作为贪吃蛇的起点</span>
+    startx <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">5</span>, CELLWIDTH <span style="color:#f92672">-</span> <span style="color:#ae81ff">6</span>)
+    starty <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">5</span>, CELLHEIGHT <span style="color:#f92672">-</span> <span style="color:#ae81ff">6</span>)
+
+    <span style="color:#75715e"># 以这个点为起点，建立一个长度为3格的贪吃蛇（列表）</span>
+    wormCoords <span style="color:#f92672">=</span> [{<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: startx, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: starty},
+                  {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: startx <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: starty},
+                  {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: startx <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: starty}]
+
+    direction <span style="color:#f92672">=</span> RIGHT <span style="color:#75715e"># 初始化一个运动的方向</span>
+
+    <span style="color:#75715e"># 随机一个苹果的位置</span>
+    apple <span style="color:#f92672">=</span> getRandomLocation()
+
+    <span style="color:#75715e"># 游戏主循环</span>
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#75715e"># 事件处理</span>
+        <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+            <span style="color:#75715e"># 退出事件</span>
+            <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> QUIT:
+                terminate()
+            <span style="color:#75715e"># 按键事件</span>
+            <span style="color:#66d9ef">elif</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> KEYDOWN:
+                <span style="color:#75715e">#如果按下的是左键或a键，且当前的方向不是向右，就改变方向，以此类推</span>
+                <span style="color:#66d9ef">if</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_LEFT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_a) <span style="color:#f92672">and</span> direction <span style="color:#f92672">!=</span> RIGHT:
+                    direction <span style="color:#f92672">=</span> LEFT
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_RIGHT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_d) <span style="color:#f92672">and</span> direction <span style="color:#f92672">!=</span> LEFT:
+                    direction <span style="color:#f92672">=</span> RIGHT
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_UP <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_w) <span style="color:#f92672">and</span> direction <span style="color:#f92672">!=</span> DOWN:
+                    direction <span style="color:#f92672">=</span> UP
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_DOWN <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_s) <span style="color:#f92672">and</span> direction <span style="color:#f92672">!=</span> UP:
+                    direction <span style="color:#f92672">=</span> DOWN
+                <span style="color:#66d9ef">elif</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_ESCAPE:
+                    terminate()
+
+        <span style="color:#75715e"># 检查贪吃蛇是否撞到撞到边界，即检查蛇头的坐标</span>
+        <span style="color:#66d9ef">if</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">or</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> CELLWIDTH <span style="color:#f92672">or</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">or</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> CELLHEIGHT:
+            <span style="color:#75715e"># game over</span>
+            <span style="color:#66d9ef">return</span>
+
+        <span style="color:#75715e"># 检查贪吃蛇是否撞到自己，即检查蛇头的坐标是否等于蛇身的坐标</span>
+        <span style="color:#66d9ef">for</span> wormBody <span style="color:#f92672">in</span> wormCoords[<span style="color:#ae81ff">1</span>:]:
+            <span style="color:#66d9ef">if</span> wormBody[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">and</span> wormBody[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>]:
+                <span style="color:#75715e"># game over</span>
+                <span style="color:#66d9ef">return</span>
+
+        <span style="color:#75715e"># 检查贪吃蛇是否吃到苹果，若没吃到，则删除尾端，蛇身前进一格</span>
+        <span style="color:#66d9ef">if</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> apple[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">and</span> wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">==</span> apple[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>]:
+            <span style="color:#75715e"># 不移除蛇的最后一个尾巴格</span>
+            <span style="color:#75715e"># 重新随机生成一个苹果</span>
+            apple <span style="color:#f92672">=</span> getRandomLocation()
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#75715e"># 移除蛇的最后一个尾巴格</span>
+            <span style="color:#66d9ef">del</span> wormCoords[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+
+        <span style="color:#75715e"># 根据方向，添加一个新的蛇头，以这种方式来移动贪吃蛇</span>
+        <span style="color:#66d9ef">if</span> direction <span style="color:#f92672">==</span> UP:
+            newHead <span style="color:#f92672">=</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>], <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>}
+        <span style="color:#66d9ef">elif</span> direction <span style="color:#f92672">==</span> DOWN:
+            newHead <span style="color:#f92672">=</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>], <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}
+        <span style="color:#66d9ef">elif</span> direction <span style="color:#f92672">==</span> LEFT:
+            newHead <span style="color:#f92672">=</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>]}
+        <span style="color:#66d9ef">elif</span> direction <span style="color:#f92672">==</span> RIGHT:
+            newHead <span style="color:#f92672">=</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: wormCoords[HEAD][<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>]}
+
+        <span style="color:#75715e"># 插入新的蛇头在数组的最前面</span>
+        wormCoords<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">0</span>, newHead)
+
+        <span style="color:#75715e"># 绘制背景</span>
+        DISPLAYSURF<span style="color:#f92672">.</span>fill(BGCOLOR)
+
+        <span style="color:#75715e"># 绘制所有的方格</span>
+        drawGrid()
+
+        <span style="color:#75715e"># 绘制贪吃蛇</span>
+        drawWorm(wormCoords)
+
+        <span style="color:#75715e"># 绘制苹果</span>
+        drawApple(apple)
+
+        <span style="color:#75715e"># 绘制分数（分数为贪吃蛇列表当前的长度-3）</span>
+        drawScore(len(wormCoords) <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>)
+
+        <span style="color:#75715e"># 更新屏幕</span>
+        pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+
+        <span style="color:#75715e"># 设置帧率</span>
+        FPSCLOCK<span style="color:#f92672">.</span>tick(FPS)
+</code></pre></div><h3 id="35--1">3.5 游戏结束模块</h3>
+<p>游戏结束画面与游戏开始画面类似，showGameOverScreen()的具体实现如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 显示游戏结束画面</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">showGameOverScreen</span>():
+    gameOverFont <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>font<span style="color:#f92672">.</span>Font(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/ARBERKLEY.ttf</span><span style="color:#e6db74">&#39;</span>, <span style="color:#ae81ff">50</span>)
+    gameSurf <span style="color:#f92672">=</span> gameOverFont<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Game</span><span style="color:#e6db74">&#39;</span>, True, WHITE)
+    overSurf <span style="color:#f92672">=</span> gameOverFont<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Over</span><span style="color:#e6db74">&#39;</span>, True, WHITE)
+    gameRect <span style="color:#f92672">=</span> gameSurf<span style="color:#f92672">.</span>get_rect()
+    overRect <span style="color:#f92672">=</span> overSurf<span style="color:#f92672">.</span>get_rect()
+    gameRect<span style="color:#f92672">.</span>midtop <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, WINDOWHEIGHT <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">-</span>gameRect<span style="color:#f92672">.</span>height<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>)
+    overRect<span style="color:#f92672">.</span>midtop <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, WINDOWHEIGHT <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)
+
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(gameSurf, gameRect)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(overSurf, overRect)
+    drawPressKeyMsg()
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+    pygame<span style="color:#f92672">.</span>time<span style="color:#f92672">.</span>wait(<span style="color:#ae81ff">500</span>)
+    checkForKeyPress()
+
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#66d9ef">if</span> checkForKeyPress():
+            pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get()
+            <span style="color:#66d9ef">return</span>
+</code></pre></div><h3 id="36--1">3.6 尝试运行代码</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">__main__</span><span style="color:#e6db74">&#34;</span>:
+    main()
+</code></pre></div><p>执行 <code>python snake.py</code></p>
+<h1 id="pygame-2">Pygame实现俄罗斯方块</h1>
+<h2 id="heading-5">一、实验介绍</h2>
+<h4 id="11--2">1.1 实验内容</h4>
+<p>本节实验我们将使用Pygame实现经典的俄罗斯方块，最终效果图如下： <img src="http://labfile.oss.aliyuncs.com/courses/940/tetris3.PNG" alt="3-1.1-1tetris2"></p>
+<h4 id="12--2">1.2 实验知识点</h4>
+<ul>
+<li>实现俄罗斯方块</li>
+</ul>
+<h4 id="13--2">1.3 实验环境</h4>
+<ul>
+<li>Python 3.5.1</li>
+<li>Xfce终端</li>
+</ul>
+<h4 id="14--2">1.4 适合人群</h4>
+<p>本课程难度为一般，属于初级级别课程，适合具有Python基础的用户，熟悉Python基础知识加深巩固。</p>
+<h4 id="15--2">1.5 代码获取</h4>
+<p>本节实验所用到的代码和相关资源文件可以通过下面命令下载到实验楼环境中，作为参照对比进行学习。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ wget http://labfile.oss.aliyuncs.com/courses/940/tetris.zip
+</code></pre></div><p>解压缩至<code>/home/shiyanlou/tetris</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ unzip tetris.zip
+</code></pre></div><h3 id="heading-6">二、实验步骤</h3>
+<h3 id="31--1">3.1 基本术语</h3>
+<p><strong>Board</strong>：由10乘20个Box组成，Piece就落在这里面。</p>
+<p><strong>Box</strong>：组成Piece的其中小方块，是组成Piece的基本单元。</p>
+<p><strong>Piece</strong>：从Board顶掉下的东西，游戏者可以翻转和改变位置。每个Piece由4个Box组成。</p>
+<p><strong>Shape</strong>：不同类型的Piece，这里Shape的名字被叫做T, S, Z, J, L, I, O。如下图所示： <img src="http://labfile.oss.aliyuncs.com/courses/940/shape.png" alt="3-3.1-1shape"></p>
+<p><strong>Template</strong>：用一个列表存放Shape被翻转后的所有可能样式。变量名字如S_SHAPE_TEMPLATE。</p>
+<h3 id="32--2">3.2 初始化</h3>
+<p>BOXSIZE，BOARDWIDTH，BOARDHEIGHT与前面贪吃蛇相关初始化类似，使其与屏幕像素点联系起来。 MOVESIDEWAYSFREQ和MOVEDOWNFREQ两个变量设置相关频率。 XMARGIN和TOPMARGIN分别指Board距窗口两边的距离和上边的距离。 COLORS指组成Piece的小Box的颜色，而LIGHTCOLORS是围绕在小Box周围的颜色，是为了强调出轮廓而设计的。 游戏必须知道每个类型的Piece有多少种Shape，在这里我们用在列表中嵌入含有字符串的列表来构成这个Template，一个Piece类型的Template含有了这个Piece可能变换的所有Shape。 TEMPLATEWIDTH和TEMPLATEHEIGHT则表示组成Template的行和列。 字典PIECES里面储存了所有不同的Template。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: UTF-8 -*-</span>
+<span style="color:#75715e"># tetris.py</span>
+
+<span style="color:#f92672">import</span> random<span style="color:#f92672">,</span> time<span style="color:#f92672">,</span> pygame<span style="color:#f92672">,</span> sys
+<span style="color:#f92672">from</span> pygame.locals <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+
+<span style="color:#75715e">#设置屏幕刷新率</span>
+FPS <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+<span style="color:#75715e"># 设置窗口宽度</span>
+WINDOWWIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">640</span>
+<span style="color:#75715e"># 设置窗口高度</span>
+WINDOWHEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">480</span>
+<span style="color:#75715e"># 方格大小</span>
+BOXSIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+<span style="color:#75715e"># 放置俄罗斯方块窗口的大小</span>
+BOARDWIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span> 
+BOARDHEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+<span style="color:#75715e"># 代表空的形状</span>
+BLANK <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#75715e"># 若一直按下方向左键或右键那么每0.15秒方块才会继续移动</span>
+MOVESIDEWAYSFREQ <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>
+<span style="color:#75715e"># 向下的频率</span>
+MOVEDOWNFREQ <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>
+<span style="color:#75715e"># x方向的边距</span>
+XMARGIN <span style="color:#f92672">=</span> int((WINDOWWIDTH <span style="color:#f92672">-</span> BOARDWIDTH <span style="color:#f92672">*</span> BOXSIZE) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)
+<span style="color:#75715e"># 距离窗口顶部的边距</span>
+TOPMARGIN <span style="color:#f92672">=</span> WINDOWHEIGHT <span style="color:#f92672">-</span> (BOARDHEIGHT <span style="color:#f92672">*</span> BOXSIZE) <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>
+
+<span style="color:#75715e"># 定义颜色</span>
+WHITE       <span style="color:#f92672">=</span> (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>)
+GRAY        <span style="color:#f92672">=</span> (<span style="color:#ae81ff">185</span>, <span style="color:#ae81ff">185</span>, <span style="color:#ae81ff">185</span>)
+BLACK       <span style="color:#f92672">=</span> (  <span style="color:#ae81ff">0</span>,   <span style="color:#ae81ff">0</span>,   <span style="color:#ae81ff">0</span>)
+RED         <span style="color:#f92672">=</span> (<span style="color:#ae81ff">155</span>,   <span style="color:#ae81ff">0</span>,   <span style="color:#ae81ff">0</span>)
+LIGHTRED    <span style="color:#f92672">=</span> (<span style="color:#ae81ff">175</span>,  <span style="color:#ae81ff">20</span>,  <span style="color:#ae81ff">20</span>)
+GREEN       <span style="color:#f92672">=</span> (  <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">155</span>,   <span style="color:#ae81ff">0</span>)
+LIGHTGREEN  <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">175</span>,  <span style="color:#ae81ff">20</span>)
+BLUE        <span style="color:#f92672">=</span> (  <span style="color:#ae81ff">0</span>,   <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">155</span>)
+LIGHTBLUE   <span style="color:#f92672">=</span> ( <span style="color:#ae81ff">20</span>,  <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">175</span>)
+YELLOW      <span style="color:#f92672">=</span> (<span style="color:#ae81ff">155</span>, <span style="color:#ae81ff">155</span>,   <span style="color:#ae81ff">0</span>)
+LIGHTYELLOW <span style="color:#f92672">=</span> (<span style="color:#ae81ff">175</span>, <span style="color:#ae81ff">175</span>,  <span style="color:#ae81ff">20</span>)
+BORDERCOLOR <span style="color:#f92672">=</span> BLUE
+BGCOLOR <span style="color:#f92672">=</span> BLACK
+TEXTCOLOR <span style="color:#f92672">=</span> WHITE
+TEXTSHADOWCOLOR <span style="color:#f92672">=</span> GRAY
+
+COLORS      <span style="color:#f92672">=</span> (     BLUE,      GREEN,      RED,      YELLOW)
+LIGHTCOLORS <span style="color:#f92672">=</span> (LIGHTBLUE, LIGHTGREEN, LIGHTRED, LIGHTYELLOW)
+
+<span style="color:#75715e"># 断言 每一个颜色都应该对应有亮色</span>
+<span style="color:#66d9ef">assert</span> len(COLORS) <span style="color:#f92672">==</span> len(LIGHTCOLORS)
+
+<span style="color:#75715e"># 模板的宽高</span>
+TEMPLATEWIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+TEMPLATEHEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+
+<span style="color:#75715e"># 形状_S（S旋转有2种）</span>
+S_SHAPE_TEMPLATE <span style="color:#f92672">=</span> [[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..OO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..OO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">...O.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>]]
+
+<span style="color:#75715e"># 形状_Z（Z旋转有2种）</span>
+Z_SHAPE_TEMPLATE <span style="color:#f92672">=</span> [[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..OO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.O...</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>]]
+
+<span style="color:#75715e"># 形状_I（I旋转有2种）</span>
+I_SHAPE_TEMPLATE <span style="color:#f92672">=</span> [[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">OOOO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>]]
+
+<span style="color:#75715e"># 形状_O（O旋转只有一个）</span>
+O_SHAPE_TEMPLATE <span style="color:#f92672">=</span> [[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>]]
+
+<span style="color:#75715e"># 形状_J（J旋转有4种）</span>
+J_SHAPE_TEMPLATE <span style="color:#f92672">=</span> [[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.O...</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OOO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..OO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OOO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">...O.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>]]
+
+<span style="color:#75715e"># 形状_L（L旋转有4种）</span>
+L_SHAPE_TEMPLATE <span style="color:#f92672">=</span> [[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">...O.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OOO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..OO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OOO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.O...</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>]]
+
+<span style="color:#75715e"># 形状_T（T旋转有4种）</span>
+T_SHAPE_TEMPLATE <span style="color:#f92672">=</span> [[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OOO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..OO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OOO.</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>],
+                    [<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.OO..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">..O..</span><span style="color:#e6db74">&#39;</span>,
+                     <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">.....</span><span style="color:#e6db74">&#39;</span>]]
+
+<span style="color:#75715e"># 定义一个数据结构存储对应的形状</span>
+PIECES <span style="color:#f92672">=</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">S</span><span style="color:#e6db74">&#39;</span>: S_SHAPE_TEMPLATE,
+          <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Z</span><span style="color:#e6db74">&#39;</span>: Z_SHAPE_TEMPLATE,
+          <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">J</span><span style="color:#e6db74">&#39;</span>: J_SHAPE_TEMPLATE,
+          <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">L</span><span style="color:#e6db74">&#39;</span>: L_SHAPE_TEMPLATE,
+          <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">I</span><span style="color:#e6db74">&#39;</span>: I_SHAPE_TEMPLATE,
+          <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">O</span><span style="color:#e6db74">&#39;</span>: O_SHAPE_TEMPLATE,
+          <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">T</span><span style="color:#e6db74">&#39;</span>: T_SHAPE_TEMPLATE}
+</code></pre></div><h3 id="33-main">3.3 main()方法</h3>
+<p>主函数的前部分主要创建一些全局变量和在游戏开始之前显示一个开始画面。之后是游戏主循环，循环中首先简单的随机决定采用哪个背景音乐，然后调用runGame()运行游戏，当游戏失败，runGame()就会返回到main()函数，这时会停止背景音乐并且显示游戏失败的画面。当游戏者按下任一个键，显示游戏失败的showTextScreen()函数就会返回到main()函数，游戏循环会再次开始然后继续下一次游戏。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    <span style="color:#75715e"># 定义全局变量</span>
+    <span style="color:#66d9ef">global</span> FPSCLOCK, DISPLAYSURF, BASICFONT, BIGFONT
+    <span style="color:#75715e"># 初始化pygame</span>
+    pygame<span style="color:#f92672">.</span>init()
+    <span style="color:#75715e"># 获得pygame时钟</span>
+    FPSCLOCK <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>time<span style="color:#f92672">.</span>Clock()
+    <span style="color:#75715e"># 设置窗口</span>
+    DISPLAYSURF <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+    <span style="color:#75715e"># 设置基础的字体</span>
+    BASICFONT <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>font<span style="color:#f92672">.</span>Font(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/ARBERKLEY.ttf</span><span style="color:#e6db74">&#39;</span>, <span style="color:#ae81ff">18</span>)
+    <span style="color:#75715e"># 设置大字体</span>
+    BIGFONT <span style="color:#f92672">=</span> pygame<span style="color:#f92672">.</span>font<span style="color:#f92672">.</span>Font(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">resources/ARBERKLEY.ttf</span><span style="color:#e6db74">&#39;</span>, <span style="color:#ae81ff">100</span>)
+    <span style="color:#75715e"># 窗口标题</span>
+    pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>set_caption(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Tetris</span><span style="color:#e6db74">&#39;</span>)
+    <span style="color:#75715e"># 显示开始画面</span>
+    showTextScreen(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Tetris</span><span style="color:#e6db74">&#39;</span>)
+
+    <span style="color:#75715e"># 游戏主循环</span>
+    <span style="color:#66d9ef">while</span> True:
+
+<span style="color:#75715e">#因实验楼中暂时无法播放音频，故将此段代码注释，同学们可以在自己的电脑上尝试播放</span>
+        <span style="color:#75715e"># 二选一随机播放背景音乐</span>
+<span style="color:#75715e">#        if random.randint(0, 1) == 0:</span>
+<span style="color:#75715e">#            pygame.mixer.music.load(&#39;resources/tetrisb.mid&#39;)</span>
+<span style="color:#75715e">#        else:</span>
+<span style="color:#75715e">#            pygame.mixer.music.load(&#39;resources/tetrisc.mid&#39;)</span>
+<span style="color:#75715e">#        pygame.mixer.music.play(-1, 0.0)</span>
+
+        <span style="color:#75715e"># 运行游戏</span>
+        runGame()
+        <span style="color:#75715e"># 退出游戏后，结束播放音乐</span>
+        pygame<span style="color:#f92672">.</span>mixer<span style="color:#f92672">.</span>music<span style="color:#f92672">.</span>stop()
+        <span style="color:#75715e"># 显示结束画面</span>
+        showTextScreen(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Game Over</span><span style="color:#e6db74">&#39;</span>)
+</code></pre></div><h3 id="34--2">3.4 基本模块</h3>
+<p>在开始编写runGame()方法之前，我们不妨先来定义一些基本模块，这些模块在之后都将被用到。 我们可以定义一个退出方法，以便需要的时候退出游戏：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 退出</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">terminate</span>():
+    pygame<span style="color:#f92672">.</span>quit()
+    sys<span style="color:#f92672">.</span>exit()
+</code></pre></div><p>此外，玩家可能会按键退出游戏，当玩家按下Esc键时，我们即调用刚刚定义的退出方法来退出游戏，相关监测方法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 检查是否有退出事件</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">checkForQuit</span>():
+
+    <span style="color:#75715e"># 获得所有QUIT事件</span>
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get(QUIT):
+        <span style="color:#75715e"># 若存在任何QUIT事件，则终止</span>
+        terminate()
+    <span style="color:#75715e"># 获得所有KEYUP事件</span>
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get(KEYUP):
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_ESCAPE:
+            <span style="color:#75715e"># 若KEYUP事件是Esc键，则终止</span>
+            terminate()
+        <span style="color:#75715e"># 把其他的KEYUP事件对象放回来</span>
+        pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>post(event)
+</code></pre></div><p>与此同时，我们还需要定义一个用于监测是否有按键被按下的方法，当处于开始、结束、暂停画面时，可以调用该方法，以便程序退出当前画面。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 检查是否有按键被按下</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">checkForKeyPress</span>():
+    <span style="color:#75715e"># 通过事件队列寻找KEYUP事件</span>
+    <span style="color:#75715e"># 从事件队列删除KEYDOWN事件</span>
+    checkForQuit()
+
+    <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get([KEYDOWN, KEYUP]):
+        <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> KEYDOWN:
+            <span style="color:#66d9ef">continue</span>
+        <span style="color:#66d9ef">return</span> event<span style="color:#f92672">.</span>key
+    <span style="color:#66d9ef">return</span> None
+</code></pre></div><p>考虑到我们需要在屏幕上显示文字，不妨直接创建相关方法，以便程序复用，如下，此程序接收三个参数：要显示的文字、要显示文字的字体、要显示文字的颜色，它会返回相应的文本对象，以方便使用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 创建文本绘制对象</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">makeTextObjs</span>(text, font, color):
+    surf <span style="color:#f92672">=</span> font<span style="color:#f92672">.</span>render(text, True, color)
+    <span style="color:#66d9ef">return</span> surf, surf<span style="color:#f92672">.</span>get_rect()
+</code></pre></div><p>游戏开始画面、游戏结束画面以及游戏暂停画面可用一个方法来实现，我们向该方法中传递相关的文本参数以显示相关的画面，同时我们在循环中调用之前的checkForKeyPress()方法，以监测是否有按键被按下，从而实现是否从当前画面中退出：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 显示开始、暂停、结束画面</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">showTextScreen</span>(text):
+    <span style="color:#75715e"># 这个函数用于在屏幕中央显示大文本，直到按下任意键</span>
+    <span style="color:#75715e"># 绘制文字阴影</span>
+    titleSurf, titleRect <span style="color:#f92672">=</span> makeTextObjs(text, BIGFONT, TEXTSHADOWCOLOR)
+    titleRect<span style="color:#f92672">.</span>center <span style="color:#f92672">=</span> (int(WINDOWWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), int(WINDOWHEIGHT <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>))
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(titleSurf, titleRect)
+
+    <span style="color:#75715e"># 绘制文字</span>
+    titleSurf, titleRect <span style="color:#f92672">=</span> makeTextObjs(text, BIGFONT, TEXTCOLOR)
+    titleRect<span style="color:#f92672">.</span>center <span style="color:#f92672">=</span> (int(WINDOWWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, int(WINDOWHEIGHT <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(titleSurf, titleRect)
+
+    <span style="color:#75715e"># 绘制额外的&#34;Press a key to play.&#34;文字</span>
+    pressKeySurf, pressKeyRect <span style="color:#f92672">=</span> makeTextObjs(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Press a key to play.</span><span style="color:#e6db74">&#39;</span>, BASICFONT, TEXTCOLOR)
+    pressKeyRect<span style="color:#f92672">.</span>center <span style="color:#f92672">=</span> (int(WINDOWWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), int(WINDOWHEIGHT <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">100</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(pressKeySurf, pressKeyRect)
+
+    <span style="color:#66d9ef">while</span> checkForKeyPress() <span style="color:#f92672">==</span> None:
+        pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+        FPSCLOCK<span style="color:#f92672">.</span>tick()
+</code></pre></div><p>在游戏开始之前，我们需要一个空的Board框，我们用一个二维列表表示Board框，列表中的每一项都为BLANK：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 清空Board</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getBlankBoard</span>():
+    board <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(BOARDWIDTH):
+        board<span style="color:#f92672">.</span>append([BLANK] <span style="color:#f92672">*</span> BOARDHEIGHT)
+    <span style="color:#66d9ef">return</span> board
+</code></pre></div><p>游戏运行时，每次都会有一个新的Piece从顶部落下，我们用一个字典来表示Piece，字典中的键包括Shape、相应Shape的方向、起始位置、以及颜色，获得新Piece的方法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 随机获得一个新的Piece（形状，方向，颜色）</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getNewPiece</span>():
+    shape <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>choice(list(PIECES<span style="color:#f92672">.</span>keys()))
+    newPiece <span style="color:#f92672">=</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>: shape,
+                <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>: random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, len(PIECES[shape]) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>),
+                <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>: int(BOARDWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">-</span> int(TEMPLATEWIDTH <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>), <span style="color:#75715e"># x居中</span>
+                <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>: <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>, <span style="color:#75715e"># y在屏幕的上方，小于0</span>
+                <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">color</span><span style="color:#e6db74">&#39;</span>: random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, len(COLORS)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)}
+    <span style="color:#66d9ef">return</span> newPiece
+</code></pre></div><p>获取新Piece之后，就要将它添加到Board框中，添加的原理就是将Board框中对应坐标的Box绘制成相应Piece的颜色：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 将一个Piece添加到Board中</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">addToBoard</span>(board, piece):
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(TEMPLATEWIDTH):
+        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(TEMPLATEHEIGHT):
+            <span style="color:#66d9ef">if</span> PIECES[piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>]][piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>]][y][x] <span style="color:#f92672">!=</span> BLANK:
+                board[x <span style="color:#f92672">+</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>]][y <span style="color:#f92672">+</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>]] <span style="color:#f92672">=</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">color</span><span style="color:#e6db74">&#39;</span>]
+</code></pre></div><p>当Piece着陆之后在Board外时，游戏结束，因此我们需要一个判断Board边界的方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Board边界</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isOnBoard</span>(x, y):
+    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">&gt;</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> x <span style="color:#f92672">&lt;</span> BOARDWIDTH <span style="color:#f92672">and</span> y <span style="color:#f92672">&lt;</span> BOARDHEIGHT
+</code></pre></div><p>刚刚那种判断游戏结束的方法，我们可以将其抽象出来，看成是检查Piece的当前位置是否合法，因为不光是在判断游戏结束时调用它，在调整Piece形状时也需要调用，判断调整形状后的Piece在当前位置中是否容得下。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Piece在当前的Board里是否是一个合法可用的位置</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isValidPosition</span>(board, piece, adjX<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, adjY<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>):
+    <span style="color:#75715e"># 若Piece在Board内并且无碰撞，则返回True</span>
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(TEMPLATEWIDTH):
+        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(TEMPLATEHEIGHT):
+            isAboveBoard <span style="color:#f92672">=</span> y <span style="color:#f92672">+</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> adjY <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">if</span> isAboveBoard <span style="color:#f92672">or</span> PIECES[piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>]][piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>]][y][x] <span style="color:#f92672">==</span> BLANK:
+                <span style="color:#66d9ef">continue</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isOnBoard(x <span style="color:#f92672">+</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> adjX, y <span style="color:#f92672">+</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> adjY):
+                <span style="color:#66d9ef">return</span> False
+            <span style="color:#66d9ef">if</span> board[x <span style="color:#f92672">+</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> adjX][y <span style="color:#f92672">+</span> piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> adjY] <span style="color:#f92672">!=</span> BLANK:
+                <span style="color:#66d9ef">return</span> False
+    <span style="color:#66d9ef">return</span> True
+</code></pre></div><p>此外，当游戏中某一行被填满时，我们将移除这一行，因此我们需要一个判断某行是否填满的方法，判断的原理就是看相应的这一行列表中的项是否为BLANK：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 判断当前的这行是否被全部填满</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isCompleteLine</span>(board, y):
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(BOARDWIDTH):
+        <span style="color:#66d9ef">if</span> board[x][y] <span style="color:#f92672">==</span> BLANK:
+            <span style="color:#66d9ef">return</span> False
+    <span style="color:#66d9ef">return</span> True
+</code></pre></div><p>还需要一个移除某行的方法，也就是将这一行上面的每一行都下降一行，同时还应该返回完成填满的总行数，这个值将作为玩家的分值，也就是说每成功移除一行，玩家分数加1：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 检查每一行，移除完成填满的一行，将这一行上面的所有的都下降一行，返回完成填满的总行数</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">removeCompleteLines</span>(board):
+    numLinesRemoved <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#75715e"># 从-1开始从下往上检查每一行</span>
+    y <span style="color:#f92672">=</span> BOARDHEIGHT <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> 
+    <span style="color:#66d9ef">while</span> y <span style="color:#f92672">&gt;</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>:
+        <span style="color:#66d9ef">if</span> isCompleteLine(board, y):
+            <span style="color:#66d9ef">for</span> pullDownY <span style="color:#f92672">in</span> range(y, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+                <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(BOARDWIDTH):
+                    board[x][pullDownY] <span style="color:#f92672">=</span> board[x][pullDownY<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+            <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(BOARDWIDTH):
+                board[x][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> BLANK
+            numLinesRemoved <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            y <span style="color:#f92672">-</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> numLinesRemoved
+</code></pre></div><p>随着游戏分数的越来越大，相应的等级也应越来越大，等级是当前消除行数除以10，我们假设刚开始时等级为1，随着等级的不断增大，下落频率应相应的减小，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 根据分数来计算等级和下落的频率</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calculateLevelAndFallFreq</span>(score):
+
+    level <span style="color:#f92672">=</span> int(score <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+    fallFreq <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.27</span> <span style="color:#f92672">-</span> (level <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.02</span>)
+    <span style="color:#66d9ef">return</span> level, fallFreq
+</code></pre></div><h3 id="35-rungame">3.5 runGame()方法</h3>
+<p>在游戏开始和Piece掉落之前，我们需要初始化一些跟游戏开始相关的变量。fallingPiece变量被赋值成当前掉落的变量，nextPiece变量被赋值成游戏者可以在屏幕NEXT区域看见的下一个Piece。 游戏主循环中，fallingPiece变量在Piece着陆后被设置成None。这意味着nextPiece变量中的下一个Piece应该被赋值给fallingPiece变量，然后一个随机的Piece又会被赋值给nextPiece变量。lastFallTime变量也被赋值成当前时间，这样我们就可以通过fallFreq变量控制Piece下落的频率。 事件循环主要处理当翻转方块、移动方块时或者暂停游戏时的一些事情。若游戏暂停，我们应该隐藏掉游戏界面以防止游戏者作弊（否则游戏者会看着画面思考怎么处理方块），用DISPLAYSURF.fill(BGCOLOR)就可以实现这个效果。停止按下方向键或ASD键会把movingLeft，movingRight，movingDown变量设置为False，表明游戏者不再想要在此方向上移动方块。当左方向键按下（而且往左移动是有效的，通过调用isVaildPosition()函数知道的），那么我们应该改变一个方块的位置使其向左移动一格。 如果方向键上或W键被按下，那么就会翻转方块，就是将储存在fallingPiece字典中的‘rotation’键的键值加1，然而，当增加的'rotation'键值大于所有当前类型方块的形状的数目的话（此变量储存在len(SHAPES[fallingPiece[&lsquo;shape&rsquo;]])变量中），那么它翻转到最初的形状。如果翻转后的形状因为其中的一些小方块已经超过边框的范围而无效，那么我们就要把它变回原来的形状通过将fallingPiece[&lsquo;rotation&rsquo;])减去1，同理，按Q键执行反向翻转时则是加1。 当游戏者按下空格键，方块将会迅速的下落至着陆。程序首先需要找出到它着陆需要下降个多少个格子，其中有关moving的三个变量都要被设置为False（保证程序后面部分的代码知道游戏者已经停止了按下所有的方向键）。 方块自然下落的速率由lastFallTime变量决定。如果自从上个Piece掉落了一个格子后过去了足够的时间，那么我们就会再让Piece移动一个格子。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 运行游戏</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">runGame</span>():
+
+    <span style="color:#75715e"># 在游戏开始前初始化变量</span>
+    <span style="color:#75715e"># 获得一个空的board</span>
+    board <span style="color:#f92672">=</span> getBlankBoard()
+
+    <span style="color:#75715e"># 最后向下移动的时刻</span>
+    lastMoveDownTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+    <span style="color:#75715e"># 最后侧向移动的时刻</span>
+    lastMoveSidewaysTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+    <span style="color:#75715e"># 最后的下降时间</span>
+    lastFallTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+    <span style="color:#75715e"># 是否可以  向下，向左，向右</span>
+    <span style="color:#75715e"># 注意:这里没有向上可用</span>
+    movingDown <span style="color:#f92672">=</span> False 
+    movingLeft <span style="color:#f92672">=</span> False
+    movingRight <span style="color:#f92672">=</span> False
+
+    <span style="color:#75715e"># 分数</span>
+    score <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#75715e"># 根据分数计算等级和下降的频率</span>
+    level, fallFreq <span style="color:#f92672">=</span> calculateLevelAndFallFreq(score)
+
+    <span style="color:#75715e"># 获得新的形状（当前的形状）</span>
+    fallingPiece <span style="color:#f92672">=</span> getNewPiece()
+
+    <span style="color:#75715e"># 获得下一个形状</span>
+    nextPiece <span style="color:#f92672">=</span> getNewPiece()
+
+    <span style="color:#75715e"># 游戏循环体</span>
+    <span style="color:#66d9ef">while</span> True:
+
+        <span style="color:#75715e"># 当前没有下降的形状</span>
+        <span style="color:#66d9ef">if</span> fallingPiece <span style="color:#f92672">==</span> None:
+            <span style="color:#75715e"># 重新获得新的形状和下一个形状</span>
+            fallingPiece <span style="color:#f92672">=</span> nextPiece
+            nextPiece <span style="color:#f92672">=</span> getNewPiece()
+
+            <span style="color:#75715e"># 重置最后下降的时间</span>
+            lastFallTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+            <span style="color:#75715e"># 判断界面上是否还有空位（方块是否到顶），没有则结束游戏</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isValidPosition(board, fallingPiece):
+                <span style="color:#66d9ef">return</span>
+
+        <span style="color:#75715e"># 检查是否有退出事件</span>
+        checkForQuit()
+
+        <span style="color:#75715e"># 事件处理循环</span>
+        <span style="color:#66d9ef">for</span> event <span style="color:#f92672">in</span> pygame<span style="color:#f92672">.</span>event<span style="color:#f92672">.</span>get():
+            <span style="color:#75715e"># KEYUP事件处理</span>
+            <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> KEYUP:
+                <span style="color:#75715e"># 用户按P键暂停</span>
+                <span style="color:#66d9ef">if</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_p):
+                    DISPLAYSURF<span style="color:#f92672">.</span>fill(BGCOLOR)
+                    <span style="color:#75715e">#停止音乐</span>
+                    pygame<span style="color:#f92672">.</span>mixer<span style="color:#f92672">.</span>music<span style="color:#f92672">.</span>stop()
+
+                    <span style="color:#75715e"># 显示暂停界面，直到按任意键继续</span>
+                    showTextScreen(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Paused</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e">#因实验楼中暂时无法播放音频，故将此段代码注释，同学们可以在自己的电脑上尝试播放</span>
+                    <span style="color:#75715e"># 继续循环音乐</span>
+<span style="color:#75715e">#                    pygame.mixer.music.play(-1, 0.0)</span>
+
+                    <span style="color:#75715e"># 重置各种时间</span>
+                    lastFallTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+                    lastMoveDownTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+                    lastMoveSidewaysTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_LEFT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_a):
+                    movingLeft <span style="color:#f92672">=</span> False
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_RIGHT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_d):
+                    movingRight <span style="color:#f92672">=</span> False
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_DOWN <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_s):
+                    movingDown <span style="color:#f92672">=</span> False
+
+            <span style="color:#75715e"># KEYDOWN事件处理</span>
+            <span style="color:#66d9ef">elif</span> event<span style="color:#f92672">.</span>type <span style="color:#f92672">==</span> KEYDOWN:
+
+                <span style="color:#75715e"># 左右移动piece</span>
+                <span style="color:#66d9ef">if</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_LEFT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_a) <span style="color:#f92672">and</span> isValidPosition(board, fallingPiece, adjX<span style="color:#f92672">=</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+                    fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">-</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+                    movingLeft <span style="color:#f92672">=</span> True
+                    movingRight <span style="color:#f92672">=</span> False
+                    lastMoveSidewaysTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_RIGHT <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_d) <span style="color:#f92672">and</span> isValidPosition(board, fallingPiece, adjX<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+                    fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+                    movingRight <span style="color:#f92672">=</span> True
+                    movingLeft <span style="color:#f92672">=</span> False
+                    lastMoveSidewaysTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+                <span style="color:#75715e"># UP或W键 旋转piece (在有空间旋转的前提下)</span>
+                <span style="color:#75715e"># 正向旋转</span>
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_UP <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_w):
+                    fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> (fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> len(PIECES[fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>]])
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isValidPosition(board, fallingPiece):
+                        fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> (fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> len(PIECES[fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>]])
+                <span style="color:#75715e"># Q键，反向旋转</span>
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_q):
+                    fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> (fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> len(PIECES[fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>]])
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isValidPosition(board, fallingPiece):
+                        fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> (fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> len(PIECES[fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>]])
+
+                <span style="color:#75715e"># DOWN或S键 使piece下降得更快</span>
+                <span style="color:#66d9ef">elif</span> (event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_DOWN <span style="color:#f92672">or</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_s):
+                    movingDown <span style="color:#f92672">=</span> True
+                    <span style="color:#66d9ef">if</span> isValidPosition(board, fallingPiece, adjY<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+                        fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+                    lastMoveDownTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+                <span style="color:#75715e"># 空格键，直接下降到最下面且可用的地方</span>
+                <span style="color:#66d9ef">elif</span> event<span style="color:#f92672">.</span>key <span style="color:#f92672">==</span> K_SPACE:
+                    movingDown <span style="color:#f92672">=</span> False
+                    movingLeft <span style="color:#f92672">=</span> False
+                    movingRight <span style="color:#f92672">=</span> False
+                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, BOARDHEIGHT):
+                        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isValidPosition(board, fallingPiece, adjY<span style="color:#f92672">=</span>i):
+                            <span style="color:#66d9ef">break</span>
+                    fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span><span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+
+        <span style="color:#75715e"># 根据记录的用户输入方向的变量来移动piece</span>
+        <span style="color:#66d9ef">if</span> (movingLeft <span style="color:#f92672">or</span> movingRight) <span style="color:#f92672">and</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> lastMoveSidewaysTime <span style="color:#f92672">&gt;</span> MOVESIDEWAYSFREQ:
+            <span style="color:#66d9ef">if</span> movingLeft <span style="color:#f92672">and</span> isValidPosition(board, fallingPiece, adjX<span style="color:#f92672">=</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+                fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">-</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">elif</span> movingRight <span style="color:#f92672">and</span> isValidPosition(board, fallingPiece, adjX<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+                fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+            lastMoveSidewaysTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+        <span style="color:#66d9ef">if</span> movingDown <span style="color:#f92672">and</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> lastMoveDownTime <span style="color:#f92672">&gt;</span> MOVEDOWNFREQ <span style="color:#f92672">and</span> isValidPosition(board, fallingPiece, adjY<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+            fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+            lastMoveDownTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+        <span style="color:#75715e"># 自动下降piece</span>
+        <span style="color:#66d9ef">if</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> lastFallTime <span style="color:#f92672">&gt;</span> fallFreq:
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isValidPosition(board, fallingPiece, adjY<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+                addToBoard(board, fallingPiece)
+                score <span style="color:#f92672">+</span><span style="color:#f92672">=</span> removeCompleteLines(board)
+                level, fallFreq <span style="color:#f92672">=</span> calculateLevelAndFallFreq(score)
+                fallingPiece <span style="color:#f92672">=</span> None
+            <span style="color:#66d9ef">else</span>:
+                fallingPiece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+                lastFallTime <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+
+        <span style="color:#75715e"># 绘制屏幕上的所有东西</span>
+        DISPLAYSURF<span style="color:#f92672">.</span>fill(BGCOLOR)
+        drawBoard(board)
+        drawStatus(score, level)
+        drawNextPiece(nextPiece)
+        <span style="color:#66d9ef">if</span> fallingPiece <span style="color:#f92672">!=</span> None:
+            drawPiece(fallingPiece)
+
+        pygame<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>update()
+        FPSCLOCK<span style="color:#f92672">.</span>tick(FPS)
+</code></pre></div><h3 id="36--2">3.6 绘制屏幕</h3>
+<p>之前的编程，为了简化操作，我们使用的是Board的坐标，在绘制图形之前，我们需要把Box的坐标转换为相应的像素坐标：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 根据Board的坐标转化成像素坐标</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convertToPixelCoords</span>(boxx, boxy):
+    <span style="color:#66d9ef">return</span> (XMARGIN <span style="color:#f92672">+</span> (boxx <span style="color:#f92672">*</span> BOXSIZE)), (TOPMARGIN <span style="color:#f92672">+</span> (boxy <span style="color:#f92672">*</span> BOXSIZE))
+</code></pre></div><p>绘制Box，：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 绘制Box</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawBox</span>(boxx, boxy, color, pixelx<span style="color:#f92672">=</span>None, pixely<span style="color:#f92672">=</span>None):
+    <span style="color:#75715e"># 使用Board的坐标绘制单个Box（一个Piece含有4个Box），若像素坐标pixelx、pixely被指定，则直接使用像素坐标（用于NextPiece区域）</span>
+    <span style="color:#66d9ef">if</span> color <span style="color:#f92672">==</span> BLANK:
+        <span style="color:#66d9ef">return</span>
+    <span style="color:#66d9ef">if</span> pixelx <span style="color:#f92672">==</span> None <span style="color:#f92672">and</span> pixely <span style="color:#f92672">==</span> None:
+        pixelx, pixely <span style="color:#f92672">=</span> convertToPixelCoords(boxx, boxy)
+    pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(DISPLAYSURF, COLORS[color], (pixelx <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, pixely <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, BOXSIZE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, BOXSIZE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))
+    pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(DISPLAYSURF, LIGHTCOLORS[color], (pixelx <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, pixely <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, BOXSIZE <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>, BOXSIZE <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>))
+</code></pre></div><p>绘制Board主要包括绘制Board边框、绘制Board背景以及绘制Board中的Box：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 绘制Board</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawBoard</span>(board):
+    <span style="color:#75715e"># 绘制Board边框</span>
+    pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(DISPLAYSURF, BORDERCOLOR, (XMARGIN <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, TOPMARGIN <span style="color:#f92672">-</span> <span style="color:#ae81ff">7</span>, (BOARDWIDTH <span style="color:#f92672">*</span> BOXSIZE) <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>, (BOARDHEIGHT <span style="color:#f92672">*</span> BOXSIZE) <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>), <span style="color:#ae81ff">5</span>)
+    <span style="color:#75715e"># 绘制Board背景</span>
+    pygame<span style="color:#f92672">.</span>draw<span style="color:#f92672">.</span>rect(DISPLAYSURF, BGCOLOR, (XMARGIN, TOPMARGIN, BOXSIZE <span style="color:#f92672">*</span> BOARDWIDTH, BOXSIZE <span style="color:#f92672">*</span> BOARDHEIGHT))
+    <span style="color:#75715e"># 绘制Board中的Box</span>
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(BOARDWIDTH):
+        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(BOARDHEIGHT):
+            drawBox(x, y, board[x][y])
+</code></pre></div><p>绘制分数、等级等状态信息：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 绘制游戏分数、等级信息</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawStatus</span>(score, level):
+    <span style="color:#75715e"># 绘制分数文本</span>
+    scoreSurf <span style="color:#f92672">=</span> BASICFONT<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Score: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> score, True, TEXTCOLOR)
+    scoreRect <span style="color:#f92672">=</span> scoreSurf<span style="color:#f92672">.</span>get_rect()
+    scoreRect<span style="color:#f92672">.</span>topleft <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">-</span> <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">20</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(scoreSurf, scoreRect)
+
+    <span style="color:#75715e"># 绘制等级文本</span>
+    levelSurf <span style="color:#f92672">=</span> BASICFONT<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Level: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> level, True, TEXTCOLOR)
+    levelRect <span style="color:#f92672">=</span> levelSurf<span style="color:#f92672">.</span>get_rect()
+    levelRect<span style="color:#f92672">.</span>topleft <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">-</span> <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">50</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(levelSurf, levelRect)
+</code></pre></div><p>绘制Piece:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 绘制各种形状Piece（S,Z,I,O,J,L,T）</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawPiece</span>(piece, pixelx<span style="color:#f92672">=</span>None, pixely<span style="color:#f92672">=</span>None):
+    shapeToDraw <span style="color:#f92672">=</span> PIECES[piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">shape</span><span style="color:#e6db74">&#39;</span>]][piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">rotation</span><span style="color:#e6db74">&#39;</span>]]
+    <span style="color:#66d9ef">if</span> pixelx <span style="color:#f92672">==</span> None <span style="color:#f92672">and</span> pixely <span style="color:#f92672">==</span> None:
+        <span style="color:#75715e"># 若pixelx、pixely没有被指定，则使用piece数据结构中存储的位置</span>
+        pixelx, pixely <span style="color:#f92672">=</span> convertToPixelCoords(piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">x</span><span style="color:#e6db74">&#39;</span>], piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">y</span><span style="color:#e6db74">&#39;</span>])
+
+    <span style="color:#75715e"># 绘制组成Piece的每个Box</span>
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(TEMPLATEWIDTH):
+        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(TEMPLATEHEIGHT):
+            <span style="color:#66d9ef">if</span> shapeToDraw[y][x] <span style="color:#f92672">!=</span> BLANK:
+                drawBox(None, None, piece[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">color</span><span style="color:#e6db74">&#39;</span>], pixelx <span style="color:#f92672">+</span> (x <span style="color:#f92672">*</span> BOXSIZE), pixely <span style="color:#f92672">+</span> (y <span style="color:#f92672">*</span> BOXSIZE))
+</code></pre></div><p>绘制NextPiece区域显示的内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 绘制提示信息，下一个Piece</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drawNextPiece</span>(piece):
+    <span style="color:#75715e"># 绘制&#34;Next&#34;文本</span>
+    nextSurf <span style="color:#f92672">=</span> BASICFONT<span style="color:#f92672">.</span>render(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Next:</span><span style="color:#e6db74">&#39;</span>, True, TEXTCOLOR)
+    nextRect <span style="color:#f92672">=</span> nextSurf<span style="color:#f92672">.</span>get_rect()
+    nextRect<span style="color:#f92672">.</span>topleft <span style="color:#f92672">=</span> (WINDOWWIDTH <span style="color:#f92672">-</span> <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">80</span>)
+    DISPLAYSURF<span style="color:#f92672">.</span>blit(nextSurf, nextRect)
+    <span style="color:#75715e"># 绘制NextPiece</span>
+    drawPiece(piece, pixelx<span style="color:#f92672">=</span>WINDOWWIDTH<span style="color:#f92672">-</span><span style="color:#ae81ff">120</span>, pixely<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</code></pre></div><h3 id="37-">3.7 尝试运行代码</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">__main__</span><span style="color:#e6db74">&#34;</span>:
+    main()
+</code></pre></div><p>执行 <code>python3 tetris.py</code></p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" title="贪吃蛇" target="_blank" rel="external">贪吃蛇</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> 知识共享署名 4.0 国际许可协议
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fancyElmo" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fancyElmo" target="_blank"><span class="text-dark">Elmo</span><small class="ml-1x">一只小菜鸡</small></a></h3>
+        <div>All the meetings in the world, are long goodbyes</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" title="hugo创建主题"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%8A%A8%E6%89%8B%E5%AE%9E%E6%88%98%E5%AD%A6docker/"
+                    title="动手实战学Docker"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li>
+		<a href="mailto:fancyelmo@126.com" target="_blank" title="email" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-email"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://github.com/fancyElmo" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-github"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://fancyelmo.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-rss"></i>
+		</a>
+	</li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2020
+    <div class="publishby">
+        Theme by <a href="https://github.com/fancyElmo" target="_blank"> Elmo </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/bash.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/shell.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/sql.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/python.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/javascript.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/django.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/application.js"></script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/',
+            CONTENT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </body>
+</html>

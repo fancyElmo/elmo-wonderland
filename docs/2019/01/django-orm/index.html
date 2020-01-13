@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Django ORM - 菜鸡乐园
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="字段 AutoField(Field) - int自增列，必须填入参数 primary_key=True BigAutoField(AutoField) - bigint自增列，必须填入参数 primary_key=True 注：当model中如果没有自增列，则自动会创建一个列名为id的列 from" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  
+  <link rel="icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <title>Django ORM - 菜鸡乐园</title>
+  
+
+  <link rel="stylesheet" href="https://fancyelmo.github.io/elmo-wonderland/css/style.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/monokai.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="Django ORM" />
+<meta property="og:description" content="字段 AutoField(Field) - int自增列，必须填入参数 primary_key=True BigAutoField(AutoField) - bigint自增列，必须填入参数 primary_key=True 注：当model中如果没有自增列，则自动会创建一个列名为id的列 from" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fancyelmo.github.io/elmo-wonderland/2019/01/django-orm/" />
+<meta property="article:published_time" content="2019-01-05T18:29:00+08:00" />
+<meta property="article:modified_time" content="2019-01-05T18:29:00+08:00" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/django%E5%90%8E%E5%8F%B0%E8%B7%A8%E5%9F%9F%E8%A7%A3%E5%86%B3/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E9%99%86%E4%B9%8B%E5%BE%AE%E5%8D%9A/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/pip%E6%9B%B4%E6%8D%A2%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90/" />
+
+<meta itemprop="name" content="Django ORM">
+<meta itemprop="description" content="字段 AutoField(Field) - int自增列，必须填入参数 primary_key=True BigAutoField(AutoField) - bigint自增列，必须填入参数 primary_key=True 注：当model中如果没有自增列，则自动会创建一个列名为id的列 from">
+<meta itemprop="datePublished" content="2019-01-05T18:29:00&#43;08:00" />
+<meta itemprop="dateModified" content="2019-01-05T18:29:00&#43;08:00" />
+<meta itemprop="wordCount" content="3099">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Django ORM"/>
+<meta name="twitter:description" content="字段 AutoField(Field) - int自增列，必须填入参数 primary_key=True BigAutoField(AutoField) - bigint自增列，必须填入参数 primary_key=True 注：当model中如果没有自增列，则自动会创建一个列名为id的列 from"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/fancyElmo" target="_blank">
+            <img class="img-circle img-rotate" src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">Elmo</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">一只小菜鸡</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Beijing, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/elmo-wonderland/">
+                    <i class="icon icon-jiaju"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/elmo-wonderland/posts">
+                    <i class="icon icon-book-shelf"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/elmo-wonderland/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/elmo-wonderland/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/elmo-wonderland/about">
+                    <i class="icon icon-profile"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><h2><span>Love & Peace</span><br>❤️🧡💛💚💙💜</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/tutorial/" class="category-list-link">tutorial</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" class="category-list-link">入门知识</a><span class="category-list-count">15</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%AE%9E%E9%AA%8C%E6%A5%BC/" class="category-list-link">实验楼</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%BF%AB%E7%85%A7/" class="category-list-link">快照</a><span class="category-list-count">6</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%96%99/" class="category-list-link">查询资料</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E9%98%85%E8%B5%84%E6%96%99/" class="category-list-link">查阅资料</a><span class="category-list-count">15</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/pygame/" class="tag-list-link">pygame</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/tutorial/" class="tag-list-link">tutorial</a><span
+                    class="tag-list-count">3</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled no-thumbnail">
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" class="title">Django-redis配置</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2020-01-12 18:49:03 &#43;0800 CST" itemprop="datePublished">2020-01-12</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E4%BD%BF%E7%94%A8-python-%E5%AE%9A%E5%88%B6%E8%AF%8D%E4%BA%91/" class="title">使用python定制词云</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%8A%A8%E6%89%8B%E5%AE%9E%E6%88%98%E5%AD%A6docker/" class="title">动手实战学Docker</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" class="title">贪吃蛇</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-08 19:09:00 &#43;0800 CST" itemprop="datePublished">2019-12-08</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" class="title">hugo创建主题</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-11-21 18:49:03 &#43;0800 CST" itemprop="datePublished">2019-11-21</time>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/elmo-wonderland/2019/01/django-orm/"
+    >Django ORM</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://fancyelmo.github.io/elmo-wonderland/2019/01/django-orm/" class="article-date">
+  <time datetime="2019-01-05 18:29:00 &#43;0800 CST" itemprop="datePublished">2019-01-05</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/elmo-wonderland/categories/%E6%9F%A5%E9%98%85%E8%B5%84%E6%96%99/"> 查阅资料 </a>
+</span>
+
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/elmo-wonderland/2019/01/django-orm/#comments"
+            class="article-comment-link">评论</a></span>
+		
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">
+			<i class="icon icon-number"></i>
+			字数统计:3099字
+		</span>
+		
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">
+		<i class="icon icon-hourglass"></i>
+		阅读时长:7分 
+		</span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <h3 id="heading">字段</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">AutoField(Field)
+        <span style="color:#f92672">-</span> int自增列<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">必</span><span style="color:#960050;background-color:#1e0010">须</span><span style="color:#960050;background-color:#1e0010">填</span><span style="color:#960050;background-color:#1e0010">入</span><span style="color:#960050;background-color:#1e0010">参</span><span style="color:#960050;background-color:#1e0010">数</span> primary_key<span style="color:#f92672">=</span>True
+
+    BigAutoField(AutoField)
+        <span style="color:#f92672">-</span> bigint自增列<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">必</span><span style="color:#960050;background-color:#1e0010">须</span><span style="color:#960050;background-color:#1e0010">填</span><span style="color:#960050;background-color:#1e0010">入</span><span style="color:#960050;background-color:#1e0010">参</span><span style="color:#960050;background-color:#1e0010">数</span> primary_key<span style="color:#f92672">=</span>True
+
+        <span style="color:#960050;background-color:#1e0010">注</span><span style="color:#960050;background-color:#1e0010">：</span><span style="color:#960050;background-color:#1e0010">当</span>model中如果没有自增列<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">则</span><span style="color:#960050;background-color:#1e0010">自</span><span style="color:#960050;background-color:#1e0010">动</span><span style="color:#960050;background-color:#1e0010">会</span><span style="color:#960050;background-color:#1e0010">创</span><span style="color:#960050;background-color:#1e0010">建</span><span style="color:#960050;background-color:#1e0010">一</span><span style="color:#960050;background-color:#1e0010">个</span><span style="color:#960050;background-color:#1e0010">列</span><span style="color:#960050;background-color:#1e0010">名</span><span style="color:#960050;background-color:#1e0010">为</span>id的列
+        <span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+
+        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserInfo</span>(models<span style="color:#f92672">.</span>Model):
+            <span style="color:#75715e"># 自动创建一个列名为id的且为自增的整数列</span>
+            username <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>)
+
+        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Group</span>(models<span style="color:#f92672">.</span>Model):
+            <span style="color:#75715e"># 自定义自增列</span>
+            nid <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>AutoField(primary_key<span style="color:#f92672">=</span>True)
+            name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>)
+
+    SmallIntegerField(IntegerField):
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">小</span><span style="color:#960050;background-color:#1e0010">整</span><span style="color:#960050;background-color:#1e0010">数</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">32768</span> <span style="color:#960050;background-color:#1e0010">～</span> <span style="color:#ae81ff">32767</span>
+
+    PositiveSmallIntegerField(PositiveIntegerRelDbTypeMixin, IntegerField)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">正</span><span style="color:#960050;background-color:#1e0010">小</span><span style="color:#960050;background-color:#1e0010">整</span><span style="color:#960050;background-color:#1e0010">数</span> <span style="color:#ae81ff">0</span> <span style="color:#960050;background-color:#1e0010">～</span> <span style="color:#ae81ff">32767</span>
+    IntegerField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">整</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">列</span>(<span style="color:#960050;background-color:#1e0010">有</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">号</span><span style="color:#960050;background-color:#1e0010">的</span>) <span style="color:#f92672">-</span><span style="color:#ae81ff">2147483648</span> <span style="color:#960050;background-color:#1e0010">～</span> <span style="color:#ae81ff">2147483647</span>
+
+    PositiveIntegerField(PositiveIntegerRelDbTypeMixin, IntegerField)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">正</span><span style="color:#960050;background-color:#1e0010">整</span><span style="color:#960050;background-color:#1e0010">数</span> <span style="color:#ae81ff">0</span> <span style="color:#960050;background-color:#1e0010">～</span> <span style="color:#ae81ff">2147483647</span>
+
+    BigIntegerField(IntegerField):
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">长</span><span style="color:#960050;background-color:#1e0010">整</span><span style="color:#960050;background-color:#1e0010">型</span>(<span style="color:#960050;background-color:#1e0010">有</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">号</span><span style="color:#960050;background-color:#1e0010">的</span>) <span style="color:#f92672">-</span><span style="color:#ae81ff">9223372036854775808</span> <span style="color:#960050;background-color:#1e0010">～</span> <span style="color:#ae81ff">9223372036854775807</span>
+
+    BooleanField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">布</span><span style="color:#960050;background-color:#1e0010">尔</span><span style="color:#960050;background-color:#1e0010">值</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span>
+
+    NullBooleanField(Field):
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">以</span><span style="color:#960050;background-color:#1e0010">为</span><span style="color:#960050;background-color:#1e0010">空</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">布</span><span style="color:#960050;background-color:#1e0010">尔</span><span style="color:#960050;background-color:#1e0010">值</span>
+
+    CharField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span>
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">必</span><span style="color:#960050;background-color:#1e0010">须</span><span style="color:#960050;background-color:#1e0010">提</span><span style="color:#960050;background-color:#1e0010">供</span>max_length参数<span style="color:#960050;background-color:#1e0010">，</span> max_length表示字符长度
+
+    TextField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">本</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span>
+
+    EmailField(CharField)<span style="color:#960050;background-color:#1e0010">：</span>
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">，</span>Django Admin以及ModelForm中提供验证机制
+
+    IPAddressField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">，</span>Django Admin以及ModelForm中提供验证 IPV4 <span style="color:#960050;background-color:#1e0010">机</span><span style="color:#960050;background-color:#1e0010">制</span>
+
+    GenericIPAddressField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">，</span>Django Admin以及ModelForm中提供验证 Ipv4和Ipv6
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">参</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">：</span>
+            protocol<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">用</span><span style="color:#960050;background-color:#1e0010">于</span><span style="color:#960050;background-color:#1e0010">指</span><span style="color:#960050;background-color:#1e0010">定</span>Ipv4或Ipv6<span style="color:#960050;background-color:#1e0010">，</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">both</span><span style="color:#e6db74">&#39;</span>,<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ipv4</span><span style="color:#e6db74">&#34;</span>,<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ipv6</span><span style="color:#e6db74">&#34;</span>
+            unpack_ipv4<span style="color:#960050;background-color:#1e0010">，</span> <span style="color:#960050;background-color:#1e0010">如</span><span style="color:#960050;background-color:#1e0010">果</span><span style="color:#960050;background-color:#1e0010">指</span><span style="color:#960050;background-color:#1e0010">定</span><span style="color:#960050;background-color:#1e0010">为</span>True<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">则</span><span style="color:#960050;background-color:#1e0010">输</span><span style="color:#960050;background-color:#1e0010">入</span>::ffff:<span style="color:#ae81ff">192.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2.1</span><span style="color:#960050;background-color:#1e0010">时</span><span style="color:#960050;background-color:#1e0010">候</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">解</span><span style="color:#960050;background-color:#1e0010">析</span><span style="color:#960050;background-color:#1e0010">为</span><span style="color:#ae81ff">192.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2.1</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">开</span><span style="color:#960050;background-color:#1e0010">启</span><span style="color:#960050;background-color:#1e0010">此</span><span style="color:#960050;background-color:#1e0010">功</span><span style="color:#960050;background-color:#1e0010">能</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">需</span><span style="color:#960050;background-color:#1e0010">要</span>protocol<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">both</span><span style="color:#e6db74">&#34;</span>
+
+    URLField(CharField)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">，</span>Django Admin以及ModelForm中提供验证 URL
+
+    SlugField(CharField)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">，</span>Django Admin以及ModelForm中提供验证支持 <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">母</span><span style="color:#960050;background-color:#1e0010">、</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">、</span><span style="color:#960050;background-color:#1e0010">下</span><span style="color:#960050;background-color:#1e0010">划</span><span style="color:#960050;background-color:#1e0010">线</span><span style="color:#960050;background-color:#1e0010">、</span><span style="color:#960050;background-color:#1e0010">连</span><span style="color:#960050;background-color:#1e0010">接</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#960050;background-color:#1e0010">减</span><span style="color:#960050;background-color:#1e0010">号</span><span style="color:#960050;background-color:#1e0010">）</span>
+
+    CommaSeparatedIntegerField(CharField)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">格</span><span style="color:#960050;background-color:#1e0010">式</span><span style="color:#960050;background-color:#1e0010">必</span><span style="color:#960050;background-color:#1e0010">须</span><span style="color:#960050;background-color:#1e0010">为</span><span style="color:#960050;background-color:#1e0010">逗</span><span style="color:#960050;background-color:#1e0010">号</span><span style="color:#960050;background-color:#1e0010">分</span><span style="color:#960050;background-color:#1e0010">割</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">字</span>
+
+    UUIDField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">，</span>Django Admin以及ModelForm中提供对UUID格式的验证
+
+    FilePathField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">，</span>Django Admin以及ModelForm中提供读取文件夹下文件的功能
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">参</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">：</span>
+                path,                      <span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">夹</span><span style="color:#960050;background-color:#1e0010">路</span><span style="color:#960050;background-color:#1e0010">径</span>
+                match<span style="color:#f92672">=</span>None,                <span style="color:#960050;background-color:#1e0010">正</span><span style="color:#960050;background-color:#1e0010">则</span><span style="color:#960050;background-color:#1e0010">匹</span><span style="color:#960050;background-color:#1e0010">配</span>
+                recursive<span style="color:#f92672">=</span>False,           <span style="color:#960050;background-color:#1e0010">递</span><span style="color:#960050;background-color:#1e0010">归</span><span style="color:#960050;background-color:#1e0010">下</span><span style="color:#960050;background-color:#1e0010">面</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">夹</span>
+                allow_files<span style="color:#f92672">=</span>True,          <span style="color:#960050;background-color:#1e0010">允</span><span style="color:#960050;background-color:#1e0010">许</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span>
+                allow_folders<span style="color:#f92672">=</span>False,       <span style="color:#960050;background-color:#1e0010">允</span><span style="color:#960050;background-color:#1e0010">许</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">夹</span>
+
+    FileField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">路</span><span style="color:#960050;background-color:#1e0010">径</span><span style="color:#960050;background-color:#1e0010">保</span><span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">在</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">上</span><span style="color:#960050;background-color:#1e0010">传</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#960050;background-color:#1e0010">指</span><span style="color:#960050;background-color:#1e0010">定</span><span style="color:#960050;background-color:#1e0010">目</span><span style="color:#960050;background-color:#1e0010">录</span>
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">参</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">：</span>
+            upload_to <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>      <span style="color:#960050;background-color:#1e0010">上</span><span style="color:#960050;background-color:#1e0010">传</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">保</span><span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">路</span><span style="color:#960050;background-color:#1e0010">径</span>
+            storage <span style="color:#f92672">=</span> None      <span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">储</span><span style="color:#960050;background-color:#1e0010">组</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">默</span><span style="color:#960050;background-color:#1e0010">认</span>django<span style="color:#f92672">.</span>core<span style="color:#f92672">.</span>files<span style="color:#f92672">.</span>storage<span style="color:#f92672">.</span>FileSystemStorage
+
+    ImageField(FileField)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">路</span><span style="color:#960050;background-color:#1e0010">径</span><span style="color:#960050;background-color:#1e0010">保</span><span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">在</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">上</span><span style="color:#960050;background-color:#1e0010">传</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#960050;background-color:#1e0010">指</span><span style="color:#960050;background-color:#1e0010">定</span><span style="color:#960050;background-color:#1e0010">目</span><span style="color:#960050;background-color:#1e0010">录</span>
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">参</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">：</span>
+            upload_to <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>      <span style="color:#960050;background-color:#1e0010">上</span><span style="color:#960050;background-color:#1e0010">传</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">保</span><span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">路</span><span style="color:#960050;background-color:#1e0010">径</span>
+            storage <span style="color:#f92672">=</span> None      <span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">储</span><span style="color:#960050;background-color:#1e0010">组</span><span style="color:#960050;background-color:#1e0010">件</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">默</span><span style="color:#960050;background-color:#1e0010">认</span>django<span style="color:#f92672">.</span>core<span style="color:#f92672">.</span>files<span style="color:#f92672">.</span>storage<span style="color:#f92672">.</span>FileSystemStorage
+            width_field<span style="color:#f92672">=</span>None,   <span style="color:#960050;background-color:#1e0010">上</span><span style="color:#960050;background-color:#1e0010">传</span><span style="color:#960050;background-color:#1e0010">图</span><span style="color:#960050;background-color:#1e0010">片</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">高</span><span style="color:#960050;background-color:#1e0010">度</span><span style="color:#960050;background-color:#1e0010">保</span><span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">名</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">）</span>
+            height_field<span style="color:#f92672">=</span>None   <span style="color:#960050;background-color:#1e0010">上</span><span style="color:#960050;background-color:#1e0010">传</span><span style="color:#960050;background-color:#1e0010">图</span><span style="color:#960050;background-color:#1e0010">片</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">宽</span><span style="color:#960050;background-color:#1e0010">度</span><span style="color:#960050;background-color:#1e0010">保</span><span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">名</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">符</span><span style="color:#960050;background-color:#1e0010">串</span><span style="color:#960050;background-color:#1e0010">）</span>
+
+    DateTimeField(DateField)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">日</span><span style="color:#960050;background-color:#1e0010">期</span><span style="color:#f92672">+</span><span style="color:#960050;background-color:#1e0010">时</span><span style="color:#960050;background-color:#1e0010">间</span><span style="color:#960050;background-color:#1e0010">格</span><span style="color:#960050;background-color:#1e0010">式</span> YYYY<span style="color:#f92672">-</span>MM<span style="color:#f92672">-</span>DD HH:MM[:ss[<span style="color:#f92672">.</span>uuuuuu]][TZ]
+
+    DateField(DateTimeCheckMixin, Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">日</span><span style="color:#960050;background-color:#1e0010">期</span><span style="color:#960050;background-color:#1e0010">格</span><span style="color:#960050;background-color:#1e0010">式</span>      YYYY<span style="color:#f92672">-</span>MM<span style="color:#f92672">-</span>DD
+
+    TimeField(DateTimeCheckMixin, Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">时</span><span style="color:#960050;background-color:#1e0010">间</span><span style="color:#960050;background-color:#1e0010">格</span><span style="color:#960050;background-color:#1e0010">式</span>      HH:MM[:ss[<span style="color:#f92672">.</span>uuuuuu]]
+
+    DurationField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">长</span><span style="color:#960050;background-color:#1e0010">整</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">时</span><span style="color:#960050;background-color:#1e0010">间</span><span style="color:#960050;background-color:#1e0010">间</span><span style="color:#960050;background-color:#1e0010">隔</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">按</span><span style="color:#960050;background-color:#1e0010">照</span>bigint存储<span style="color:#960050;background-color:#1e0010">，</span>ORM中获取的值为datetime<span style="color:#f92672">.</span>timedelta类型
+
+    FloatField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">浮</span><span style="color:#960050;background-color:#1e0010">点</span><span style="color:#960050;background-color:#1e0010">型</span>
+
+    DecimalField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#ae81ff">10</span><span style="color:#960050;background-color:#1e0010">进</span><span style="color:#960050;background-color:#1e0010">制</span><span style="color:#960050;background-color:#1e0010">小</span><span style="color:#960050;background-color:#1e0010">数</span>
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">参</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">：</span>
+            max_digits<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">小</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">总</span><span style="color:#960050;background-color:#1e0010">长</span><span style="color:#960050;background-color:#1e0010">度</span>
+            decimal_places<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">小</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">位</span><span style="color:#960050;background-color:#1e0010">长</span><span style="color:#960050;background-color:#1e0010">度</span>
+
+    BinaryField(Field)
+        <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">二</span><span style="color:#960050;background-color:#1e0010">进</span><span style="color:#960050;background-color:#1e0010">制</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span>
+</code></pre></div><h3 id="heading-1">自定义字段</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UnsignedIntegerField</span>(models<span style="color:#f92672">.</span>IntegerField):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">db_type</span>(self, connection):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">integer UNSIGNED</span><span style="color:#e6db74">&#39;</span>
+
+PS: <span style="color:#960050;background-color:#1e0010">返</span><span style="color:#960050;background-color:#1e0010">回</span><span style="color:#960050;background-color:#1e0010">值</span><span style="color:#960050;background-color:#1e0010">为</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">在</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">属</span><span style="color:#960050;background-color:#1e0010">性</span><span style="color:#960050;background-color:#1e0010">，</span>Django字段默认的值为<span style="color:#960050;background-color:#1e0010">：</span>
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">AutoField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">integer AUTO_INCREMENT</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">BigAutoField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bigint AUTO_INCREMENT</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">BinaryField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">longblob</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">BooleanField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bool</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">CharField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">varchar(</span><span style="color:#e6db74">%(max_length)s</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">CommaSeparatedIntegerField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">varchar(</span><span style="color:#e6db74">%(max_length)s</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">DateField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">date</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">DateTimeField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">datetime</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">DecimalField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">numeric(</span><span style="color:#e6db74">%(max_digits)s</span><span style="color:#e6db74">, </span><span style="color:#e6db74">%(decimal_places)s</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">DurationField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bigint</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">FileField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">varchar(</span><span style="color:#e6db74">%(max_length)s</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">FilePathField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">varchar(</span><span style="color:#e6db74">%(max_length)s</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">FloatField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">double precision</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">IntegerField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">integer</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">BigIntegerField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bigint</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">IPAddressField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">char(15)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">GenericIPAddressField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">char(39)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">NullBooleanField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bool</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">OneToOneField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">integer</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">PositiveIntegerField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">integer UNSIGNED</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">PositiveSmallIntegerField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">smallint UNSIGNED</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">SlugField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">varchar(</span><span style="color:#e6db74">%(max_length)s</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">SmallIntegerField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">smallint</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">TextField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">longtext</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">TimeField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">time</span><span style="color:#e6db74">&#39;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">UUIDField</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">char(32)</span><span style="color:#e6db74">&#39;</span>,
+</code></pre></div><p>栗子</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+
+<span style="color:#75715e"># Create your models here.</span>
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomeCharField</span>(models<span style="color:#f92672">.</span>Field):
+    <span style="color:#66d9ef">def</span> __init__(self,max_length,<span style="color:#f92672">*</span>args,<span style="color:#f92672">*</span><span style="color:#f92672">*</span>kwargs):
+        self<span style="color:#f92672">.</span>max_length <span style="color:#f92672">=</span> max_length
+        super(CustomeCharField,self)<span style="color:#f92672">.</span>__init__(max_length<span style="color:#f92672">=</span>max_length,<span style="color:#f92672">*</span>args,<span style="color:#f92672">*</span><span style="color:#f92672">*</span>kwargs)
+
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">db_type</span>(self,connection):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">char(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">%</span>self<span style="color:#f92672">.</span>max_length
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>(models<span style="color:#f92672">.</span>Model):
+    id <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>AutoField(primary_key<span style="color:#f92672">=</span>True)
+    title <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>)
+    cname <span style="color:#f92672">=</span> CustomeCharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>)
+</code></pre></div><h3 id="heading-2">字段参数</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">	null                <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">是</span><span style="color:#960050;background-color:#1e0010">否</span><span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">以</span><span style="color:#960050;background-color:#1e0010">为</span><span style="color:#960050;background-color:#1e0010">空</span>
+    db_column           <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">列</span><span style="color:#960050;background-color:#1e0010">名</span>
+    default             <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">默</span><span style="color:#960050;background-color:#1e0010">认</span><span style="color:#960050;background-color:#1e0010">值</span>
+    primary_key         <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">是</span><span style="color:#960050;background-color:#1e0010">否</span><span style="color:#960050;background-color:#1e0010">为</span><span style="color:#960050;background-color:#1e0010">主</span><span style="color:#960050;background-color:#1e0010">键</span>
+    db_index            <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">是</span><span style="color:#960050;background-color:#1e0010">否</span><span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">以</span><span style="color:#960050;background-color:#1e0010">建</span><span style="color:#960050;background-color:#1e0010">立</span><span style="color:#960050;background-color:#1e0010">索</span><span style="color:#960050;background-color:#1e0010">引</span>
+    unique              <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">是</span><span style="color:#960050;background-color:#1e0010">否</span><span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">以</span><span style="color:#960050;background-color:#1e0010">建</span><span style="color:#960050;background-color:#1e0010">立</span><span style="color:#960050;background-color:#1e0010">唯</span><span style="color:#960050;background-color:#1e0010">一</span><span style="color:#960050;background-color:#1e0010">索</span><span style="color:#960050;background-color:#1e0010">引</span>
+    unique_for_date     <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">【</span><span style="color:#960050;background-color:#1e0010">日</span><span style="color:#960050;background-color:#1e0010">期</span><span style="color:#960050;background-color:#1e0010">】</span><span style="color:#960050;background-color:#1e0010">部</span><span style="color:#960050;background-color:#1e0010">分</span><span style="color:#960050;background-color:#1e0010">是</span><span style="color:#960050;background-color:#1e0010">否</span><span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">以</span><span style="color:#960050;background-color:#1e0010">建</span><span style="color:#960050;background-color:#1e0010">立</span><span style="color:#960050;background-color:#1e0010">唯</span><span style="color:#960050;background-color:#1e0010">一</span><span style="color:#960050;background-color:#1e0010">索</span><span style="color:#960050;background-color:#1e0010">引</span>
+    unique_for_month    <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">【</span><span style="color:#960050;background-color:#1e0010">月</span><span style="color:#960050;background-color:#1e0010">】</span><span style="color:#960050;background-color:#1e0010">部</span><span style="color:#960050;background-color:#1e0010">分</span><span style="color:#960050;background-color:#1e0010">是</span><span style="color:#960050;background-color:#1e0010">否</span><span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">以</span><span style="color:#960050;background-color:#1e0010">建</span><span style="color:#960050;background-color:#1e0010">立</span><span style="color:#960050;background-color:#1e0010">唯</span><span style="color:#960050;background-color:#1e0010">一</span><span style="color:#960050;background-color:#1e0010">索</span><span style="color:#960050;background-color:#1e0010">引</span>
+    unique_for_year     <span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">库</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">【</span><span style="color:#960050;background-color:#1e0010">年</span><span style="color:#960050;background-color:#1e0010">】</span><span style="color:#960050;background-color:#1e0010">部</span><span style="color:#960050;background-color:#1e0010">分</span><span style="color:#960050;background-color:#1e0010">是</span><span style="color:#960050;background-color:#1e0010">否</span><span style="color:#960050;background-color:#1e0010">可</span><span style="color:#960050;background-color:#1e0010">以</span><span style="color:#960050;background-color:#1e0010">建</span><span style="color:#960050;background-color:#1e0010">立</span><span style="color:#960050;background-color:#1e0010">唯</span><span style="color:#960050;background-color:#1e0010">一</span><span style="color:#960050;background-color:#1e0010">索</span><span style="color:#960050;background-color:#1e0010">引</span>
+
+    verbose_name        Admin中显示的字段名称
+    blank               Admin中是否允许用户输入为空
+    editable            Admin中是否可以编辑
+    help_text           Admin中该字段的提示信息
+    choices             Admin中显示选择框的内容<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">用</span><span style="color:#960050;background-color:#1e0010">不</span><span style="color:#960050;background-color:#1e0010">变</span><span style="color:#960050;background-color:#1e0010">动</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">据</span><span style="color:#960050;background-color:#1e0010">放</span><span style="color:#960050;background-color:#1e0010">在</span><span style="color:#960050;background-color:#1e0010">内</span><span style="color:#960050;background-color:#1e0010">存</span><span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">从</span><span style="color:#960050;background-color:#1e0010">而</span><span style="color:#960050;background-color:#1e0010">避</span><span style="color:#960050;background-color:#1e0010">免</span><span style="color:#960050;background-color:#1e0010">跨</span><span style="color:#960050;background-color:#1e0010">表</span><span style="color:#960050;background-color:#1e0010">操</span><span style="color:#960050;background-color:#1e0010">作</span>
+                        <span style="color:#960050;background-color:#1e0010">如</span><span style="color:#960050;background-color:#1e0010">：</span>gf <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>IntegerField(choices<span style="color:#f92672">=</span>[(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">何穗</span><span style="color:#e6db74">&#39;</span>),(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">大表姐</span><span style="color:#e6db74">&#39;</span>),],default<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+
+    error_messages      <span style="color:#960050;background-color:#1e0010">自</span><span style="color:#960050;background-color:#1e0010">定</span><span style="color:#960050;background-color:#1e0010">义</span><span style="color:#960050;background-color:#1e0010">错</span><span style="color:#960050;background-color:#1e0010">误</span><span style="color:#960050;background-color:#1e0010">信</span><span style="color:#960050;background-color:#1e0010">息</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">典</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">）</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">从</span><span style="color:#960050;background-color:#1e0010">而</span><span style="color:#960050;background-color:#1e0010">定</span><span style="color:#960050;background-color:#1e0010">制</span><span style="color:#960050;background-color:#1e0010">想</span><span style="color:#960050;background-color:#1e0010">要</span><span style="color:#960050;background-color:#1e0010">显</span><span style="color:#960050;background-color:#1e0010">示</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">错</span><span style="color:#960050;background-color:#1e0010">误</span><span style="color:#960050;background-color:#1e0010">信</span><span style="color:#960050;background-color:#1e0010">息</span><span style="color:#960050;background-color:#1e0010">；</span>
+                        <span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">典</span><span style="color:#960050;background-color:#1e0010">健</span><span style="color:#960050;background-color:#1e0010">：</span>null, blank, invalid, invalid_choice,                                                 unique,unique_for_date
+                        <span style="color:#960050;background-color:#1e0010">如</span><span style="color:#960050;background-color:#1e0010">：</span>{<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">null</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">不能为空.</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">invalid</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">格式错误</span><span style="color:#e6db74">&#39;</span>}
+
+    validators          <span style="color:#960050;background-color:#1e0010">自</span><span style="color:#960050;background-color:#1e0010">定</span><span style="color:#960050;background-color:#1e0010">义</span><span style="color:#960050;background-color:#1e0010">错</span><span style="color:#960050;background-color:#1e0010">误</span><span style="color:#960050;background-color:#1e0010">验</span><span style="color:#960050;background-color:#1e0010">证</span><span style="color:#960050;background-color:#1e0010">（</span><span style="color:#960050;background-color:#1e0010">列</span><span style="color:#960050;background-color:#1e0010">表</span><span style="color:#960050;background-color:#1e0010">类</span><span style="color:#960050;background-color:#1e0010">型</span><span style="color:#960050;background-color:#1e0010">）</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#960050;background-color:#1e0010">从</span><span style="color:#960050;background-color:#1e0010">而</span><span style="color:#960050;background-color:#1e0010">定</span><span style="color:#960050;background-color:#1e0010">制</span><span style="color:#960050;background-color:#1e0010">想</span><span style="color:#960050;background-color:#1e0010">要</span><span style="color:#960050;background-color:#1e0010">的</span><span style="color:#960050;background-color:#1e0010">验</span><span style="color:#960050;background-color:#1e0010">证</span><span style="color:#960050;background-color:#1e0010">规</span><span style="color:#960050;background-color:#1e0010">则</span>
+    <span style="color:#960050;background-color:#1e0010">栗</span><span style="color:#960050;background-color:#1e0010">子</span><span style="color:#960050;background-color:#1e0010">：</span>
+    <span style="color:#f92672">from</span> django.core.validators <span style="color:#f92672">import</span> RegexValidator
+    <span style="color:#f92672">from</span> django.core.validators <span style="color:#f92672">import</span> EmailValidator,URLValidator,DecimalValidator,\
+           MaxLengthValidator,MinLengthValidator,MaxValueValidator,MinValueValidator
+    <span style="color:#960050;background-color:#1e0010">如</span><span style="color:#960050;background-color:#1e0010">：</span>
+    test <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(
+                max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>,
+                error_messages<span style="color:#f92672">=</span>{
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">c1</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">优先错信息1</span><span style="color:#e6db74">&#39;</span>,
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">c2</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">优先错信息2</span><span style="color:#e6db74">&#39;</span>,
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">c3</span><span style="color:#e6db74">&#39;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">优先错信息3</span><span style="color:#e6db74">&#39;</span>,
+                },
+                validators<span style="color:#f92672">=</span>[
+                     RegexValidator(regex<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">root_</span><span style="color:#e6db74">\</span><span style="color:#e6db74">d+</span><span style="color:#e6db74">&#39;</span>, message<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">错误了</span><span style="color:#e6db74">&#39;</span>, code<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">c1</span><span style="color:#e6db74">&#39;</span>),
+                     RegexValidator(regex<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">root_112233</span><span style="color:#e6db74">\</span><span style="color:#e6db74">d+</span><span style="color:#e6db74">&#39;</span>, message<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">又错误了</span><span style="color:#e6db74">&#39;</span>, code<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">c2</span><span style="color:#e6db74">&#39;</span>),
+                     EmailValidator(message<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">又错误了</span><span style="color:#e6db74">&#39;</span>, code<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">c3</span><span style="color:#e6db74">&#39;</span>), ]
+             )
+
+</code></pre></div><h3 id="heading-3">元信息</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserInfo</span>(models<span style="color:#f92672">.</span>Model):
+        nid <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>AutoField(primary_key<span style="color:#f92672">=</span>True)
+        username <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>)
+        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+            <span style="color:#75715e"># 数据库中生成的表名称 默认 app名称 + 下划线 + 类名</span>
+            db_table <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">table_name</span><span style="color:#e6db74">&#34;</span>
+
+            <span style="color:#75715e"># 联合索引</span>
+            index_together <span style="color:#f92672">=</span> [
+                (<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">pub_date</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">deadline</span><span style="color:#e6db74">&#34;</span>),
+            ]
+
+            <span style="color:#75715e"># 联合唯一索引</span>
+            unique_together <span style="color:#f92672">=</span> ((<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">driver</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">restaurant</span><span style="color:#e6db74">&#34;</span>),)
+
+            <span style="color:#75715e"># admin中显示的表名称</span>
+            verbose_name
+
+            <span style="color:#75715e"># verbose_name加s</span>
+            verbose_name_plural
+</code></pre></div><h3 id="heading-4">多表关系和参数</h3>
+<p>ForeignKey(ForeignObject) # ForeignObject(RelatedField)
+to,                         # 要进行关联的表名
+to_field=None,              # 要关联的表中的字段名称
+on_delete=None,             # 当删除关联表中的数据时，当前表与其关联的行的行为
+- models.CASCADE，删除关联数据，与之关联也删除
+- models.DO_NOTHING，删除关联数据，引发错误IntegrityError
+- models.PROTECT，删除关联数据，引发错误ProtectedError
+- models.SET_NULL，删除关联数据，与之关联的值设置为null（前提FK字段需要设置为可空）
+- models.SET_DEFAULT，删除关联数据，与之关联的值设置为默认值（前提FK字段需要设置默认值）
+- models.SET，删除关联数据，
+a. 与之关联的值设置为指定值，设置：models.SET(值)
+b. 与之关联的值设置为可执行对象的返回值，设置：models.SET(可执行对象)</p>
+<pre><code>                                                    def func():
+                                                        return 10
+
+                                                    class MyModel(models.Model):
+                                                        user = models.ForeignKey(
+                                                            to=&quot;User&quot;,
+                                                            to_field=&quot;id&quot;
+                                                            on_delete=models.SET(func),)
+    related_name=None,          # 反向操作时，使用的字段名，用于代替 【表名_set】 如： obj.表名_set.all()
+    related_query_name=None,    # 反向操作时，使用的连接前缀，用于替换【表名】     如： models.UserGroup.objects.filter(表名__字段名=1).values('表名__字段名')
+    limit_choices_to=None,      # 在Admin或ModelForm中显示关联数据时，提供的条件：
+                                # 如：
+                                        - limit_choices_to={'nid__gt': 5}
+                                        - limit_choices_to=lambda : {'nid__gt': 5}
+
+                                        from django.db.models import Q
+                                        - limit_choices_to=Q(nid__gt=10)
+                                        - limit_choices_to=Q(nid=8) | Q(nid__gt=10)
+                                        - limit_choices_to=lambda : Q(Q(nid=8) | Q(nid__gt=10)) &amp; Q(caption='root')
+    db_constraint=True          # 是否在数据库中创建外键约束
+    parent_link=False           # 在Admin中是否显示关联数据
+
+
+OneToOneField(ForeignKey)
+    to,                         # 要进行关联的表名
+    to_field=None               # 要关联的表中的字段名称
+    on_delete=None,             # 当删除关联表中的数据时，当前表与其关联的行的行为
+
+                                ###### 对于一对一 ######
+                                # 1. 一对一其实就是 一对多 + 唯一索引
+                                # 2.当两个类之间有继承关系时，默认会创建一个一对一字段
+                                # 如下会在A表中额外增加一个c_ptr_id列且唯一：
+                                        class C(models.Model):
+                                            nid = models.AutoField(primary_key=True)
+                                            part = models.CharField(max_length=12)
+
+                                        class A(C):
+                                            id = models.AutoField(primary_key=True)
+                                            code = models.CharField(max_length=1)
+
+ManyToManyField(RelatedField)
+    to,                         # 要进行关联的表名
+    related_name=None,          # 反向操作时，使用的字段名，用于代替 【表名_set】 如： obj.表名_set.all()
+    related_query_name=None,    # 反向操作时，使用的连接前缀，用于替换【表名】     如： models.UserGroup.objects.filter(表名__字段名=1).values('表名__字段名')
+    limit_choices_to=None,      # 在Admin或ModelForm中显示关联数据时，提供的条件：
+                                # 如：
+                                        - limit_choices_to={'nid__gt': 5}
+                                        - limit_choices_to=lambda : {'nid__gt': 5}
+
+                                        from django.db.models import Q
+                                        - limit_choices_to=Q(nid__gt=10)
+                                        - limit_choices_to=Q(nid=8) | Q(nid__gt=10)
+                                        - limit_choices_to=lambda : Q(Q(nid=8) | Q(nid__gt=10)) &amp; Q(caption='root')
+    symmetrical=None,           # 仅用于多对多自关联时，symmetrical用于指定内部是否创建反向操作的字段
+                                # 做如下操作时，不同的symmetrical会有不同的可选字段
+                                    models.BB.objects.filter(...)
+
+                                    # 可选字段有：code, id, m1
+                                        class BB(models.Model):
+
+                                        code = models.CharField(max_length=12)
+                                        m1 = models.ManyToManyField('self',symmetrical=True)
+
+                                    # 可选字段有: bb, code, id, m1
+                                        class BB(models.Model):
+
+                                        code = models.CharField(max_length=12)
+                                        m1 = models.ManyToManyField('self',symmetrical=False)
+
+    through=None,               # 自定义第三张表时，使用字段用于指定关系表
+    through_fields=None,        # 自定义第三张表时，使用字段用于指定关系表中那些字段做多对多关系表
+                                    from django.db import models
+
+                                    class Person(models.Model):
+                                        name = models.CharField(max_length=50)
+
+                                    class Group(models.Model):
+                                        name = models.CharField(max_length=128)
+                                        members = models.ManyToManyField(
+                                            Person,
+                                            through='Membership',
+                                            through_fields=('group', 'person'),
+                                        )
+
+                                    class Membership(models.Model):
+                                        group = models.ForeignKey(Group, on_delete=models.CASCADE)
+                                        person = models.ForeignKey(Person, on_delete=models.CASCADE)
+                                        inviter = models.ForeignKey(
+                                            Person,
+                                            on_delete=models.CASCADE,
+                                            related_name=&quot;membership_invites&quot;,
+                                        )
+                                        invite_reason = models.CharField(max_length=64)
+    db_constraint=True,         # 是否在数据库中创建外键约束
+    db_table=None,              # 默认创建第三张表时，数据库中表的名称
+</code></pre>
+<p><a href="https://blog.csdn.net/u013210620/article/details/79182870">https://blog.csdn.net/u013210620/article/details/79182870</a></p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://fancyelmo.github.io/elmo-wonderland/2019/01/django-orm/" title="Django ORM" target="_blank" rel="external">Django ORM</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> 知识共享署名 4.0 国际许可协议
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fancyElmo" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fancyElmo" target="_blank"><span class="text-dark">Elmo</span><small class="ml-1x">一只小菜鸡</small></a></h3>
+        <div>All the meetings in the world, are long goodbyes</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2018/11/django-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" title="Django 文件上传"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/01/django%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%97%E6%AE%B5%E5%B1%9E%E6%80%A7choice%E4%BD%BF%E7%94%A8/"
+                    title="Django模型中字段属性choice使用"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li>
+		<a href="mailto:fancyelmo@126.com" target="_blank" title="email" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-email"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://github.com/fancyElmo" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-github"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://fancyelmo.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-rss"></i>
+		</a>
+	</li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2020
+    <div class="publishby">
+        Theme by <a href="https://github.com/fancyElmo" target="_blank"> Elmo </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/bash.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/shell.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/sql.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/python.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/javascript.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/django.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/application.js"></script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/',
+            CONTENT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </body>
+</html>

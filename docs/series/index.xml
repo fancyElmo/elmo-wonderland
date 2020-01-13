@@ -5,9 +5,19 @@
     <link>https://fancyelmo.github.io/elmo-wonderland/series/</link>
     <description>Recent content in Series on 菜鸡乐园</description>
     <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 12 Jan 2020 18:49:03 +0800</lastBuildDate>
     
         <atom:link href="https://fancyelmo.github.io/elmo-wonderland/series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Django-redis配置</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/</link>
+      <pubDate>Sun, 12 Jan 2020 18:49:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/</guid>
+      <description>Django-redis 安装 pip install django-redis 在settings.py 下配置 CACHES = { &amp;#34;default&amp;#34;: { &amp;#34;BACKEND&amp;#34;: &amp;#34;django_redis.cache.RedisCache&amp;#34;, &amp;#34;LOCATION&amp;#34;: &amp;#34;redis://127.0.0.1:6379&amp;#34;, &amp;#34;OPTIONS&amp;#34;: { &amp;#34;CLIENT_CLASS&amp;#34;: &amp;#34;django_redis.client.DefaultClient&amp;#34;, &amp;#34;CONNECTION_POOL_KWARGS&amp;#34;: {&amp;#34;max_connections&amp;#34;: 100} # &amp;#34;PASSWORD&amp;#34;: &amp;#34;密码&amp;#34;, } } } demo ---views.py--- from django.core.cache import cache def get(request): cache.set(&amp;#39;key&amp;#39;, &amp;#39;value&amp;#39;, timeout) def post(request): tmp =</description>
+    </item>
     
     <item>
       <title>About Myself</title>
@@ -34,6 +44,150 @@
       
       <guid>https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%8A%A8%E6%89%8B%E5%AE%9E%E6%88%98%E5%AD%A6docker/</guid>
       <description>Docker 概念及基本用法 1. 课程说明 课程为纯动手实验教程，为了能说清楚实验中的一些操作会加入理论内容。理论内容我们不会写太多，已经有太多好文章了，会精</description>
+    </item>
+    
+    <item>
+      <title>贪吃蛇</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/</link>
+      <pubDate>Sun, 08 Dec 2019 19:09:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/</guid>
+      <description>Pygame基础讲解 一、实验介绍 1.1 实验内容 在本节课中，我们将讲解Pygame的常用对象及其操作，包括图形、动画、文字、音频等，确保同学们对P</description>
+    </item>
+    
+    <item>
+      <title>hugo创建主题</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Thu, 21 Nov 2019 18:49:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/</guid>
+      <description>&lt;p&gt;This tutorial will show you how to create a simple theme in Hugo&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Django后台跨域解决</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/10/django%E5%90%8E%E5%8F%B0%E8%B7%A8%E5%9F%9F%E8%A7%A3%E5%86%B3/</link>
+      <pubDate>Thu, 24 Oct 2019 17:14:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/10/django%E5%90%8E%E5%8F%B0%E8%B7%A8%E5%9F%9F%E8%A7%A3%E5%86%B3/</guid>
+      <description>Django后台跨域解决 首先安装corsheaders pip install django-cors-headers 配置跨域 # ---settings.py--- # 注册应用 INSTALLED_APPS = { ... &amp;#39;corsheaders&amp;#39;, ... } # 中间层 MIDDLEWARE = { ... &amp;#39;django.middleware.common.CommonMiddleware&amp;#39;, # 注意顺序 &amp;#39;corsheaders.middleware.CorsMiddleware&amp;#39;, ... } # 添加白名</description>
+    </item>
+    
+    <item>
+      <title> 第三方登陆之微博</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E9%99%86%E4%B9%8B%E5%BE%AE%E5%8D%9A/</link>
+      <pubDate>Wed, 16 Oct 2019 11:20:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E9%99%86%E4%B9%8B%E5%BE%AE%E5%8D%9A/</guid>
+      <description>第三方登陆之微博 获取第三方登陆平台开发应用的APP KEY 和 APP SECRET 码 App Key：2353060136 App Secret：624a8065fbc33c6f0</description>
+    </item>
+    
+    <item>
+      <title>pip更换镜像源</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/10/pip%E6%9B%B4%E6%8D%A2%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90/</link>
+      <pubDate>Fri, 04 Oct 2019 09:49:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/10/pip%E6%9B%B4%E6%8D%A2%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90/</guid>
+      <description>linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url至tuna，内容如下： [global] index-url = https://pypi.tuna.tsinghua.edu.cn/simple windows下，直接在user目录中创建一个p</description>
+    </item>
+    
+    <item>
+      <title>MongoDB简介</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/09/mongo%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Thu, 19 Sep 2019 15:23:13 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/09/mongo%E7%AE%80%E4%BB%8B/</guid>
+      <description>NoSQL 是什么 NoSQL，指的是非关系型的数据库。NoSQL有时也称作Not Only SQL的缩写，用于超大规模数据的存储。 Why NoSQL 用户的个人信息，社交网络，</description>
+    </item>
+    
+    <item>
+      <title>conda基本命令</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/09/conda%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Wed, 18 Sep 2019 19:14:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/09/conda%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</guid>
+      <description># 更新conda conda update conda # 获取帮助 conda --help # 创建虚拟环境 conda create --name env_name [python=version] # 查看当前所有虚拟环境 conda env list # 进入虚拟环境 activate env_name # 退出虚拟环境 deactivate # 删除环境 conda remove --name env_name</description>
+    </item>
+    
+    <item>
+      <title>安装MongoDB</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/09/%E5%AE%89%E8%A3%85-mongodb/</link>
+      <pubDate>Thu, 12 Sep 2019 16:09:08 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/09/%E5%AE%89%E8%A3%85-mongodb/</guid>
+      <description>1. 安装 MongoDB 社区版 Service Configuration 步骤中，使用默认的 Run service as Network Service user 即可。下方可以选择数据库和日志存储的地址，通用使用默认即可。 Install MongoDB Compass 步骤中，取消左下角勾选。M</description>
+    </item>
+    
+    <item>
+      <title> Node.js 安装</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/09/node.js-%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Tue, 03 Sep 2019 20:47:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/09/node.js-%E5%AE%89%E8%A3%85/</guid>
+      <description>Node.js 安装 安装到指定位置 改变原有环境变量 首先配置npm的全局模块的存放路径、cache的路径 npm config set prefix &amp;#34;F:\nodejs\node_global&amp;#34; npm config set cache &amp;#34;F:\nodejs\node_cache&amp;#34; 在命令行输入命令来安装expre</description>
+    </item>
+    
+    <item>
+      <title>RabbitMQ安装</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/08/rabbitmq%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Thu, 29 Aug 2019 18:00:03 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/rabbitmq%E5%AE%89%E8%A3%85/</guid>
+      <description>一、安装思路 安装erlang 安装socat 安装rabbitmq 相关配置 二、具体步骤 1.安装erlang 下载:wget http://repo.iotti.biz/CentOS/7/x86_64/socat-1.7.3.2-5.el7.lux.x86_64.rpm 安装: rpm -ivh socat-1.7.3.2-5.el7.lux.x86_64.rpm 2.安装s</description>
+    </item>
+    
+    <item>
+      <title>Django模板笔记</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E6%A8%A1%E6%9D%BF%E6%B8%B2%E6%9F%93/</link>
+      <pubDate>Sat, 03 Aug 2019 10:20:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E6%A8%A1%E6%9D%BF%E6%B8%B2%E6%9F%93/</guid>
+      <description>django中使用模板首先要新键一个模板文件夹 templates，然后在配置文件中设置模板文件的路径 &#39;DIRS&#39;: [os.path.join(BASE_DIR, &#39;templates&#39;)] 视图函数中，使用render()代</description>
+    </item>
+    
+    <item>
+      <title>Django入门笔记</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 03 Aug 2019 10:00:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E7%AC%94%E8%AE%B0/</guid>
+      <description>修改配置文件 避免使用关键子来，创建py文件、文件夹，等等(admin, django,this, that, test) 注册子应用 INSTALLED_APPS = [ &amp;#39;goods&amp;#39; # 子应用名字 ] 注释掉CSRF MIDDLEWARE = [ &amp;#39;django.middleware.security.SecurityMiddleware&amp;#39;, &amp;#39;django.contrib.sessions.middleware.SessionMiddleware&amp;#39;, &amp;#39;django.middleware.common.CommonMiddleware&amp;#39;, # &amp;#39;django.middleware.csrf.CsrfViewMiddleware&amp;#39;, &amp;#39;django.contrib.auth.middleware.AuthenticationMiddleware&amp;#39;,</description>
+    </item>
+    
+    <item>
+      <title>Django的Hello World</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E7%9A%84helloworld/</link>
+      <pubDate>Fri, 02 Aug 2019 10:30:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E7%9A%84helloworld/</guid>
+      <description>django中的视图函数写在子项目中的 views.py 文件中，函数包含一个参数，接收页面请求头。HttpResponse 可以返回信息。Django的路由都</description>
+    </item>
+    
+    <item>
+      <title>Django的安装与配置</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 02 Aug 2019 09:52:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</guid>
+      <description>安装 安装Django包 pip install django==2.1.4 检测是否安装以及查看Django版本 python -m django --version 生成项目文件 django-admin startproject 项目名 # 命令执行后会在当前定位位置生成项目目录，且自</description>
+    </item>
+    
+    <item>
+      <title>pycharm语法检测配置</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/08/pycharm%E6%A3%80%E6%B5%8B%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Thu, 01 Aug 2019 13:55:11 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/pycharm%E6%A3%80%E6%B5%8B%E8%AE%BE%E7%BD%AE/</guid>
+      <description>去掉拼音检查 file–&amp;gt;setting–&amp;gt;editor–&amp;gt;Inspections–&amp;gt;Spelling–&amp;gt;Typ</description>
+    </item>
+    
+    <item>
+      <title>Vue拦截器</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/07/vue-%E6%8B%A6%E6%88%AA%E5%99%A8/</link>
+      <pubDate>Sat, 27 Jul 2019 23:08:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/07/vue-%E6%8B%A6%E6%88%AA%E5%99%A8/</guid>
+      <description>路由拦截器 route与router route：相当于当前正在跳转的路由对象。可以从里面获取name，path，params，query等。 如</description>
     </item>
     
   </channel>

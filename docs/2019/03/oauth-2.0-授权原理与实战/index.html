@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        OAuth 2.0 授权原理 - 菜鸡乐园
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="一、课程介绍 1. 内容简介 OAuth 2.0 是时下最流行的授权认证方式，其典型的应用有第三方账号登录，获取认证开发第三方应用等。本课程的前半段主要讲解 OAuth 2.0 授权" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  
+  <link rel="icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <title>OAuth 2.0 授权原理 - 菜鸡乐园</title>
+  
+
+  <link rel="stylesheet" href="https://fancyelmo.github.io/elmo-wonderland/css/style.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/monokai.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="OAuth 2.0 授权原理" />
+<meta property="og:description" content="一、课程介绍 1. 内容简介 OAuth 2.0 是时下最流行的授权认证方式，其典型的应用有第三方账号登录，获取认证开发第三方应用等。本课程的前半段主要讲解 OAuth 2.0 授权" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fancyelmo.github.io/elmo-wonderland/2019/03/oauth-2.0-%E6%8E%88%E6%9D%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98/" />
+<meta property="article:published_time" content="2019-03-02T22:36:23+08:00" />
+<meta property="article:modified_time" content="2019-03-02T22:36:23+08:00" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/django%E5%90%8E%E5%8F%B0%E8%B7%A8%E5%9F%9F%E8%A7%A3%E5%86%B3/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E9%99%86%E4%B9%8B%E5%BE%AE%E5%8D%9A/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/pip%E6%9B%B4%E6%8D%A2%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90/" />
+
+<meta itemprop="name" content="OAuth 2.0 授权原理">
+<meta itemprop="description" content="一、课程介绍 1. 内容简介 OAuth 2.0 是时下最流行的授权认证方式，其典型的应用有第三方账号登录，获取认证开发第三方应用等。本课程的前半段主要讲解 OAuth 2.0 授权">
+<meta itemprop="datePublished" content="2019-03-02T22:36:23&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-02T22:36:23&#43;08:00" />
+<meta itemprop="wordCount" content="4557">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OAuth 2.0 授权原理"/>
+<meta name="twitter:description" content="一、课程介绍 1. 内容简介 OAuth 2.0 是时下最流行的授权认证方式，其典型的应用有第三方账号登录，获取认证开发第三方应用等。本课程的前半段主要讲解 OAuth 2.0 授权"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/fancyElmo" target="_blank">
+            <img class="img-circle img-rotate" src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">Elmo</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">一只小菜鸡</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Beijing, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/elmo-wonderland/">
+                    <i class="icon icon-jiaju"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/elmo-wonderland/posts">
+                    <i class="icon icon-book-shelf"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/elmo-wonderland/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/elmo-wonderland/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/elmo-wonderland/about">
+                    <i class="icon icon-profile"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><h2><span>Love & Peace</span><br>❤️🧡💛💚💙💜</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/tutorial/" class="category-list-link">tutorial</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" class="category-list-link">入门知识</a><span class="category-list-count">15</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%AE%9E%E9%AA%8C%E6%A5%BC/" class="category-list-link">实验楼</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%BF%AB%E7%85%A7/" class="category-list-link">快照</a><span class="category-list-count">6</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%96%99/" class="category-list-link">查询资料</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E9%98%85%E8%B5%84%E6%96%99/" class="category-list-link">查阅资料</a><span class="category-list-count">15</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/pygame/" class="tag-list-link">pygame</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/tutorial/" class="tag-list-link">tutorial</a><span
+                    class="tag-list-count">3</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled no-thumbnail">
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" class="title">Django-redis配置</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2020-01-12 18:49:03 &#43;0800 CST" itemprop="datePublished">2020-01-12</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E4%BD%BF%E7%94%A8-python-%E5%AE%9A%E5%88%B6%E8%AF%8D%E4%BA%91/" class="title">使用python定制词云</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%8A%A8%E6%89%8B%E5%AE%9E%E6%88%98%E5%AD%A6docker/" class="title">动手实战学Docker</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" class="title">贪吃蛇</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-08 19:09:00 &#43;0800 CST" itemprop="datePublished">2019-12-08</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" class="title">hugo创建主题</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-11-21 18:49:03 &#43;0800 CST" itemprop="datePublished">2019-11-21</time>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/elmo-wonderland/2019/03/oauth-2.0-%E6%8E%88%E6%9D%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98/"
+    >OAuth 2.0 授权原理</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://fancyelmo.github.io/elmo-wonderland/2019/03/oauth-2.0-%E6%8E%88%E6%9D%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98/" class="article-date">
+  <time datetime="2019-03-02 22:36:23 &#43;0800 CST" itemprop="datePublished">2019-03-02</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/elmo-wonderland/categories/%E5%AE%9E%E9%AA%8C%E6%A5%BC/"> 实验楼 </a>
+</span>
+
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/elmo-wonderland/2019/03/oauth-2.0-%E6%8E%88%E6%9D%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98/#comments"
+            class="article-comment-link">评论</a></span>
+		
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">
+			<i class="icon icon-number"></i>
+			字数统计:4557字
+		</span>
+		
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">
+		<i class="icon icon-hourglass"></i>
+		阅读时长:10分 
+		</span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <h1 id="heading">一、课程介绍</h1>
+<h4 id="1-">1. 内容简介</h4>
+<p>OAuth 2.0 是时下最流行的授权认证方式，其典型的应用有第三方账号登录，获取认证开发第三方应用等。本课程的前半段主要讲解 OAuth 2.0 授权的原理。后半段则会基于 Flask 与 Github 授权接口实现一个第三方留言本应用。</p>
+<h4 id="2-">2. 课程知识点</h4>
+<p>本课程项目完成过程中，我们将学习：</p>
+<ol>
+<li>OAuth 2.0 授权认证的流程</li>
+<li>OAuth 2.0 授权代码的编写</li>
+<li>基于 flask + mongodb 实现一个简单的第三方留言本应用</li>
+</ol>
+<h4 id="3-">3. 效果图</h4>
+<p>清空缓存后尝试发布一条新留言：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473141098750.png/wm" alt="1-1-1"></p>
+<p>点击发表后跳转到授权页：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473141205894.png/wm" alt="1-1-2"></p>
+<p>授权页的图其实是应用的 logo，没有设置应用 logo 的话就会使用应用作者的头像。</p>
+<p>发表后：</p>
+<p>我用另一个账号发表了一条留言。</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473141291080.png/wm" alt="1-1-3"></p>
+<h1 id="heading-1">二、实验环境</h1>
+<p>打开终端，进入 <code>Code</code> 目录，创建 <code>oauth2.0</code> 文件夹, 并将其作为我们的工作目录。</p>
+<h1 id="oauth-20-">三、OAuth 2.0 授权原理</h1>
+<ul>
+<li><strong>什么是 OAuth 2.0</strong></li>
+</ul>
+<p>OAuth 2.0 目前广泛使用的授权认证协议，它使得第三方应用能够在不必得到用户账号密码的情况下通过申请授权（也就是取得用户和服务商的同意）来访问到用户的私人资源。当第三方应用申请授权成功时，它会得到一个访问资源用的 token（以下简称访问 token），之后便可使用访问 token 来获取资源了。</p>
+<ul>
+<li><strong>OAuth 2.0 有四种授权类型：</strong></li>
+</ul>
+<ol>
+<li>授权码授权（适用于 Web 应用）</li>
+<li>隐式授权 （适用于移动应用）</li>
+<li>用户密码授权 （不推荐使用）</li>
+<li>客户端授权 (适用于后端应用)</li>
+</ol>
+<p>接下来从简单到复杂依次讲解这四种授权类型。</p>
+<h3 id="31-">3.1 客户端授权</h3>
+<p>客户端授权类型是四种授权类型里流程最简单的。因为这种类型的目的并不是为了获取用户的私人资源，而是客户端自身希望通过授权得到访问 token 来访问服务提供者提供的服务接口。</p>
+<p>认证流程如下图（参考：https://tools.ietf.org/html/rfc6749#section-4.4 ）：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473142625259.png/wm" alt="1-3.1-1"></p>
+<ol>
+<li>客户端发送授权用的凭证给执行授权的服务器</li>
+<li>授权服务器返回访问 token 给客户端</li>
+</ol>
+<p>授权认证所需的凭证一般就是一个 <code>client_id</code> 和一个 <code>client_key</code>，你在服务提供者（各类开放平台）那里申请创建应用时就会得到，它提供给你的 id 和 key 也可能会叫 API Key，Secret Key 等，这就需要你阅读该平台的文档进行确认了。</p>
+<h3 id="32-">3.2 用户密码授权</h3>
+<p>用户密码授权类型需要用户提供账号密码给第三方应用。这种方式过于邪恶所以不推荐使用。</p>
+<p>认证流程如下图（参考：https://tools.ietf.org/html/rfc6749#section-4.3 ）：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473142891043.png/wm" alt="1-3.2-1"></p>
+<ol>
+<li>客户端从用户那里得到用户名和用户密码</li>
+<li>客户端发送授权用的凭证给授权服务器</li>
+<li>授权服务器返回访问 token 给客户端</li>
+</ol>
+<p>这种方式下的认证凭证就是用户名与用户密码。</p>
+<h3 id="33-">3.3 隐式授权</h3>
+<p>隐式授权可以理解为简化版的授权码授权，它通过浏览器将用户导向授权页面，用户授权后就会重定向到你指定的页面 URI。授权服务器会在重定向的 URI 的最后接上一个包含了访问 token 的 fragment，fragment 举个例子就是 <code>http://www.example.org/foo.html#bar</code> 里的 <code>#bar</code>，最后你通过重定向后的页面里的 js 脚本拿到这个 token 再传给应用客户端。</p>
+<p>认证流程如下图（参考：https://tools.ietf.org/html/rfc6749#section-4.2 ）：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473144419006.png/wm" alt="1-3.3-1"></p>
+<p>（User-Agent 大多指浏览器，Client 指应用客户端）</p>
+<p>（这里需要说明一下：一般我们说后台是服务器，浏览器是客户端。但是实际上应该这么理解：享受服务的那一方叫客户端，提供服务的那一方叫服务端）</p>
+<ol>
+<li>应用客户端通过浏览器将用户导向授权页面</li>
+<li>用户授权</li>
+<li>授权服务器返回重定向 URI，并在 URI 上携带访问 token</li>
+<li>浏览器访问重定向 URI（不包含访问 token，但实际上 token 已经保存在浏览器本地了）</li>
+<li>通过页面的 js 脚本获取访问 token</li>
+<li>将访问 token 传给应用客户端</li>
+</ol>
+<h3 id="34-">3.4 授权码授权</h3>
+<p>授权码授权需要先获得授权码再获取访问 token。</p>
+<p>认证流程如下图（参考：https://tools.ietf.org/html/rfc6749#section-4.1 ）：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473143542722.png/wm" alt="1-3.4-1"></p>
+<ol>
+<li>应用客户端通过浏览器将用户导向授权页面</li>
+<li>用户授权</li>
+<li>授权服务器返回授权码</li>
+<li>应用客户端使用授权码作为授权凭证，重定向 URI 作为辅助验证向授权服务器请求访问 token</li>
+<li>授权服务器返回访问 token （可能附带刷新 token）给应用客户端</li>
+</ol>
+<p>访问 token 的使用一般都有时间限制，刷新 token 可用来获取新的访问 token（不需要用户再次授权）。</p>
+<p>到目前为止还没有提到认证过程中的那些 http 报文要如何构造。没有提是怕导致阅读时不连贯，容易打断思路。而且虽然协议是规定好的，但是各大网站对协议的实现都是有差异的，有兴趣的同学可以参考这篇博文：<a href="https://blog.yorkxin.org/2013/09/30/oauth2-implementation-differences-among-famous-sites">各大網站 OAuth 2.0 實作差異</a>。所以具体还是要通过阅读别人家的文档才知道报文该如何构造。在实战部分，笔者会带大家阅读 Github 的 API 文档，通过这种方式来学习 OAuth 2.0 中报文的构造。</p>
+<h1 id="heading-2">四、项目实战</h1>
+<ul>
+<li>项目架构</li>
+</ul>
+<p>因为本项目主要是为了新手快速上手 OAuth 2.0 授权用的，为了避免其它的学习成本，选用的都是简单易用的数据库和 Python 库，这些我都会给出文档地址。不过不阅读文档也不影响实验进行，因为它们的代码都属于你看一眼就知道是在做什么的。</p>
+<p>后台数据库用 Mongodb，不用手动创建数据库，NoSQL，操作 Mongodb 就跟操作词典一样简单。</p>
+<p>使用的 Python 库如下：</p>
+<blockquote>
+<ul>
+<li>flask ：轻量级 Python 框架，如果没学过它，还是建议通过 <a href="http://dormousehole.readthedocs.io/en/latest/quickstart.html">Flask - 快速上手</a> 快速入门一下。</li>
+<li>flask_pymongo：flask 下操作 mongodb 数据库的库，<a href="https://flask-pymongo.readthedocs.io/en/latest/">官方文档</a></li>
+<li>requests_oauthlib：一个对人类友好的 oauth 库，<a href="https://requests-oauthlib.readthedocs.io/en/latest/index.html">官方文档</a></li>
+</ul>
+</blockquote>
+<ul>
+<li>项目环境</li>
+</ul>
+<p>首先下载项目需要的资料包：</p>
+<pre><code>$ wget http://labfile.oss.aliyuncs.com/courses/644/material.zip
+$ unzip material.zip
+$ rm -rf material.zip __MACOSX
+</code></pre><p>资料包的内容如下：</p>
+<pre><code>.
+├── requirements.txt
+├── ssl.crt
+├── ssl.key
+├── static
+│   ├── css
+│   │   └── style.css
+│   └── image
+│       └── bg2.jpg
+└── templates
+    └── index.html
+</code></pre><ul>
+<li><code>static</code> 与 <code>templates</code> 是关于网页模板的文件，这里直接给出。</li>
+<li><code>ssl.crt</code> 与 <code>ssl.key</code> 是为了使用 https 协议所需要的文件，你也可以自己生成。参考这个网址： <a href="http://werkzeug.pocoo.org/docs/0.14/serving/#ssl">http://werkzeug.pocoo.org</a></li>
+<li><code>requrements.txt</code> 包含了所需要安装的库。</li>
+</ul>
+<p>安装 mongodb：</p>
+<pre><code>$ sudo apt-get install mongodb
+</code></pre><p>项目代码是 python2 与 python3 通用的，同学可以根据自己的喜好来搭建环境：</p>
+<p>Python2：</p>
+<pre><code>$ sudo pip install virtualenv
+$ virtualenv venv
+$ source venv/bin/activate
+$ pip install -r requirements.txt
+</code></pre><p>Python3：</p>
+<pre><code>$ sudo pip3 install virtualenv
+$ virtualenv -p python3 venv3
+$ source venv3/bin/activate
+$ pip3 install -r requirements.txt
+</code></pre><h3 id="41-github-oauth-20-">4.1 Github Oauth 2.0 接口</h3>
+<p>下面我们通过实现一个 web 应用来加深对 OAuth 2.0 协议的理解，授权方式为授权码授权。</p>
+<p>首先在 Github 上申请一个新的应用，地址：https://github.com/settings/applications/new</p>
+<p><img src="https://doc.shiyanlou.com/document-uid735639labid6387timestamp1532332747466.png/wm" alt="1-4.1-1"></p>
+<p>注意主页 URL 和 Callback URL 需指明使用 https 协议，因为 Oauth2 是工作在 SSL 层上的，这样才能保证传输的安全性。当然直接使用 http 协议也是可以的，这里我们还是用 https。</p>
+<p>查看客户端 id 与 secret, 这里的 Client ID 和 Client Secret 在 4.2 节会用到。</p>
+<p><img src="https://doc.shiyanlou.com/document-uid735639labid6387timestamp1532332812396.png/wm" alt="1-4.1-2"></p>
+<p>接着阅读这部分文档：<a href="https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/">Authorizing OAuth Apps</a></p>
+<p>下面对文档稍作翻译。</p>
+<h4 id="411--github-">4.1.1 重定向用户到 Github 授权页面</h4>
+<p>对授权页面做出的请求如下：</p>
+<pre><code>GET https://github.com/login/oauth/authorize
+</code></pre><p>列出参数：</p>
+<ul>
+<li>client_id（必选）：客户端 ID，可在 <a href="https://github.com/settings/applications/">应用页面</a> 访问查看</li>
+<li>redirect_uri：重定向 url，该地址必须在 <code>callback_url</code> 的子目录下</li>
+<li>scope：scope 用来指定你要获取哪些权限。如果为空则只能读取用户的一些公开信息，详见 <a href="https://developer.github.com/v3/oauth/#scopes">Scopes</a></li>
+<li>state：防止 CSRF 攻击用的随机字符串</li>
+<li>allow_signup：认证过程中允许用户注册 Github，默认为 true</li>
+</ul>
+<p>其中只有 client_id 是必选的。</p>
+<p>根据以上的信息构造的 GET 请求的访问地址可能长这个样子：</p>
+<pre><code>https://github.com/login/oauth/authorize?
+  client_id=...&amp;
+  scope=user%20public_repo
+</code></pre><p>获取的权限是读写用户信息与读写公开仓库的能力。</p>
+<h4 id="412-">4.1.2 重定向回你的网页</h4>
+<p>当授权页面重定向回你的应用页面时，重定向的 URL 后面会接上授权码参数，大概长这样：</p>
+<pre><code>https:// 你的重定向 url?code = 你的一串授权码 &amp; state = 防止 CSRF 攻击的随机字串
+</code></pre><p>有了授权码就能够申请获取 访问 token 了。</p>
+<p>对 访问 token 发放页面做出请求：</p>
+<pre><code>POST https://github.com/login/oauth/access_token
+</code></pre><p>列出参数：</p>
+<ul>
+<li>client_id（必选）：客户端 id，可在 <a href="https://github.com/settings/applications/">应用页面</a> 访问查看</li>
+<li>client_secret（必选）：客户端 secret，可在 <a href="https://github.com/settings/applications/">应用页面</a> 访问查看</li>
+<li>code（必选）：授权码</li>
+<li>redirect_uri：需与之前的重定向 url 一致</li>
+<li>state：防止 CSRF 攻击用的随机字符串</li>
+</ul>
+<p>响应默认是以下形式：</p>
+<pre><code>access_token=e72e16c7e42f292c6912e7710c838347ae178b4a&amp;scope=user%2Cgist&amp;token_type=bearer
+</code></pre><p>你也可以在报文头部指定想要的响应形式：</p>
+<pre><code>Accept: application/json
+{&quot;access_token&quot;:&quot;e72e16c7e42f292c6912e7710c838347ae178b4a&quot;, &quot;scope&quot;:&quot;repo,gist&quot;, &quot;token_type&quot;:&quot;bearer&quot;}
+
+Accept: application/xml
+&lt;OAuth&gt;
+  &lt;token_type&gt;bearer&lt;/token_type&gt;
+  &lt;scope&gt;repo,gist&lt;/scope&gt;
+  &lt;access_token&gt;e72e16c7e42f292c6912e7710c838347ae178b4a&lt;/access_token&gt;
+&lt;/OAuth&gt;
+</code></pre><h4 id="413--token--api">4.1.3 使用访问 token 访问 API</h4>
+<p>你可以将访问 token 用在 URL 参数上：</p>
+<pre><code>GET https://api.github.com/user?access_token=...
+</code></pre><p>不过更推荐你在报文头部存放 token：</p>
+<pre><code>Authorization: 访问 token OAUTH-TOKEN
+</code></pre><h3 id="42-">4.2 项目实现</h3>
+<p>在工作目录下创建 app.py 文件，我会先给出它的代码再一一讲解。（事实上，这部分就是项目的全部代码了）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#-*- coding:utf-8 -*-</span>
+<span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, request, session, redirect, url_for, render_template
+<span style="color:#f92672">from</span> flask_pymongo <span style="color:#f92672">import</span> PyMongo
+<span style="color:#f92672">from</span> requests_oauthlib <span style="color:#f92672">import</span> OAuth2Session
+<span style="color:#f92672">import</span> datetime<span style="color:#f92672">,</span> time
+<span style="color:#f92672">import</span> os
+
+app <span style="color:#f92672">=</span> Flask(__name__)
+mongo <span style="color:#f92672">=</span> PyMongo(app)
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MONGO_HOST</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">127.0.0.1</span><span style="color:#e6db74">&#34;</span>
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MONGO_PORT</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">27017</span>
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MONGO_DBNAME</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">github_cafe</span><span style="color:#e6db74">&#34;</span>
+
+client_id <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">替换成在 4.1 节中你申请的应用的 Client ID</span><span style="color:#e6db74">&#34;</span>
+client_secret <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">替换成在 4.1 节中你申请的应用的 Client Secret</span><span style="color:#e6db74">&#34;</span>
+authorization_base_url <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">https://github.com/login/oauth/authorize</span><span style="color:#e6db74">&#34;</span>
+token_url <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">https://github.com/login/oauth/access_token</span><span style="color:#e6db74">&#34;</span>
+
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">/</span><span style="color:#e6db74">&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">GET</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">POST</span><span style="color:#e6db74">&#34;</span>])
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">/page/&lt;int:page&gt;</span><span style="color:#e6db74">&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">GET</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">POST</span><span style="color:#e6db74">&#34;</span>])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(page <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>):
+    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">POST</span><span style="color:#e6db74">&#34;</span>:
+        session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>form[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>]
+        <span style="color:#66d9ef">try</span>:
+            githuber_say()
+        <span style="color:#66d9ef">except</span>:
+            github <span style="color:#f92672">=</span> OAuth2Session(client_id)
+            authorization_url, state <span style="color:#f92672">=</span> github<span style="color:#f92672">.</span>authorization_url(authorization_base_url)
+            session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">oauth_state</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> state
+            <span style="color:#66d9ef">return</span> redirect(authorization_url)
+
+    wisdom_list <span style="color:#f92672">=</span> get_githuber_wisdom(page<span style="color:#f92672">=</span>page)
+    <span style="color:#66d9ef">return</span> render_template(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">index.html</span><span style="color:#e6db74">&#34;</span>, wisdom_list<span style="color:#f92672">=</span>wisdom_list, page<span style="color:#f92672">=</span>page, page_count<span style="color:#f92672">=</span>get_page_count())
+
+
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">/callback</span><span style="color:#e6db74">&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">GET</span><span style="color:#e6db74">&#34;</span>])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">callback</span>():
+    github <span style="color:#f92672">=</span> OAuth2Session(client_id, state<span style="color:#f92672">=</span>session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">oauth_state</span><span style="color:#e6db74">&#39;</span>])
+    token <span style="color:#f92672">=</span> github<span style="color:#f92672">.</span>fetch_token(token_url, client_secret<span style="color:#f92672">=</span>client_secret,
+                                   authorization_response<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>url)
+    session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">oauth_token</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> token
+    githuber_say()
+    <span style="color:#66d9ef">return</span> redirect(url_for(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">index</span><span style="color:#e6db74">&#34;</span>))
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">githuber_say</span>():
+    github <span style="color:#f92672">=</span> OAuth2Session(client_id, token<span style="color:#f92672">=</span>session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">oauth_token</span><span style="color:#e6db74">&#39;</span>])
+    profile <span style="color:#f92672">=</span> github<span style="color:#f92672">.</span>get(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">https://api.github.com/user</span><span style="color:#e6db74">&#39;</span>)<span style="color:#f92672">.</span>json()
+
+    wisdom_dict <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">username</span><span style="color:#e6db74">&#34;</span>: profile[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">name</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">avatar_url</span><span style="color:#e6db74">&#34;</span>: profile[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">avatar_url</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">html_url</span><span style="color:#e6db74">&#34;</span>: profile[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">html_url</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>: session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">datetime</span><span style="color:#e6db74">&#34;</span> : datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>today()<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%</span><span style="color:#e6db74">Y/</span><span style="color:#e6db74">%</span><span style="color:#e6db74">-m/</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%</span><span style="color:#e6db74">H:</span><span style="color:#e6db74">%</span><span style="color:#e6db74">M</span><span style="color:#e6db74">&#34;</span>),
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">timestamp</span><span style="color:#e6db74">&#34;</span> : time<span style="color:#f92672">.</span>time()
+    }
+
+    <span style="color:#66d9ef">del</span> session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>]
+    mongo<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>wisdom<span style="color:#f92672">.</span>insert(wisdom_dict)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_githuber_wisdom</span>(count<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, page<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+    <span style="color:#66d9ef">return</span> mongo<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>wisdom<span style="color:#f92672">.</span>find({})<span style="color:#f92672">.</span>sort([(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">timestamp</span><span style="color:#e6db74">&#39;</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)])<span style="color:#f92672">.</span>skip(count <span style="color:#f92672">*</span> (page<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">.</span>limit(count)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_page_count</span>(count<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>):
+    <span style="color:#75715e"># python2 请将 // 改成 /</span>
+    <span style="color:#66d9ef">return</span> mongo<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>wisdom<span style="color:#f92672">.</span>find({})<span style="color:#f92672">.</span>count() <span style="color:#f92672">/</span><span style="color:#f92672">/</span> count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">__main__</span><span style="color:#e6db74">&#39;</span>:
+    app<span style="color:#f92672">.</span>secret_key <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">24</span>)
+    app<span style="color:#f92672">.</span>run(debug<span style="color:#f92672">=</span>True, ssl_context<span style="color:#f92672">=</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ssl.crt</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ssl.key</span><span style="color:#e6db74">&#34;</span>), threaded<span style="color:#f92672">=</span>True)
+</code></pre></div><ul>
+<li>flask 应用的配置和一些常量信息：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#f92672">=</span> Flask(__name__)
+mongo <span style="color:#f92672">=</span> PyMongo(app)
+<span style="color:#75715e"># mongodb 做完这些配置即可，不用手动连接</span>
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MONGO_HOST</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">127.0.0.1</span><span style="color:#e6db74">&#34;</span>
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MONGO_PORT</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">27017</span>
+<span style="color:#75715e"># 数据库名可随意取，它会自动创建</span>
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MONGO_DBNAME</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">github_cafe</span><span style="color:#e6db74">&#34;</span>
+
+client_id <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">替换成在 4.1 节中你申请的应用的 Client ID</span><span style="color:#e6db74">&#34;</span>
+client_secret <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">替换成在 4.1 节中你申请的应用的 Client Secret</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e"># 授权页面的地址</span>
+authorization_base_url <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">https://github.com/login/oauth/authorize</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e"># 分发访问 token 的地址</span>
+token_url <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">https://github.com/login/oauth/access_token</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><ul>
+<li>首页的表单如图所示，输入框的 name 值是 geek_wisdom ：</li>
+</ul>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473147930691.png/wm" alt="1-4.2-1"></p>
+<ul>
+<li>首页的代码逻辑：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">/</span><span style="color:#e6db74">&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">GET</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">POST</span><span style="color:#e6db74">&#34;</span>])
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">/page/&lt;int:page&gt;</span><span style="color:#e6db74">&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">GET</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">POST</span><span style="color:#e6db74">&#34;</span>])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(page <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>):
+    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">POST</span><span style="color:#e6db74">&#34;</span>:
+        <span style="color:#75715e"># 获取表单数据，这里由于之后要重定向，先在 session 里暂存一下。</span>
+        session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>form[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>]
+        <span style="color:#66d9ef">try</span>:
+            <span style="color:#75715e"># 这一步会尝试直接获取授权资源完成留言提交，如果失败就进入授权步骤</span>
+            githuber_say()
+        <span style="color:#66d9ef">except</span>:
+            <span style="color:#75715e"># ... 构造带了参数的授权页面地址 ...</span>
+            <span style="color:#75715e"># ... 这部分在之后说 ...</span>
+            <span style="color:#66d9ef">return</span> redirect(authorization_url)
+    <span style="color:#75715e"># 从数据库取得 githuber 的留言</span>
+    wisdom_list <span style="color:#f92672">=</span> get_githuber_wisdom(page<span style="color:#f92672">=</span>page)
+    <span style="color:#66d9ef">return</span> render_template(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">index.html</span><span style="color:#e6db74">&#34;</span>, wisdom_list<span style="color:#f92672">=</span>wisdom_list, page<span style="color:#f92672">=</span>page, page_count<span style="color:#f92672">=</span>get_page_count())
+</code></pre></div><ul>
+<li>构造带了参数的授权页面地址：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">github <span style="color:#f92672">=</span> OAuth2Session(client_id)
+authorization_url, state <span style="color:#f92672">=</span> github<span style="color:#f92672">.</span>authorization_url(authorization_base_url)
+session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">oauth_state</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> state
+</code></pre></div><p>从之前阅读文档我们知道这步只有 client_id 是必选项，我们的留言本应用只需要读用户的基本信息即可，因此用不到 scope，如果需要，在 OAuth2Session 里带上 scope 参数就可以了。</p>
+<p><code>authorization_url</code> 函数会帮我们构造带了参数的 url，同时会带上 state 参数，保存该参数用于防止 CSRF 攻击。</p>
+<ul>
+<li>回调页面的逻辑：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">/callback</span><span style="color:#e6db74">&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">GET</span><span style="color:#e6db74">&#34;</span>])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">callback</span>():
+    github <span style="color:#f92672">=</span> OAuth2Session(client_id, state<span style="color:#f92672">=</span>session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">oauth_state</span><span style="color:#e6db74">&#39;</span>])
+    <span style="color:#75715e"># 得到访问 token</span>
+    token <span style="color:#f92672">=</span> github<span style="color:#f92672">.</span>fetch_token(token_url, client_secret<span style="color:#f92672">=</span>client_secret,
+                                   authorization_response<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>url)
+    session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">oauth_token</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> token
+    <span style="color:#75715e"># 访问授权资源，完成一次留言的提交</span>
+    githuber_say()
+    <span style="color:#75715e"># 重定向回主页</span>
+    <span style="color:#66d9ef">return</span> redirect(url_for(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">index</span><span style="color:#e6db74">&#34;</span>))
+</code></pre></div><p>授权码就在重定向的地址之中。</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473147838929.png/wm" alt="1-4.2-2"></p>
+<p>获取访问 token 的这一步只需要 client_id，client_secret，state 和 授权码信息即可。requests_oauthlib 默认返回的响应格式是 json 格式，不过它都帮我们封装好了，我们直接就能拿到访问 token。</p>
+<ul>
+<li><code>githuber_say()</code> 的实现</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">githuber_say</span>():
+    github <span style="color:#f92672">=</span> OAuth2Session(client_id, token<span style="color:#f92672">=</span>session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">oauth_token</span><span style="color:#e6db74">&#39;</span>])
+    <span style="color:#75715e"># 获取用户个人信息</span>
+    profile <span style="color:#f92672">=</span> github<span style="color:#f92672">.</span>get(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">https://api.github.com/user</span><span style="color:#e6db74">&#39;</span>)<span style="color:#f92672">.</span>json()
+
+    <span style="color:#75715e"># 一条留言所需要的信息数据</span>
+    wisdom_dict <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">username</span><span style="color:#e6db74">&#34;</span>: profile[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">name</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">avatar_url</span><span style="color:#e6db74">&#34;</span>: profile[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">avatar_url</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">html_url</span><span style="color:#e6db74">&#34;</span>: profile[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">html_url</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>: session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>],
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">datetime</span><span style="color:#e6db74">&#34;</span> : datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>today()<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%</span><span style="color:#e6db74">Y/</span><span style="color:#e6db74">%</span><span style="color:#e6db74">-m/</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%</span><span style="color:#e6db74">H:</span><span style="color:#e6db74">%</span><span style="color:#e6db74">M</span><span style="color:#e6db74">&#34;</span>),
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">timestamp</span><span style="color:#e6db74">&#34;</span> : time<span style="color:#f92672">.</span>time()
+    }
+
+    <span style="color:#66d9ef">del</span> session[<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">geek_wisdom</span><span style="color:#e6db74">&#34;</span>]
+
+    <span style="color:#75715e"># 数据库插入一条留言数据</span>
+    mongo<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>wisdom<span style="color:#f92672">.</span>insert(wisdom_dict)
+</code></pre></div><p>关于有哪些接口可使用，都是什么功能，参考：https://developer.github.com/v3/users/ 右边一列。</p>
+<p><code>mongo.db</code> 是配置的数据库，<code>mongo.db.wisdom</code> 是数据库下的一个集合（很像 SQL 数据库里的表），集合的名字任取（在这里是 wisdom ），当你对集合做插入操作时会自动在数据库中创建该集合。</p>
+<p>最后应用运行的参数需指定 <code>ssl_context</code>，这样应用就能 ssl 层上通信了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">__main__</span><span style="color:#e6db74">&#39;</span>:
+    app<span style="color:#f92672">.</span>secret_key <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">24</span>)
+    app<span style="color:#f92672">.</span>run(debug<span style="color:#f92672">=</span>True, ssl_context<span style="color:#f92672">=</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ssl.crt</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ssl.key</span><span style="color:#e6db74">&#34;</span>), threaded<span style="color:#f92672">=</span>True)
+</code></pre></div><h3 id="43-">4.3 运行结果</h3>
+<p>新开一个标签页启动 mongodb：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473327922831.png/wm" alt="1-4.3-1"></p>
+<pre><code>$ mkdir db
+$ mongod --dbpath ./db
+</code></pre><p>运行 flask 应用（请确保在 virtualenv 的虚拟环境下）：</p>
+<pre><code>(venv)$ python app.py
+</code></pre><p><img src="https://doc.shiyanlou.com/document-uid735639labid6387timestamp1532332089259.png/wm" alt="1-4.3-2"></p>
+<p>此时可以用浏览器访问 <code>https://127.0.0.1:5000</code> （一定要加上 https 协议头）, 显示连接不安全，这时只要添加例外即可：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid735639labid6387timestamp1532332114592.png/wm" alt="1-4.3-3"></p>
+<p>应用首页：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473148327481.png/wm" alt="1-4.3-4"></p>
+<p>清空缓存后尝试发布一条新留言：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473141098750.png/wm" alt="1-4.3-5"></p>
+<p>点击发表后跳转到授权页：</p>
+<p><img src="https://doc.shiyanlou.com/document-uid8834labid2115timestamp1473141205894.png/wm" alt="1-4.3-6"></p>
+<p>授权页的图其实是应用的 logo，没有设置应用 logo 的话就会使用应用作者的头像。</p>
+<p>发表后：</p>
+<p>我用另一个账号发表了一条留言。</p>
+<p><img src="F:%5CNote%5CMkD%5Cwm" alt="1-4.3-7"></p>
+<h1 id="heading-3">五、总结</h1>
+<p>在本课程中，我们学习了 OAuth 2.0 的四种授权流程，实现了一个简单的第三方应用，但还是有部分内容没有讲到，比如刷新 token 的使用，这一部分可参考 <a href="https://tools.ietf.org/html/rfc6749#section-6">协议</a> 或是 <a href="https://requests-oauthlib.readthedocs.io/en/latest/oauth2_workflow.html#refreshing-tokens">requests-oauthlib 官方文档中的内容</a> 。</p>
+<p>在实际操作中，如何授权还是以服务提供者提供的文档为准。</p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://fancyelmo.github.io/elmo-wonderland/2019/03/oauth-2.0-%E6%8E%88%E6%9D%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98/" title="OAuth 2.0 授权原理" target="_blank" rel="external">OAuth 2.0 授权原理</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> 知识共享署名 4.0 国际许可协议
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fancyElmo" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fancyElmo" target="_blank"><span class="text-dark">Elmo</span><small class="ml-1x">一只小菜鸡</small></a></h3>
+        <div>All the meetings in the world, are long goodbyes</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/01/django%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%97%E6%AE%B5%E5%B1%9E%E6%80%A7choice%E4%BD%BF%E7%94%A8/" title="Django模型中字段属性choice使用"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/03/%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%AD%97%E7%AC%A6%E4%B8%B2/"
+                    title=" 生成随机字符串"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li>
+		<a href="mailto:fancyelmo@126.com" target="_blank" title="email" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-email"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://github.com/fancyElmo" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-github"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://fancyelmo.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-rss"></i>
+		</a>
+	</li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2020
+    <div class="publishby">
+        Theme by <a href="https://github.com/fancyElmo" target="_blank"> Elmo </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/bash.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/shell.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/sql.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/python.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/javascript.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/django.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/application.js"></script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/',
+            CONTENT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </body>
+</html>

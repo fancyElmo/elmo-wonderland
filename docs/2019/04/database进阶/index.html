@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        MySQL视图、索引 - 菜鸡乐园
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="视图 之前学习了子查询，可以将一组查询的结果当作当前查询的条件来使用。但当查询语句变得更加复杂，继续使用嵌套查询就会让语句臃肿不堪；再或者联表" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  
+  <link rel="icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <title>MySQL视图、索引 - 菜鸡乐园</title>
+  
+
+  <link rel="stylesheet" href="https://fancyelmo.github.io/elmo-wonderland/css/style.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/monokai.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="MySQL视图、索引" />
+<meta property="og:description" content="视图 之前学习了子查询，可以将一组查询的结果当作当前查询的条件来使用。但当查询语句变得更加复杂，继续使用嵌套查询就会让语句臃肿不堪；再或者联表" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%BF%9B%E9%98%B6/" />
+<meta property="article:published_time" content="2019-04-05T19:35:00+08:00" />
+<meta property="article:modified_time" content="2019-04-05T19:35:00+08:00" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/04/python%E4%B8%8Emysql%E7%9A%84%E4%BA%A4%E4%BA%92/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E6%9F%A5%E8%AF%A2%E8%BF%9B%E9%98%B6/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%A1%A8%E6%93%8D%E4%BD%9C/" />
+
+<meta itemprop="name" content="MySQL视图、索引">
+<meta itemprop="description" content="视图 之前学习了子查询，可以将一组查询的结果当作当前查询的条件来使用。但当查询语句变得更加复杂，继续使用嵌套查询就会让语句臃肿不堪；再或者联表">
+<meta itemprop="datePublished" content="2019-04-05T19:35:00&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-05T19:35:00&#43;08:00" />
+<meta itemprop="wordCount" content="1484">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MySQL视图、索引"/>
+<meta name="twitter:description" content="视图 之前学习了子查询，可以将一组查询的结果当作当前查询的条件来使用。但当查询语句变得更加复杂，继续使用嵌套查询就会让语句臃肿不堪；再或者联表"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/fancyElmo" target="_blank">
+            <img class="img-circle img-rotate" src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">Elmo</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">一只小菜鸡</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Beijing, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/elmo-wonderland/">
+                    <i class="icon icon-jiaju"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/elmo-wonderland/posts">
+                    <i class="icon icon-book-shelf"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/elmo-wonderland/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/elmo-wonderland/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/elmo-wonderland/about">
+                    <i class="icon icon-profile"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><h2><span>Love & Peace</span><br>❤️🧡💛💚💙💜</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/tutorial/" class="category-list-link">tutorial</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" class="category-list-link">入门知识</a><span class="category-list-count">15</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%AE%9E%E9%AA%8C%E6%A5%BC/" class="category-list-link">实验楼</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%BF%AB%E7%85%A7/" class="category-list-link">快照</a><span class="category-list-count">6</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%96%99/" class="category-list-link">查询资料</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E9%98%85%E8%B5%84%E6%96%99/" class="category-list-link">查阅资料</a><span class="category-list-count">15</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/pygame/" class="tag-list-link">pygame</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/tutorial/" class="tag-list-link">tutorial</a><span
+                    class="tag-list-count">3</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled no-thumbnail">
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" class="title">Django-redis配置</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2020-01-12 18:49:03 &#43;0800 CST" itemprop="datePublished">2020-01-12</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E4%BD%BF%E7%94%A8-python-%E5%AE%9A%E5%88%B6%E8%AF%8D%E4%BA%91/" class="title">使用python定制词云</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%8A%A8%E6%89%8B%E5%AE%9E%E6%88%98%E5%AD%A6docker/" class="title">动手实战学Docker</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" class="title">贪吃蛇</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-08 19:09:00 &#43;0800 CST" itemprop="datePublished">2019-12-08</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" class="title">hugo创建主题</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-11-21 18:49:03 &#43;0800 CST" itemprop="datePublished">2019-11-21</time>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/elmo-wonderland/2019/04/database%E8%BF%9B%E9%98%B6/"
+    >MySQL视图、索引</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%BF%9B%E9%98%B6/" class="article-date">
+  <time datetime="2019-04-05 19:35:00 &#43;0800 CST" itemprop="datePublished">2019-04-05</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/elmo-wonderland/categories/%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/"> 入门知识 </a>
+</span>
+
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/elmo-wonderland/2019/04/database%E8%BF%9B%E9%98%B6/#comments"
+            class="article-comment-link">评论</a></span>
+		
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">
+			<i class="icon icon-number"></i>
+			字数统计:1484字
+		</span>
+		
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">
+		<i class="icon icon-hourglass"></i>
+		阅读时长:3分 
+		</span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <h3 id="heading">视图</h3>
+<p> 
+之前学习了子查询，可以将一组查询的结果当作当前查询的条件来使用。但当查询语句变得更加复杂，继续使用嵌套查询就会让语句臃肿不堪；再或者联表查询时，相关联的表因需求发生了改变，之前的查询语句如果不加修改就会出错。</p>
+<p>有一个解决上述问题的办法出现了，就是<strong>视图</strong>。通俗的讲，视图就是一条SELECT语句执行后返回的结果集，是对若干张基本表的引用，一张<strong>虚表</strong>，<strong>不存储具体的数据</strong>（基本表数据发生了改变，视图也会跟着改变）。</p>
+<p>视图的优点就是<strong>方便操作</strong>，特别是查询操作，减少复杂的SQL语句，<strong>增强可读性</strong>。</p>
+<p>接下来我们创建一个视图。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- create view v_视图名 as select语句
+</span><span style="color:#75715e"></span><span style="color:#75715e">-- 视图名要以 v_ 开头，以便识别
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">view</span> v_order <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">select</span> order_id, name <span style="color:#66d9ef">from</span> orders;
+</code></pre></div><p> 
+视图是一张虚表，是以创建视图时的select语句为映射的表，这张表是实实在在存在于库中的，所以使用<code>show tables</code> 语句查看库中所有表单时，也会看到视图。我们在命名时使用了<code>_v</code>开头，这时候就很好区分哪些是视图，哪些是表。</p>
+<p><img src="http://ww1.sinaimg.cn/large/b7fedef3gy1g4nj8y9dakj208v04jmxa.jpg" alt=""></p>
+<p>我们拥有了视图，就可以用视图来进行查询了。视图替代了冗长的查询语句，同时因为视图时其原表的映射，所以原表修改后视图也会显示修改后的数据。</p>
+<p>如果不想保留当前视图，可以将视图删除。类似于表的删除，键入如下语句：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">view</span> <span style="color:#960050;background-color:#1e0010">视</span><span style="color:#960050;background-color:#1e0010">图</span><span style="color:#960050;background-color:#1e0010">名</span>;
+</code></pre></div><h4 id="---">视图的作用 - 总结</h4>
+<ol>
+<li>提高了重用性，就像一个函数</li>
+<li>对数据库重构，却不影响程序的运行</li>
+<li>提高了安全性能，可以对不同的用户</li>
+<li>让数据更加清晰</li>
+</ol>
+<hr>
+<h3 id="heading-1">事务</h3>
+<p> 
+数据操作有时候存在这样一种情况：几张表间的数据需要同时进行操作，若有某张表操作失败，则认定整个操作都是失败的。举个栗子</p>
+<blockquote>
+<p>A用户和B用户是银行的储户，现在A要给B转账500元，那么需要做以下几件事：</p>
+<ol>
+<li>检查A的账户余额&gt;500元；</li>
+<li>A 账户中扣除500元;</li>
+<li>B 账户中增加500元;</li>
+</ol>
+</blockquote>
+<p>交♂易就是一种必须双方操作都成功才算成功的例子，没人希望自己的钱莫名消失。</p>
+<p><strong>事务</strong>可以为我们“打包”一组操作，这些操作要么都执行，要么都不执行，它是一个不可分割的工作单位。</p>
+<h4 id="heading-2">事务的特性</h4>
+<ul>
+<li>原子性 (<strong>A</strong>tomicity)
+ </li>
+</ul>
+<blockquote>
+<p>一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作，这就是事务的原子性</p>
+</blockquote>
+<ul>
+<li>
+<p>一致性 (<strong>C</strong>onsistency)
+ </p>
+<blockquote>
+<p>在前面的例子中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户中也不会损失200美元，因为事务最终没有提交，所以事务中所做的修改也不会保存到数据库中</p>
+</blockquote>
+</li>
+<li>
+<p>隔离性 (<strong>I</strong>solation)
+ </p>
+<blockquote>
+<p>通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的</p>
+</blockquote>
+</li>
+<li>
+<p>持久性 (<strong>D</strong>urability)
+ </p>
+<blockquote>
+<p>一旦事务提交，则其所做的修改会永久保存到数据库</p>
+</blockquote>
+</li>
+</ul>
+<p> </p>
+<h4 id="heading-3">注意</h4>
+<p>表的引擎类型必须是 <strong>InnoDB</strong> 类型才可以使用事务，这是mysql表的默认引擎。
+查看表的创建语句 <code>show create table 表名</code> 来查看当前表的引擎
+<img src="http://ww1.sinaimg.cn/large/b7fedef3gy1g4nk26gndfj20mj09gdhi.jpg" alt="">
+ </p>
+<h4 id="heading-4">事务流程</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 开启事务
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">begin</span>; 
+<span style="color:#960050;background-color:#1e0010">或</span> 
+<span style="color:#66d9ef">start</span> <span style="color:#66d9ef">transaction</span>;
+<span style="color:#75715e">-- 开启事务后执行修改命令，变更会维护到本地缓存中，而不维护到物理表中
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 执行操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> balance <span style="color:#66d9ef">from</span> checking <span style="color:#66d9ef">where</span> customer_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">10233276</span>;
+<span style="color:#66d9ef">update</span> checking <span style="color:#66d9ef">set</span> balance <span style="color:#f92672">=</span> balance <span style="color:#f92672">-</span> <span style="color:#ae81ff">200</span>.<span style="color:#ae81ff">00</span> <span style="color:#66d9ef">where</span> customer_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">10233276</span>;
+<span style="color:#66d9ef">update</span> savings <span style="color:#66d9ef">set</span> balance <span style="color:#f92672">=</span> balance <span style="color:#f92672">+</span> <span style="color:#ae81ff">200</span>.<span style="color:#ae81ff">00</span> <span style="color:#66d9ef">where</span> customer_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">10233276</span>;
+
+<span style="color:#75715e">-- 提交事务
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">commit</span>; 
+<span style="color:#75715e">-- 将缓存中的数据变更维护到物理表中
+</span><span style="color:#75715e"></span><span style="color:#75715e">-- 在提交前是看不到修改的数据的
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 回滚
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">rollback</span>; <span style="color:#75715e">-- 放弃缓存中变更的数据
+</span></code></pre></div><hr>
+<h3 id="heading-5">索引</h3>
+<p> 
+可以将索引理解为给字段添加了一个目录，之后查询此字段时因为有目录，查询速度会变得很快。</p>
+<p>但建立目录就会增大空间的开销，每次更新数据的同时也要更新目录，所以建立太多的索引，尤其在经常进行修改的字段上建立索引反而会降低速度。
+ </p>
+<h4 id="heading-6">索引的建立</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">index</span> <span style="color:#960050;background-color:#1e0010">索</span><span style="color:#960050;background-color:#1e0010">引</span><span style="color:#960050;background-color:#1e0010">名</span> <span style="color:#66d9ef">on</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#960050;background-color:#1e0010">名</span>(<span style="color:#960050;background-color:#1e0010">字</span><span style="color:#960050;background-color:#1e0010">段</span><span style="color:#960050;background-color:#1e0010">名</span>(<span style="color:#960050;background-color:#1e0010">长</span><span style="color:#960050;background-color:#1e0010">度</span>)) 
+<span style="color:#75715e">-- 如果指定字段是字符串，需要指定长度，建议长度与定义字段时的长度一致
+</span><span style="color:#75715e"></span><span style="color:#75715e">-- 字段类型如果不是字符串，可以不填写长度部分
+</span></code></pre></div><p> </p>
+<h4 id="heading-7">查询索引</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">show</span> <span style="color:#66d9ef">index</span> <span style="color:#66d9ef">from</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#960050;background-color:#1e0010">名</span>;
+</code></pre></div><p> </p>
+<h4 id="heading-8">删除索引</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">index</span> <span style="color:#960050;background-color:#1e0010">索</span><span style="color:#960050;background-color:#1e0010">引</span><span style="color:#960050;background-color:#1e0010">名</span><span style="color:#960050;background-color:#1e0010">称</span> <span style="color:#66d9ef">on</span> <span style="color:#960050;background-color:#1e0010">表</span><span style="color:#960050;background-color:#1e0010">名</span>;
+</code></pre></div><p> </p>
+<h4 id="heading-9">索引的使用</h4>
+<p>和普通的查询并无差别，只是有了索引后，底层实现查询的方法发生了改变，所以才会变快。</p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%BF%9B%E9%98%B6/" title="MySQL视图、索引" target="_blank" rel="external">MySQL视图、索引</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> 知识共享署名 4.0 国际许可协议
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fancyElmo" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fancyElmo" target="_blank"><span class="text-dark">Elmo</span><small class="ml-1x">一只小菜鸡</small></a></h3>
+        <div>All the meetings in the world, are long goodbyes</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E8%A1%A8%E6%93%8D%E4%BD%9C/" title="MySQL表操作"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/04/database%E6%9F%A5%E8%AF%A2%E8%BF%9B%E9%98%B6/"
+                    title="MySQL查询进阶"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li>
+		<a href="mailto:fancyelmo@126.com" target="_blank" title="email" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-email"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://github.com/fancyElmo" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-github"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://fancyelmo.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-rss"></i>
+		</a>
+	</li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2020
+    <div class="publishby">
+        Theme by <a href="https://github.com/fancyElmo" target="_blank"> Elmo </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/bash.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/shell.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/sql.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/python.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/javascript.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/django.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/application.js"></script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/',
+            CONTENT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </body>
+</html>

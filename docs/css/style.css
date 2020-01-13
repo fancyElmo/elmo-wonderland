@@ -3261,7 +3261,7 @@ body {
   font-family: "PingHei", "PingFang SC", Helvetica Neue, "Work Sans",
     "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
   font-size: 17px;
-  line-height: 1.57143;
+  line-height: 1.67143;
   color: #333333;
   background-color: #fff;
 }
@@ -5618,12 +5618,13 @@ pre,
 
 code {
   text-shadow: 0 1px #fff;
-  padding: 0.2em 0.4em;
+  padding: 0.1em 0.4em;
   margin: 0 0.3em;
-  color: #555;
-  background: #eee;
+  color: #dd0055;
+  background: #f6f6f6;
   border-radius: 3px;
   font-size: 100%;
+  border: 1px solid #ddd;
 }
 
 pre code {
@@ -6501,6 +6502,11 @@ body.no-sidebar .sidebar {
 
 .article-footer {
   margin-top: 20px;
+}
+
+.read-more-link a {
+  font-size: 0.8em;
+  color: #ddd;
 }
 
 /**

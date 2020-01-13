@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        MongoDB入门 - 菜鸡乐园
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="MongoDB 是一个基于分布式文件存储的数据库。由 C&#43;&#43; 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案
+" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  
+  <link rel="icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://fancyelmo.github.io/elmo-wonderland/favicon.ico" type="image/x-icon" />
+  <title>MongoDB入门 - 菜鸡乐园</title>
+  
+
+  <link rel="stylesheet" href="https://fancyelmo.github.io/elmo-wonderland/css/style.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/monokai.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="MongoDB入门" />
+<meta property="og:description" content="MongoDB 是一个基于分布式文件存储的数据库。由 C&#43;&#43; 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fancyelmo.github.io/elmo-wonderland/2019/04/mongodb%E5%85%A5%E9%97%A8/" />
+<meta property="article:published_time" content="2019-04-22T10:19:23+08:00" />
+<meta property="article:modified_time" content="2019-04-22T10:19:23+08:00" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/django%E5%90%8E%E5%8F%B0%E8%B7%A8%E5%9F%9F%E8%A7%A3%E5%86%B3/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E9%99%86%E4%B9%8B%E5%BE%AE%E5%8D%9A/" /><meta property="og:see_also" content="https://fancyelmo.github.io/elmo-wonderland/2019/10/pip%E6%9B%B4%E6%8D%A2%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90/" />
+
+<meta itemprop="name" content="MongoDB入门">
+<meta itemprop="description" content="MongoDB 是一个基于分布式文件存储的数据库。由 C&#43;&#43; 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案">
+<meta itemprop="datePublished" content="2019-04-22T10:19:23&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-22T10:19:23&#43;08:00" />
+<meta itemprop="wordCount" content="3364">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB入门"/>
+<meta name="twitter:description" content="MongoDB 是一个基于分布式文件存储的数据库。由 C&#43;&#43; 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/fancyElmo" target="_blank">
+            <img class="img-circle img-rotate" src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">Elmo</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">一只小菜鸡</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Beijing, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/elmo-wonderland/">
+                    <i class="icon icon-jiaju"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/elmo-wonderland/posts">
+                    <i class="icon icon-book-shelf"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/elmo-wonderland/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/elmo-wonderland/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/elmo-wonderland/about">
+                    <i class="icon icon-profile"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><h2><span>Love & Peace</span><br>❤️🧡💛💚💙💜</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/tutorial/" class="category-list-link">tutorial</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" class="category-list-link">入门知识</a><span class="category-list-count">15</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%AE%9E%E9%AA%8C%E6%A5%BC/" class="category-list-link">实验楼</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E5%BF%AB%E7%85%A7/" class="category-list-link">快照</a><span class="category-list-count">6</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%96%99/" class="category-list-link">查询资料</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/categories/%E6%9F%A5%E9%98%85%E8%B5%84%E6%96%99/" class="category-list-link">查阅资料</a><span class="category-list-count">15</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/pygame/" class="tag-list-link">pygame</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://fancyelmo.github.io/elmo-wonderland/tags/tutorial/" class="tag-list-link">tutorial</a><span
+                    class="tag-list-count">3</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled no-thumbnail">
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2020/01/django-redis/" class="title">Django-redis配置</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2020-01-12 18:49:03 &#43;0800 CST" itemprop="datePublished">2020-01-12</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E4%BD%BF%E7%94%A8-python-%E5%AE%9A%E5%88%B6%E8%AF%8D%E4%BA%91/" class="title">使用python定制词云</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%8A%A8%E6%89%8B%E5%AE%9E%E6%88%98%E5%AD%A6docker/" class="title">动手实战学Docker</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-24 17:07:17 &#43;0800 CST" itemprop="datePublished">2019-12-24</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/12/%E5%9F%BA%E4%BA%8Epygame%E5%BC%80%E5%8F%91%E8%B4%AA%E5%90%83%E8%9B%87%E5%92%8C%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" class="title">贪吃蛇</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-12-08 19:09:00 &#43;0800 CST" itemprop="datePublished">2019-12-08</time>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <p class="item-title">
+                        <a href="https://fancyelmo.github.io/elmo-wonderland/2019/11/hugo%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE/" class="title">hugo创建主题</a>
+                    </p>
+                    <p class="item-date">
+                        <time datetime="2019-11-21 18:49:03 &#43;0800 CST" itemprop="datePublished">2019-11-21</time>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/elmo-wonderland/2019/04/mongodb%E5%85%A5%E9%97%A8/"
+    >MongoDB入门</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://fancyelmo.github.io/elmo-wonderland/2019/04/mongodb%E5%85%A5%E9%97%A8/" class="article-date">
+  <time datetime="2019-04-22 10:19:23 &#43;0800 CST" itemprop="datePublished">2019-04-22</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/elmo-wonderland/categories/%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/"> 入门知识 </a>
+</span>
+
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/elmo-wonderland/2019/04/mongodb%E5%85%A5%E9%97%A8/#comments"
+            class="article-comment-link">评论</a></span>
+		
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">
+			<i class="icon icon-number"></i>
+			字数统计:3364字
+		</span>
+		
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">
+		<i class="icon icon-hourglass"></i>
+		阅读时长:7分 
+		</span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <p>MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案</p>
+<h1 id="heading">基本概念</h1>
+<h2 id="heading-1">文档的逻辑联系</h2>
+<p>假设有两个文档：</p>
+<pre><code># user文档
+{
+   &quot;name&quot;: &quot;Tom Hanks&quot;,
+   &quot;contact&quot;: &quot;987654321&quot;,
+   &quot;dob&quot;: &quot;01-01-1991&quot;
+}
+
+# address文档
+{
+   &quot;building&quot;: &quot;22 A, Indiana Apt&quot;,
+   &quot;pincode&quot;: 123456,
+   &quot;city&quot;: &quot;chengdu&quot;,
+   &quot;state&quot;: &quot;sichuan&quot;
+}
+</code></pre><p>关系 1：嵌入式关系：把 address 文档嵌入到 user 文档中</p>
+<pre><code># 这就是嵌入式的关系
+{
+   &quot;name&quot;: &quot;Tom Hanks&quot;,
+   &quot;contact&quot;: &quot;987654321&quot;,
+   &quot;dob&quot;: &quot;01-01-1991&quot;,
+   &quot;address&quot;:
+   [{
+   &quot;building&quot;: &quot;22 A, Indiana Apt&quot;,
+   &quot;pincode&quot;: 123456,
+   &quot;city&quot;: &quot;chengdu&quot;,
+   &quot;state&quot;: &quot;sichuan&quot;
+   },
+   {
+   &quot;building&quot;: &quot;170 A, Acropolis Apt&quot;,
+   &quot;pincode&quot;: 456789,
+   &quot;city&quot;: &quot;beijing&quot;,
+   &quot;state&quot;: &quot;beijing&quot;
+   }]
+}
+</code></pre><p>关系 2：引用式关系：将两个文档分开，通过引用文档的_id 字段来建立关系</p>
+<pre><code># 这就是引用式关系
+{
+   &quot;name&quot;: &quot;Tom Benzamin&quot;,
+   &quot;contact&quot;: &quot;987654321&quot;,
+   &quot;dob&quot;: &quot;01-01-1991&quot;,
+   &quot;address_ids&quot;: [
+      ObjectId(&quot;52ffc4a5d85242602e000000&quot;)    #对应address文档的id字段
+   ]
+}
+</code></pre><p>在实际应用的时候，嵌入式关系比较适合一对一的关系，引用式关系比较适合一对多或者多对多的情况。</p>
+<h2 id="heading-2">创建数据库</h2>
+<p>启动服务后，进入 MongoDB 命令行操作界面：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mongo
+</code></pre></div><p>使用 use 命令创建数据库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">use mydb
+</code></pre></div><p>查看<strong>当前连接</strong>的数据库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">db
+</code></pre></div><p>查看<strong>所有</strong>的数据库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">show dbs
+</code></pre></div><p>列出的所有数据库中看不到 mydb 或者显示 mydb(empty) ，因为 mydb 为空，里面没有任何东西，MongoDB 不显示或显示 mydb(empty)。</p>
+<h2 id="heading-3">销毁数据库</h2>
+<p>使用 db.dropDatabase() 销毁数据库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; use local
+switched to db local
+&gt; db.dropDatabase<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+</code></pre></div><h2 id="heading-4">创建集合</h2>
+<p>在数据库 mydb 中创建一个集合</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; use mydb
+switched to db mydb
+&gt; db.createCollection<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;users&#34;</span><span style="color:#f92672">)</span>
+</code></pre></div><p>查看创建的集合：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; show collections
+</code></pre></div><h2 id="heading-5">删除集合</h2>
+<p>删除集合的方法如下：（删除 users 集合）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; show collections
+&gt; db.users.drop<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+</code></pre></div><h2 id="heading-6">向集合中插入数据</h2>
+<h3 id="-insert">使用 insert()</h3>
+<p>插入数据时，如果 users 集合没有创建会自动创建。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; use mydb
+switched to db mydb
+&gt; db.users.insert<span style="color:#f92672">(</span><span style="color:#f92672">[</span>
+... <span style="color:#f92672">{</span> name : <span style="color:#e6db74">&#34;jam&#34;</span>,
+... email : <span style="color:#e6db74">&#34;jam@qq.com&#34;</span>
+... <span style="color:#f92672">}</span>,
+... <span style="color:#f92672">{</span> name : <span style="color:#e6db74">&#34;tom&#34;</span>,
+... email : <span style="color:#e6db74">&#34;tom@qq.com&#34;</span>
+... <span style="color:#f92672">}</span>
+... <span style="color:#f92672">]</span><span style="color:#f92672">)</span>
+</code></pre></div><h3 id="-save">使用 save()</h3>
+<p>插入数据时，如果 users 集合没有创建会自动创建。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; use mydb2
+switched to db mydb2
+&gt; db.users.save<span style="color:#f92672">(</span><span style="color:#f92672">[</span>
+... <span style="color:#f92672">{</span> name : <span style="color:#e6db74">&#34;jam&#34;</span>,
+... email : <span style="color:#e6db74">&#34;jam@qq.com&#34;</span>
+... <span style="color:#f92672">}</span>,
+... <span style="color:#f92672">{</span> name : <span style="color:#e6db74">&#34;tom&#34;</span>,
+... email : <span style="color:#e6db74">&#34;tom@qq.com&#34;</span>
+... <span style="color:#f92672">}</span>
+... <span style="color:#f92672">]</span><span style="color:#f92672">)</span>
+</code></pre></div><blockquote>
+<p>insert 和 save 的区别：为了方便记忆，可以先从字面上进行理解，insert 是插入，侧重于新增一个记录的含义；save 是保存，可以保存一个新的记录，<em>也可以保存对一个记录的修改</em>。因此，<strong>insert 不能插入一条已经存在的记录</strong>，如果已经有了一条记录(以主键为准)，insert 操作会报错，而使用 save 指令则会更新原记录。</p>
+</blockquote>
+<h2 id="heading-7">更新集合中的数据</h2>
+<p><strong>语法：</strong> <code>db.COLLECTION_NAME.updatet(SELECTION_CRITERIA, UPDATED_DATA)</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">db.users.update<span style="color:#f92672">(</span>
+	<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;user_id&#34;</span>:2, <span style="color:#e6db74">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;example@mail.com&#34;</span><span style="color:#f92672">}</span>,
+	<span style="color:#f92672">{</span>$set:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;elmo@mail.com&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span>
+	<span style="color:#f92672">)</span>
+</code></pre></div><p>**注意：**默认的 update 函数只对一个文档更新，如果想作用所有文档，则需要加入 multi:true</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">db.users.update<span style="color:#f92672">(</span>
+	<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;user_id&#34;</span>:2, <span style="color:#e6db74">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;example@mail.com&#34;</span><span style="color:#f92672">}</span>,
+	<span style="color:#f92672">{</span>$set:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;email&#34;</span>:<span style="color:#e6db74">&#34;elmo@mail.com&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span>,
+	<span style="color:#f92672">{</span>multi:true<span style="color:#f92672">}</span>
+	<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="heading-8">删除集合中的数据</h2>
+<p><strong>语法：</strong> <code>db.COLLECTION_NAME.remove(DELECTION_CRITERIA)</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; db.users.remove<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Bob&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+WriteResult<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;nRemoved&#34;</span>:1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><h2 id="heading-9">查询语句</h2>
+<h3 id="find-">find() 语句</h3>
+<p>find() 用法：<code>db.COLLECTION_NAME.find()</code></p>
+<pre><code>&gt; use post
+&gt; db.post.insert([
+{
+   title: 'MongoDB Overview',
+   description: 'MongoDB is no sql database',
+   by: 'elmo',
+   url: 'http://www.fancyelmo.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100
+},
+{
+   title: 'NoSQL Database',
+   description: &quot;NoSQL database doesn't have tables&quot;,
+   by: 'elmo',
+   url: 'http://www.fancyelmo.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 20,
+   comments: [
+      {
+         user:'user1',
+         message: 'My first comment',
+         dateCreated: new Date(2013,11,10,2,35),
+         like: 0
+      }
+   ]
+}
+])
+</code></pre><p>查询数据，不加任何参数默认返回所有数据记录：</p>
+<pre><code>&gt; db.post.find()
+</code></pre><p>这条语句会返回 post 集合中的所有文档，实际应用中不常见，因为这样会导致大量的数据传输，造成服务器响应迟缓甚至失去响应。</p>
+<h3 id="pretty-">pretty() 语句</h3>
+<p>pretty() 可以使查询输出的结果更美观。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; db.post.find<span style="color:#f92672">(</span><span style="color:#f92672">)</span>.pretty<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+</code></pre></div><p>例如:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span> <span style="color:#e6db74">&#34;_id&#34;</span> : ObjectId<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;5c35657e6ee1e0307e215fc8&#34;</span><span style="color:#f92672">)</span>, <span style="color:#e6db74">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;elmo&#34;</span>, <span style="color:#e6db74">&#34;age&#34;</span> : <span style="color:#e6db74">&#34;21&#34;</span> <span style="color:#f92672">}</span>
+
+&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">)</span>.pretty<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;_id&#34;</span> : ObjectId<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;5c35657e6ee1e0307e215fc8&#34;</span><span style="color:#f92672">)</span>,
+    <span style="color:#e6db74">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;elmo&#34;</span>,
+    <span style="color:#e6db74">&#34;age&#34;</span> : <span style="color:#e6db74">&#34;21&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>如果你想让 mongo shell 始终以 pretty 的方式显示返回数据，可以通过下面的指令实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#34;DBQuery.prototype._prettyShell = true&#34;</span> &gt;&gt; ~/.mongorc.js
+</code></pre></div><p>这样就把默认的显示方式设置为 pretty 了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;_id&#34;</span> : ObjectId<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;5c35657e6ee1e0307e215fc8&#34;</span><span style="color:#f92672">)</span>,
+    <span style="color:#e6db74">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;bage&#34;</span>,
+    <span style="color:#e6db74">&#34;age&#34;</span> : <span style="color:#e6db74">&#34;21&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="mongodb--and">MongoDB 中的 AND</h3>
+<p>MongoDB <strong>不需要</strong>类似于其他数据库的 AND 运算符，当 find() 中传入多个键值对时，MongoDB 就会将其作为 AND 查询处理。</p>
+<h3 id="or">OR</h3>
+<p>MongoDB 中，OR 查询语句以 <code>$or</code> 作为关键词，用法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; db.post.find<span style="color:#f92672">(</span>
+  <span style="color:#f92672">{</span>
+    $or: <span style="color:#f92672">[</span>
+      <span style="color:#f92672">{</span>key1: value1<span style="color:#f92672">}</span>, 
+      <span style="color:#f92672">{</span>key2:value2<span style="color:#f92672">}</span>
+    <span style="color:#f92672">]</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">)</span>.pretty<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+</code></pre></div><h3 id="-and--or-">指定 AND 和 OR 条件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">db.inventory.find<span style="color:#f92672">(</span> <span style="color:#f92672">{</span>
+     status: <span style="color:#e6db74">&#34;A&#34;</span>,
+     $or: <span style="color:#f92672">[</span> <span style="color:#f92672">{</span> qty: <span style="color:#f92672">{</span> $lt: <span style="color:#ae81ff">30</span> <span style="color:#f92672">}</span> <span style="color:#f92672">}</span>, <span style="color:#f92672">{</span> item: /^p/ <span style="color:#f92672">}</span> <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span> <span style="color:#f92672">)</span>
+</code></pre></div><h3 id="heading-10">比较运算符</h3>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/eq/#op._S_eq"><code>$eq</code></a></td>
+<td align="left">匹配等于指定值的值。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/gt/#op._S_gt"><code>$gt</code></a></td>
+<td align="left">匹配大于指定值的值。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/gte/#op._S_gte"><code>$gte</code></a></td>
+<td align="left">匹配大于或等于指定值的值。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/in/#op._S_in"><code>$in</code></a></td>
+<td align="left">匹配数组中指定的任何值。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/lt/#op._S_lt"><code>$lt</code></a></td>
+<td align="left">匹配小于指定值的值。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/lte/#op._S_lte"><code>$lte</code></a></td>
+<td align="left">匹配小于或等于指定值的值。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/ne/#op._S_ne"><code>$ne</code></a></td>
+<td align="left">匹配所有不等于指定值的值。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://docs.mongodb.com/manual/reference/operator/query/nin/#op._S_nin"><code>$nin</code></a></td>
+<td align="left">不匹配数组中指定的任何值。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="heading-11">模糊查询</h3>
+<p>MongoDB 的模糊查询可以用正则匹配的方式实现</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 以 &#39;start&#39; 开头的匹配式：</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:/^start/<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 以 &#39;tail&#39; 结尾的匹配式：</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:/tail$/<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="type">type</h3>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th align="left">subscribe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td align="left">双精度型(Double)</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="left">字符串(String)</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="left">对象(Object)</td>
+</tr>
+<tr>
+<td>4</td>
+<td align="left">数组(Array)</td>
+</tr>
+<tr>
+<td>5</td>
+<td align="left">二进制数据(Binary data)</td>
+</tr>
+<tr>
+<td>7</td>
+<td align="left">对象 ID(Object id)</td>
+</tr>
+<tr>
+<td>8</td>
+<td align="left">布尔类型(Boolean)</td>
+</tr>
+<tr>
+<td>9</td>
+<td align="left">日期(Date)</td>
+</tr>
+<tr>
+<td>10</td>
+<td align="left">空(Null)</td>
+</tr>
+<tr>
+<td>11</td>
+<td align="left">正则表达式(Regular Expression)</td>
+</tr>
+<tr>
+<td>13</td>
+<td align="left">JS 代码(Javascript)</td>
+</tr>
+<tr>
+<td>14</td>
+<td align="left">符号(Symbol)</td>
+</tr>
+<tr>
+<td>15</td>
+<td align="left">有作用域的 JS 代码(JavaScript with scope)</td>
+</tr>
+<tr>
+<td>16</td>
+<td align="left">32 位整型数(32-bit integer)</td>
+</tr>
+<tr>
+<td>17</td>
+<td align="left">时间戳(Timestamp)</td>
+</tr>
+<tr>
+<td>18</td>
+<td align="left">64 位整型数(64-bit integer)</td>
+</tr>
+<tr>
+<td>-1</td>
+<td align="left">最小值(Min key)</td>
+</tr>
+<tr>
+<td>127</td>
+<td align="left">最大值(Max key)</td>
+</tr>
+</tbody>
+</table>
+<p>查找 name 是字符串的文档记录</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; db.shiyanlou.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#f92672">{</span>$type:2<span style="color:#f92672">}</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+<span style="color:#75715e"># 或者</span>
+&gt; db.shiyanlou.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#f92672">{</span>$type:<span style="color:#e6db74">&#39;string&#39;</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><h3 id="limit--skip">limit() 和 skip()</h3>
+<p><code>limit()</code> 用来读取指定数量的数据记录。<code>limit(1)</code> 默认是排在最前面的那一条被读取</p>
+<p><code>skip()</code> 用来在读取时跳过指定数量的记录。</p>
+<h3 id="-sort">排序 sort()</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 按时间升序查询</span>
+db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">)</span>.sort<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;time&#34;</span>:1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+
+<span style="color:#75715e"># 按年龄降序查询</span>
+db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">)</span>.sort<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;age&#34;</span>:-1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><h2 id="heading-12">索引</h2>
+<blockquote>
+<p>索引通常能够极大的提高查询的效率，如果没有索引，MongoDB 在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。这种扫描全集合的查询效率是非常低的，特别在处理大量的数据时，查询可能要花费几十秒甚至几分钟，这无疑对网站的性能是非常致命的。</p>
+<p>索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库集合中一个文档或多个文档的值进行排序的一种结构。</p>
+</blockquote>
+<p>语法：<code>db.COLLECTION_NAME.ensureIndex({KEY:1|-1})</code></p>
+<p>同样 1 代表升序，-1 代表降序。</p>
+<p>范例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.ensureIndex<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p><code>ensureIndex()</code> 的可选参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>background</td>
+<td>Boolean</td>
+<td>建立索引要不要阻塞其他数据库操作，默认为 false</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>Boolean</td>
+<td>建立的索引是否唯一，默认 false</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>索引的名称，若未指定，系统自动生成</td>
+</tr>
+<tr>
+<td>dropDups</td>
+<td>Boolean</td>
+<td>建立唯一索引时，是否删除重复记录，默认 flase</td>
+</tr>
+<tr>
+<td>sparse</td>
+<td>Boolean</td>
+<td>对文档不存在的字段数据不启用索引，默认 false</td>
+</tr>
+<tr>
+<td>expireAfterSeconds</td>
+<td>integer</td>
+<td>设置集合的生存时间，单位为秒</td>
+</tr>
+<tr>
+<td>v</td>
+<td>index version</td>
+<td>索引的版本号</td>
+</tr>
+<tr>
+<td>weights</td>
+<td>document</td>
+<td>索引权重值，范围为 1 到 99999</td>
+</tr>
+<tr>
+<td>default-language</td>
+<td>string</td>
+<td>默认为英语</td>
+</tr>
+<tr>
+<td>language_override</td>
+<td>string</td>
+<td>默认值为 language</td>
+</tr>
+</tbody>
+</table>
+<p>范例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.ensureIndex<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;user_id&#34;</span>:1,<span style="color:#e6db74">&#34;name&#34;</span>:1<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span>background:1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><h3 id="heading-13">覆盖索引查询</h3>
+<p>所有的查询字段都是索引的一部分；所有的查询返回字段在同一个索引中。</p>
+<p>由于索引存在于 RAM 中，因而从索引中获取数据要比扫描文档更快。</p>
+<p>范例：</p>
+<p>创建如下 users 集合（使用前面所学的方法创建该集合）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>
+   <span style="color:#e6db74">&#34;contact&#34;</span>: <span style="color:#e6db74">&#34;987654321&#34;</span>,
+   <span style="color:#e6db74">&#34;dob&#34;</span>: <span style="color:#e6db74">&#34;01-01-1991&#34;</span>,
+   <span style="color:#e6db74">&#34;gender&#34;</span>: <span style="color:#e6db74">&#34;M&#34;</span>,
+   <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Tom Benzamin&#34;</span>,
+   <span style="color:#e6db74">&#34;user_name&#34;</span>: <span style="color:#e6db74">&#34;tombenzamin&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>在 users 中创建一个联合索引:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.ensureIndex<span style="color:#f92672">(</span><span style="color:#f92672">{</span>gender:1,user_name:1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>该索引会覆盖下面的查询：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span>gender:<span style="color:#e6db74">&#34;M&#34;</span><span style="color:#f92672">}</span>,<span style="color:#f92672">{</span>user_name:1,_id:0<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>对于上述查询，MongoDB 不会在数据库文件中查找，而会从索引中提取数据。因为索引中不包含 _id 字段，所以 _id 在查询中会默认返回，可以在查询结果中将其排除。而 <code>db.users.find({gender:&quot;M&quot;},{user_name:1})</code> 就不会被索引覆盖。</p>
+<h3 id="heading-14">高级索引</h3>
+<p>创建如下 users 集合（使用前面所学的方法创建该集合）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>
+   <span style="color:#e6db74">&#34;address&#34;</span>: <span style="color:#f92672">{</span>
+      <span style="color:#e6db74">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;chengdu&#34;</span>,
+      <span style="color:#e6db74">&#34;province&#34;</span>: <span style="color:#e6db74">&#34;sichuan&#34;</span>,
+      <span style="color:#e6db74">&#34;pincode&#34;</span>: <span style="color:#e6db74">&#34;123&#34;</span>
+   <span style="color:#f92672">}</span>,
+   <span style="color:#e6db74">&#34;tags&#34;</span>: <span style="color:#f92672">[</span>
+      <span style="color:#e6db74">&#34;music&#34;</span>,
+      <span style="color:#e6db74">&#34;cricket&#34;</span>,
+      <span style="color:#e6db74">&#34;blogs&#34;</span>
+   <span style="color:#f92672">]</span>,
+   <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;clound&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>索引数组字段，在数组中创建索引，需要对数组中的每个字段依次建立索引。所以在我们为数组 tags 创建索引时，会为 music、cricket、blogs 三个值建立单独的索引。</p>
+<p>范例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.ensureIndex<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;tags&#34;</span>:1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>创建索引后，我们可以这样检索集合的 tags 字段：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span>tags:<span style="color:#e6db74">&#34;cricket&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>为了验证我们使用了索引，可以使用 explain 命令，<code>explain()</code> 操作提供了查询信息，使用索引及查询统计等。有利于我们对索引的优化：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span>tags:<span style="color:#e6db74">&#34;cricket&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>.explain<span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+</code></pre></div><p><img src="https://doc.shiyanlou.com/document-uid379639labid8209timestamp1544770820768.png/wm" alt="此处输入图片的描述"></p>
+<h3 id="heading-15">索引子文档字段</h3>
+<p>假设我们需要通过 city、province、pincode 字段来检索文档，由于这些字段是子文档的字段，所以我们需要对子文档建立索引。</p>
+<p>范例：</p>
+<p>为子文档的三个字段创建索引，命令如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.ensureIndex<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;address.city&#34;</span>:1,<span style="color:#e6db74">&#34;address.province&#34;</span>:1,<span style="color:#e6db74">&#34;address.pincode&#34;</span>:1<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>一旦创建索引，我们可以使用子文档的字段来检索数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;address.city&#34;</span>:<span style="color:#e6db74">&#34;chengdu&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>记住查询表达式必须遵循指定的索引的顺序。所以上面创建的索引将支持以下查询：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;address.city&#34;</span>:<span style="color:#e6db74">&#34;chengdu&#34;</span>,<span style="color:#e6db74">&#34;address.province&#34;</span>:<span style="color:#e6db74">&#34;sichuan&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>同样支持以下查询：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.find<span style="color:#f92672">(</span><span style="color:#f92672">{</span>
+	 <span style="color:#e6db74">&#34;address.city&#34;</span>:<span style="color:#e6db74">&#34;chengdu&#34;</span>,<span style="color:#e6db74">&#34;address.province&#34;</span>:<span style="color:#e6db74">&#34;sichuan&#34;</span>,<span style="color:#e6db74">&#34;address.pincode&#34;</span>:<span style="color:#e6db74">&#34;123&#34;</span>
+	 <span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><h2 id="heading-16">聚合</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">db.COLLECTION_NAME.aggregate<span style="color:#f92672">(</span><span style="color:#f92672">{</span>
+$match:<span style="color:#f92672">{</span>x:1<span style="color:#f92672">}</span>,
+<span style="color:#f92672">{</span>limit:NUM<span style="color:#f92672">}</span>,
+$group:<span style="color:#f92672">{</span>_id:$age<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+</code></pre></div><p>这些参数都可选：</p>
+<ul>
+<li><code>$match</code>：查询，跟 find 一样；</li>
+<li><code>$limit</code>：限制显示结果数量；</li>
+<li><code>$skip</code>：忽略结果数量；</li>
+<li><code>$sort</code>：排序；</li>
+<li><code>$group</code>：按照给定表达式组合结果。</li>
+</ul>
+<p>范例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.users.aggregate<span style="color:#f92672">(</span><span style="color:#f92672">[</span><span style="color:#f92672">{</span>$group:<span style="color:#f92672">{</span>_id:<span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">&#34;</span>, user:<span style="color:#f92672">{</span>$sum:<span style="color:#e6db74">&#34;</span>$user_id<span style="color:#e6db74">&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span><span style="color:#f92672">]</span><span style="color:#f92672">)</span>
+</code></pre></div><p><code>$name</code> 意为取得 name 的值。</p>
+<h3 id="heading-17">聚合表达式</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$sum</td>
+<td>计算总和</td>
+</tr>
+<tr>
+<td>$avg</td>
+<td>计算平均值</td>
+</tr>
+<tr>
+<td>min 和<em>m<strong>i</strong>n</em>和max</td>
+<td>计算最小值和最大值</td>
+</tr>
+<tr>
+<td>$push</td>
+<td>在结果文档中插入值到一个数组</td>
+</tr>
+<tr>
+<td>$addToSet</td>
+<td>在结果文档中插入值到一个数组，但不创建副本</td>
+</tr>
+<tr>
+<td>$first</td>
+<td>根据资源文档的排序获取第一个文档数据</td>
+</tr>
+<tr>
+<td>$last</td>
+<td>根据资源文档的排序获取最后一个文档数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="heading-18">管道</h3>
+<p>MongoDB 的聚合管道将 MongoDB 文档在一个管道处理完毕后将结果传递给下一个管道处理。管道操作是可以重复的。</p>
+<p>表达式：处理输入文档并输出。表达式是无状态的，只能用于计算当前聚合管道的文档，不能处理其它的文档。</p>
+<p>聚合框架中常用的几个操作：</p>
+<ul>
+<li><code>$project</code>：修改输入文档的结构。可以用来重命名、增加或删除域，也可以用于创建计算结果以及嵌套文档。</li>
+<li><code>$match</code>：用于过滤数据，只输出符合条件的文档。<code>$match</code> 使用 MongoDB 的标准查询操作。</li>
+<li><code>$limit</code>：用来限制 MongoDB 聚合管道返回的文档数。</li>
+<li><code>$skip</code>：在聚合管道中跳过指定数量的文档，并返回余下的文档。</li>
+<li><code>$unwind</code>：将文档中的某一个数组类型字段拆分成多条，每条包含数组中的一个值。</li>
+<li><code>$group</code>：将集合中的文档分组，可用于统计结果。</li>
+<li><code>$sort</code>：将输入文档排序后输出。</li>
+<li><code>$geoNear</code>：输出接近某一地理位置的有序文档。</li>
+</ul>
+<p>范例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt; db.shiyanlou.aggregate<span style="color:#f92672">(</span><span style="color:#f92672">[</span><span style="color:#f92672">{</span>$match:<span style="color:#f92672">{</span>user_id:<span style="color:#f92672">{</span>$gt:0,$lte:2<span style="color:#f92672">}</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span>,<span style="color:#f92672">{</span>$group:<span style="color:#f92672">{</span>_id:<span style="color:#e6db74">&#34;user&#34;</span>,count:<span style="color:#f92672">{</span>$sum:1<span style="color:#f92672">}</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span><span style="color:#f92672">]</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;_id&#34;</span>:<span style="color:#e6db74">&#34;user&#34;</span>,<span style="color:#e6db74">&#34;count&#34;</span>:2<span style="color:#f92672">}</span>
+</code></pre></div>
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://fancyelmo.github.io/elmo-wonderland/2019/04/mongodb%E5%85%A5%E9%97%A8/" title="MongoDB入门" target="_blank" rel="external">MongoDB入门</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> 知识共享署名 4.0 国际许可协议
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/fancyElmo" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://fancyelmo.github.io/elmo-wonderland/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/fancyElmo" target="_blank"><span class="text-dark">Elmo</span><small class="ml-1x">一只小菜鸡</small></a></h3>
+        <div>All the meetings in the world, are long goodbyes</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/04/git%E5%91%BD%E4%BB%A4/" title="git命令(部分)"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://fancyelmo.github.io/elmo-wonderland/2019/05/uuid%E7%A0%81/"
+                    title="UUID"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li>
+		<a href="mailto:fancyelmo@126.com" target="_blank" title="email" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-email"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://github.com/fancyElmo" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-github"></i>
+		</a>
+	</li>
+    <li>
+		<a href="https://fancyelmo.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+			<i class="icon icon-rss"></i>
+		</a>
+	</li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2020
+    <div class="publishby">
+        Theme by <a href="https://github.com/fancyElmo" target="_blank"> Elmo </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/bash.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/shell.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/sql.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/python.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/javascript.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/django.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/application.js"></script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/',
+            CONTENT_URL: 'https:\/\/fancyelmo.github.io\/elmo-wonderland\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://fancyelmo.github.io/elmo-wonderland/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </body>
+</html>
