@@ -5,10 +5,28 @@
     <link>https://fancyelmo.github.io/elmo-wonderland/posts/</link>
     <description>Recent content in Posts on 菜鸡乐园</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 24 Dec 2019 17:07:17 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 02 Feb 2020 16:15:21 +0800</lastBuildDate>
     
         <atom:link href="https://fancyelmo.github.io/elmo-wonderland/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Django模型中字段属性choice使用</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/01/django%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%97%E6%AE%B5%E5%B1%9E%E6%80%A7choice%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 15 Jan 2019 19:21:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/01/django%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%97%E6%AE%B5%E5%B1%9E%E6%80%A7choice%E4%BD%BF%E7%94%A8/</guid>
+      <description>Django模型中字段属性choice使用 choice接收一个元组（保证值不可变），同理每一个选项也是由一个元组（value,display</description>
+    </item>
+    
+    <item>
+      <title>Django ORM</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2019/01/django-orm/</link>
+      <pubDate>Sat, 05 Jan 2019 18:29:00 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/01/django-orm/</guid>
+      <description>字段 AutoField(Field) - int自增列，必须填入参数 primary_key=True BigAutoField(AutoField) - bigint自增列，必须填入参数 primary_key=True 注：当model中如果没有自增列，则自动会创建一个列名为id的列 from</description>
+    </item>
     
     <item>
       <title>Django 文件上传</title>

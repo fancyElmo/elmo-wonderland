@@ -5,10 +5,29 @@
     <link>https://fancyelmo.github.io/elmo-wonderland/tags/%E8%8F%9C%E9%B8%A1%E5%85%A5%E9%97%A8/</link>
     <description>Recent content in 菜鸡入门 on 菜鸡乐园</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 12 Jul 2019 21:40:03 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jan 2020 15:27:54 +0800</lastBuildDate>
     
         <atom:link href="https://fancyelmo.github.io/elmo-wonderland/tags/%E8%8F%9C%E9%B8%A1%E5%85%A5%E9%97%A8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>搭梯子备忘录</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2020/02/%E6%90%AD%E6%A2%AF%E5%AD%90%E5%A4%87%E5%BF%98%E5%BD%95/</link>
+      <pubDate>Sun, 02 Feb 2020 16:15:21 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2020/02/%E6%90%AD%E6%A2%AF%E5%AD%90%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
+      <description>&lt;p&gt;防止vultr发疯，还是记录一下&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RabbitMQ初体验</title>
+      <link>https://fancyelmo.github.io/elmo-wonderland/2020/01/rabbitmq%E5%88%9D%E4%BD%93%E9%AA%8C/</link>
+      <pubDate>Mon, 13 Jan 2020 15:27:54 +0800</pubDate>
+      
+      <guid>https://fancyelmo.github.io/elmo-wonderland/2020/01/rabbitmq%E5%88%9D%E4%BD%93%E9%AA%8C/</guid>
+      <description>&lt;p&gt;RabbitMQ 是高级消息队列协议（AMQP）的开源消息代理软件。&lt;/p&gt;
+&lt;p&gt;RabbitMQ 服务器是用 Erlang 语言编写的，消息系统允许软件、应用相互连接和扩展。这些应用可以相互链接起来组成一个更大的应用，或者将用户设备和数据进行连接。消息系统通过将消息的发送和接收分离来实现应用程序的异步和解偶。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>About Myself</title>
@@ -170,24 +189,6 @@
       
       <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/django%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</guid>
       <description>安装 安装Django包 pip install django==2.1.4 检测是否安装以及查看Django版本 python -m django --version 生成项目文件 django-admin startproject 项目名 # 命令执行后会在当前定位位置生成项目目录，且自</description>
-    </item>
-    
-    <item>
-      <title>pycharm语法检测配置</title>
-      <link>https://fancyelmo.github.io/elmo-wonderland/2019/08/pycharm%E6%A3%80%E6%B5%8B%E8%AE%BE%E7%BD%AE/</link>
-      <pubDate>Thu, 01 Aug 2019 13:55:11 +0800</pubDate>
-      
-      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/08/pycharm%E6%A3%80%E6%B5%8B%E8%AE%BE%E7%BD%AE/</guid>
-      <description>去掉拼音检查 file–&amp;gt;setting–&amp;gt;editor–&amp;gt;Inspections–&amp;gt;Spelling–&amp;gt;Typ</description>
-    </item>
-    
-    <item>
-      <title>Vue拦截器</title>
-      <link>https://fancyelmo.github.io/elmo-wonderland/2019/07/vue-%E6%8B%A6%E6%88%AA%E5%99%A8/</link>
-      <pubDate>Sat, 27 Jul 2019 23:08:00 +0800</pubDate>
-      
-      <guid>https://fancyelmo.github.io/elmo-wonderland/2019/07/vue-%E6%8B%A6%E6%88%AA%E5%99%A8/</guid>
-      <description>路由拦截器 route与router route：相当于当前正在跳转的路由对象。可以从里面获取name，path，params，query等。 如</description>
     </item>
     
   </channel>
